@@ -81,7 +81,7 @@ npm run dev          # Start development server with nodemon
 npm start            # Start production server
 ```
 
-## 🌐 Environment Variables
+## Environment Variables
 
 ### Frontend
 No environment variables are required for basic functionality.
@@ -102,7 +102,7 @@ NODE_ENV=development
 - **TypeScript** – Type-safe development across the project
 - **Tailwind CSS** – Utility-first styling for consistent design across platforms
 
-## 📚 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Next.js 14** - React framework
@@ -117,7 +117,7 @@ NODE_ENV=development
 - **Express.js** - Web framework
 - **nodemon** - Development server
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. work on dev branch: `git checkout dev`
@@ -126,11 +126,11 @@ NODE_ENV=development
 5. Push: `git push origin dev`
 6. Create a Pull Request
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License.
 
-## 🆘 Support
+## Support
 
 If you encounter any issues:
 1. Check the troubleshooting section above
@@ -139,4 +139,4 @@ If you encounter any issues:
 
 ---
 
-**Happy Coding! 🚀**
+**Happy Coding!**
