@@ -1,25 +1,10 @@
-# 🏗️ Building Bharat
+# Building Bharat
 
-A modern web application built with Next.js frontend and Node.js backend, featuring a beautiful homepage with animated hero sections.
+A modern web application built with Next.js frontend and express.js backend, featuring a beautiful homepage with animated hero sections.
 
-## 📁 Project Structure
 
-```
-building_bharat/
-├── frontend/                 # Next.js frontend application
-│   ├── src/
-│   │   ├── app/             # Next.js app router
-│   │   ├── components/      # React components
-│   │   └── lib/            # Utility functions
-│   ├── public/              # Static assets
-│   └── package.json         # Frontend dependencies
-├── backend/                  # Node.js backend server
-│   ├── index.js             # Server entry point
-│   └── package.json         # Backend dependencies
-└── README.md                # This file
-```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -66,7 +51,7 @@ npm run dev
 ```
 The frontend will start on `http://localhost:3000`
 
-## 🛠️ Development
+## Development
 
 ### Frontend (Next.js)
 
@@ -83,11 +68,6 @@ npm run build        # Build for production
 npm run start        # Start production server
 npm run lint         # Run ESLint
 ```
-
-#### Key Components
-- `Header.tsx` - Navigation component
-- `HeroSection.tsx` - Main hero section
-- `AnimatedHero.tsx` - Animated hero elements
 
 ### Backend (Node.js)
 
@@ -113,47 +93,14 @@ PORT=5000
 NODE_ENV=development
 ```
 
-## 📱 Features
+## Features
 
-- **Responsive Design** - Mobile-first approach
-- **Modern UI/UX** - Clean, professional interface
-- **Smooth Animations** - Framer Motion powered
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-
-## 🔧 Configuration Files
-
-- `frontend/tailwind.config.js` - Tailwind CSS configuration
-- `frontend/next.config.ts` - Next.js configuration
-- `frontend/components.json` - shadcn/ui configuration
-- `frontend/postcss.config.js` - PostCSS configuration
-
-## 🚨 Troubleshooting
-
-### Common Issues
-
-1. **Port Already in Use**
-   - Change the port in the respective package.json files
-   - Or kill the process using the port
-
-2. **Dependencies Issues**
-   - Delete `node_modules` and `package-lock.json`
-   - Run `npm install` again
-
-3. **Build Errors**
-   - Ensure Node.js version is 18+
-   - Clear Next.js cache: `rm -rf .next`
-
-### Frontend Issues
-
-- **Tailwind CSS not working**: Check if `postcss.config.js` exists
-- **Image loading errors**: Verify `next.config.ts` has correct image domains
-- **TypeScript errors**: Ensure all dependencies are properly installed
-
-### Backend Issues
-
-- **Server not starting**: Check if port 5000 is available
-- **Module not found**: Verify all dependencies are installed
+- **Cross-Platform Design** – Works seamlessly on **web and mobile browsers**
+- **Responsive Layout** – Optimized for all screen sizes, from **phones to desktops**
+- **Modern UI/UX** – Clean, professional interface across devices
+- **Smooth Animations** – Web-based animations *(Framer Motion / CSS / Web Animations API)* optimized for mobile performance
+- **TypeScript** – Type-safe development across the project
+- **Tailwind CSS** – Utility-first styling for consistent design across platforms
 
 ## 📚 Tech Stack
 
