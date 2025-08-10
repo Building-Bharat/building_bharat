@@ -119,12 +119,14 @@ NODE_ENV=development
 
 ## Contributing
 
-1. Fork the repository
-2. work on dev branch: `git checkout dev`
-3. Make your changes
-4. Commit: `git commit -m 'Add feature'`
-5. Push: `git push origin dev`
-6. Create a Pull Request
+1. Clone the repository: `git clone https://github.com/Building-Bharat/building_bharat.git`
+2. Navigate into the project folder: `cd building_bharat`
+3. Work on dev branch: `git checkout dev`
+4. Make your changes
+5. Commit: `git commit -m 'Add feature'`
+6. Push: `git push origin dev`
+7. Create a Pull Request
+
 
 ## License
 
