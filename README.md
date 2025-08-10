@@ -119,7 +119,7 @@ NODE_ENV=development
 
 ## Contributing
 
-1. Clone the repository: `git clone https://github.com/Building-Bharat/building_bharat.git`
+1. Clone the repository: `git clone [https://github.com/Building-Bharat/building_bharat.git](https://github.com/Building-Bharat/building_bharat.git)`
 2. Navigate into the project folder: `cd building_bharat`
 3. Work on dev branch: `git checkout dev`
 4. Make your changes
