@@ -127,18 +127,6 @@ NODE_ENV=development
 6. Push: `git push origin dev`
 7. Create a Pull Request
 
-
-## License
-
-This project is licensed under the MIT License.
-
-## Support
-
-If you encounter any issues:
-1. Check the troubleshooting section above
-2. Search existing issues
-3. Create a new issue with detailed information
-
 ---
 
 **Happy Coding!**
