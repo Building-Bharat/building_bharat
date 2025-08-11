@@ -18,6 +18,8 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['var(--font-poppins)', 'ui-sans-serif', 'system-ui'],
+         Montserrat: ['Montserrat', 'sans-serif'],
+         DMsans : ['DM Sans','sans-serif']
       },
       colors: {
         border: "hsl(var(--border))",
