@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function Header() {
   const [visible, setVisible] = useState(false);
@@ -116,18 +117,13 @@ export default function Header() {
         <div
           className={`max-w-[1400px] mx-auto bg-white rounded-2xl md:rounded-3xl border border-orange-200 flex items-center justify-between px-4 md:px-8 lg:px-12 py-3 md:py-5 pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100 shadow-[0_4px_24px_0_rgba(255,140,0,0.10),0_1.5px_0_0_#FFE5CC]' : 'opacity-0'}`}
         >
-          {/* Logo - BUILDING BHARAT */}
-          <div className="flex items-center gap-2">
-            <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-[56px] lg:h-[55px] bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-lg md:text-xl lg:text-2xl">
-              B
-            </div>
-            <div className="hidden md:block">
-              <div className="text-sm md:text-base lg:text-lg font-bold">
-                <span className="text-gray-900">BUILDING</span>
-                <span className="text-orange-500 ml-1">BHARAT</span>
-              </div>
-            </div>
-          </div>
+          <Image
+            src="/icons/logo.jpg"
+            alt="Building Bharat Logo"
+            width={45}
+            height={44}
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-[56px] lg:h-[55px]"
+          />
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-6">
