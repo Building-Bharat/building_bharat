@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    unoptimized: true, 
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // Ensure Tailwind CSS is not bundled for client-side
