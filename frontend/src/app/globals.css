@@ -24,6 +24,14 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
+    --color-surface-surfacePrimary: #E5E5E5;
+    --color-surface-surfaceSecondary: #F1F1F1;
+    --color-text-textPrimary: #0A0A0A;
+    --color-border-borderBrand: #F97C04;
+    --color-text-textBrand: #004644;
+    --color-surface-surfaceBrand: #F97C04;
+    --color-text-textInvert: #F1F1F1;
+    --color-text-textbrandsecondary: #F97C04;
   }
 
   .dark {

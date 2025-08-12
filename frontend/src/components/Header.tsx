@@ -115,14 +115,28 @@ export default function Header() {
           }
         `}</style>
         <div
-          className={`max-w-[1400px] mx-auto bg-white rounded-2xl md:rounded-3xl border border-orange-200 flex items-center justify-between px-4 md:px-8 lg:px-12 py-3 md:py-5 pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100 shadow-[0_4px_24px_0_rgba(255,140,0,0.10),0_1.5px_0_0_#FFE5CC]' : 'opacity-0'}`}
+          className={`mx-auto flex items-center pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100' : 'opacity-0'}`}
+          style={{ 
+            width: '1312px',
+            height: '48px',
+            justifyContent: 'space-between',
+            paddingRight: '16px',
+            paddingLeft: '16px',
+            borderRadius: '8px',
+            background: 'var(--color-surface-surfaceSecondary, #F1F1F1)'
+          }}
         >
           <Image
-            src="/icons/logo.jpg"
+            src="/icons/logo.png"
             alt="Building Bharat Logo"
-            width={45}
-            height={44}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-[56px] lg:h-[55px]"
+            width={40}
+            height={40}
+            className="flex-shrink-0"
+            style={{
+              width: '40px',
+              height: '40px',
+              opacity: 1
+            }}
           />
 
           {/* Desktop Navigation */}
@@ -131,8 +145,27 @@ export default function Header() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative group text-base font-medium transition-colors duration-300 px-3 py-1.5 overflow-hidden ${link.active ? 'text-orange-500 font-semibold nav-link-active' : 'text-gray-900 hover:text-orange-500'}`}
-                style={{ zIndex: 1, display: 'inline-block' }}
+                className={`relative group transition-colors duration-300 overflow-hidden ${link.active ? 'nav-link-active' : 'hover:text-orange-500'}`}
+                style={{ 
+                  zIndex: 1, 
+                  display: 'inline-block',
+                  width: '78px',
+                  height: '24px',
+                  opacity: 1,
+                  fontFamily: 'DM Sans',
+                  fontWeight: 600,
+                  fontStyle: 'normal',
+                  fontSize: '14px',
+                  lineHeight: '24px',
+                  letterSpacing: '0%',
+                  textAlign: 'center',
+                  background: link.active ? 'var(--color-text-textPrimary, #0A0A0A)' : 'transparent',
+                  color: link.active ? 'white' : 'var(--color-text-textPrimary, #0A0A0A)',
+                  borderRadius: '4px',
+                  padding: '0',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
                 {link.label}
               </a>
@@ -140,8 +173,72 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <button className="hidden lg:flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg border-2 border-orange-500 bg-white text-orange-500 text-base font-medium hover:bg-orange-500 hover:text-white transition-colors">
-            Start Learning
+          <button 
+            className="hidden lg:flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105"
+            style={{
+              width: '173px',
+              height: '48px',
+              paddingTop: '0',
+              paddingRight: '32px',
+              paddingBottom: '0',
+              paddingLeft: '32px',
+              gap: '0',
+              opacity: 1,
+              borderRadius: '8px',
+              borderWidth: '1px',
+              background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
+              border: '1px solid #F97C04',
+              color: '#F97C04',
+              fontSize: '14px',
+              fontWeight: '600',
+              fontFamily: 'DM Sans'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderRadius = '0px';
+              e.currentTarget.querySelector('svg')!.style.opacity = '1';
+              e.currentTarget.querySelector('svg')!.style.transform = 'translateX(0px)';
+              e.currentTarget.querySelector('span')!.style.transform = 'translateX(8px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderRadius = '8px';
+              e.currentTarget.querySelector('svg')!.style.opacity = '0';
+              e.currentTarget.querySelector('svg')!.style.transform = 'translateX(-8px)';
+              e.currentTarget.querySelector('span')!.style.transform = 'translateX(0px)';
+            }}
+          >
+            {/* Right arrow icon that appears on hover */}
+            <svg 
+              className="w-5 h-5 text-white transition-all duration-300 ease-in-out"
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+              style={{
+                width: '20px',
+                height: '20px',
+                color: '#F97C04',
+                transition: 'all 0.3s ease-in-out',
+                marginRight: '8px',
+                opacity: '0',
+                transform: 'translateX(-8px)',
+                position: 'absolute',
+                left: '16px'
+              }}
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
+            </svg>
+            <span style={{
+              transition: 'all 0.3s ease-in-out',
+              transform: 'translateX(0px)',
+              position: 'relative',
+              zIndex: 1
+            }}>
+              Start Learning
+            </span>
           </button>
 
           {/* Mobile Menu Button */}
@@ -165,7 +262,10 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-2 bg-white rounded-2xl border border-orange-200 shadow-lg overflow-hidden mobile-menu relative z-50">
+          <div className="lg:hidden mt-2 overflow-hidden mobile-menu relative z-50" style={{ 
+            background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
+            borderRadius: '8px'
+          }}>
             <nav className="py-4">
               {navLinks.map((link) => (
                 <a
@@ -183,7 +283,19 @@ export default function Header() {
               ))}
             </nav>
             <div className="px-6 py-4 border-t border-orange-100">
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 text-white text-base font-medium mobile-cta-btn transition-colors">
+              <button 
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 text-white text-base font-medium mobile-cta-btn transition-all duration-300 ease-in-out hover:scale-105"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--color-surface-surfaceSecondary, #F1F1F1)';
+                  e.currentTarget.style.border = '1px solid var(--color-border-borderBrand, #F97C04)';
+                  e.currentTarget.style.color = 'var(--color-border-borderBrand, #F97C04)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--color-surface-surfaceBrand, #F97C04)';
+                  e.currentTarget.style.border = 'none';
+                  e.currentTarget.style.color = 'var(--color-text-textInvert, #F1F1F1)';
+                }}
+              >
                 Start Learning
               </button>
             </div>

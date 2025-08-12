@@ -8,7 +8,7 @@ import InitiativeSection from '@/components/InitiativeFor';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ background: 'var(--color-surface-surfacePrimary, #E5E5E5)' }}>
       <Header />
       <HeroSection />
       <InitiativeSection/>
