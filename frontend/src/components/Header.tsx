@@ -127,11 +127,16 @@ export default function Header() {
           }}
         >
           <Image
-            src="/icons/logo.jpg"
+            src="/icons/logo.png"
             alt="Building Bharat Logo"
-            width={45}
-            height={44}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-[56px] lg:h-[55px]"
+            width={40}
+            height={40}
+            className="flex-shrink-0"
+            style={{
+              width: '40px',
+              height: '40px',
+              opacity: 1
+            }}
           />
 
           {/* Desktop Navigation */}
@@ -158,7 +163,6 @@ export default function Header() {
                   color: link.active ? 'white' : 'var(--color-text-textPrimary, #0A0A0A)',
                   borderRadius: '4px',
                   padding: '0',
-                  display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
@@ -170,7 +174,7 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <button 
-            className="hidden lg:flex items-center justify-center transition-colors"
+            className="hidden lg:flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105"
             style={{
               width: '173px',
               height: '48px',
@@ -183,14 +187,58 @@ export default function Header() {
               borderRadius: '8px',
               borderWidth: '1px',
               background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
-              border: '1px solid var(--color-border-borderBrand, #F97C04)',
-              color: 'var(--color-border-borderBrand, #F97C04)',
+              border: '1px solid #F97C04',
+              color: '#F97C04',
               fontSize: '14px',
               fontWeight: '600',
               fontFamily: 'DM Sans'
             }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderRadius = '0px';
+              e.currentTarget.querySelector('svg')!.style.opacity = '1';
+              e.currentTarget.querySelector('svg')!.style.transform = 'translateX(0px)';
+              e.currentTarget.querySelector('span')!.style.transform = 'translateX(8px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderRadius = '8px';
+              e.currentTarget.querySelector('svg')!.style.opacity = '0';
+              e.currentTarget.querySelector('svg')!.style.transform = 'translateX(-8px)';
+              e.currentTarget.querySelector('span')!.style.transform = 'translateX(0px)';
+            }}
           >
-            Start Learning
+            {/* Right arrow icon that appears on hover */}
+            <svg 
+              className="w-5 h-5 text-white transition-all duration-300 ease-in-out"
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+              style={{
+                width: '20px',
+                height: '20px',
+                color: '#F97C04',
+                transition: 'all 0.3s ease-in-out',
+                marginRight: '8px',
+                opacity: '0',
+                transform: 'translateX(-8px)',
+                position: 'absolute',
+                left: '16px'
+              }}
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
+            </svg>
+            <span style={{
+              transition: 'all 0.3s ease-in-out',
+              transform: 'translateX(0px)',
+              position: 'relative',
+              zIndex: 1
+            }}>
+              Start Learning
+            </span>
           </button>
 
           {/* Mobile Menu Button */}
@@ -235,7 +283,19 @@ export default function Header() {
               ))}
             </nav>
             <div className="px-6 py-4 border-t border-orange-100">
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 text-white text-base font-medium mobile-cta-btn transition-colors">
+              <button 
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 text-white text-base font-medium mobile-cta-btn transition-all duration-300 ease-in-out hover:scale-105"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--color-surface-surfaceSecondary, #F1F1F1)';
+                  e.currentTarget.style.border = '1px solid var(--color-border-borderBrand, #F97C04)';
+                  e.currentTarget.style.color = 'var(--color-border-borderBrand, #F97C04)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--color-surface-surfaceBrand, #F97C04)';
+                  e.currentTarget.style.border = 'none';
+                  e.currentTarget.style.color = 'var(--color-text-textInvert, #F1F1F1)';
+                }}
+              >
                 Start Learning
               </button>
             </div>

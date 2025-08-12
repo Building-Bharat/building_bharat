@@ -30,6 +30,8 @@
     --color-border-borderBrand: #F97C04;
     --color-text-textBrand: #004644;
     --color-surface-surfaceBrand: #F97C04;
+    --color-text-textInvert: #F1F1F1;
+    --color-text-textbrandsecondary: #F97C04;
   }
 
   .dark {
