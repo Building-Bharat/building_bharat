@@ -115,7 +115,16 @@ export default function Header() {
           }
         `}</style>
         <div
-          className={`max-w-[1400px] mx-auto bg-white rounded-2xl md:rounded-3xl border border-orange-200 flex items-center justify-between px-4 md:px-8 lg:px-12 py-3 md:py-5 pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100 shadow-[0_4px_24px_0_rgba(255,140,0,0.10),0_1.5px_0_0_#FFE5CC]' : 'opacity-0'}`}
+          className={`mx-auto flex items-center pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100' : 'opacity-0'}`}
+          style={{ 
+            width: '1312px',
+            height: '48px',
+            justifyContent: 'space-between',
+            paddingRight: '16px',
+            paddingLeft: '16px',
+            borderRadius: '8px',
+            background: 'var(--color-surface-surfaceSecondary, #F1F1F1)'
+          }}
         >
           <Image
             src="/icons/logo.jpg"
@@ -131,8 +140,28 @@ export default function Header() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative group text-base font-medium transition-colors duration-300 px-3 py-1.5 overflow-hidden ${link.active ? 'text-orange-500 font-semibold nav-link-active' : 'text-gray-900 hover:text-orange-500'}`}
-                style={{ zIndex: 1, display: 'inline-block' }}
+                className={`relative group transition-colors duration-300 overflow-hidden ${link.active ? 'nav-link-active' : 'hover:text-orange-500'}`}
+                style={{ 
+                  zIndex: 1, 
+                  display: 'inline-block',
+                  width: '78px',
+                  height: '24px',
+                  opacity: 1,
+                  fontFamily: 'DM Sans',
+                  fontWeight: 600,
+                  fontStyle: 'normal',
+                  fontSize: '14px',
+                  lineHeight: '24px',
+                  letterSpacing: '0%',
+                  textAlign: 'center',
+                  background: link.active ? 'var(--color-text-textPrimary, #0A0A0A)' : 'transparent',
+                  color: link.active ? 'white' : 'var(--color-text-textPrimary, #0A0A0A)',
+                  borderRadius: '4px',
+                  padding: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
                 {link.label}
               </a>
@@ -140,7 +169,27 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <button className="hidden lg:flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg border-2 border-orange-500 bg-white text-orange-500 text-base font-medium hover:bg-orange-500 hover:text-white transition-colors">
+          <button 
+            className="hidden lg:flex items-center justify-center transition-colors"
+            style={{
+              width: '173px',
+              height: '48px',
+              paddingTop: '0',
+              paddingRight: '32px',
+              paddingBottom: '0',
+              paddingLeft: '32px',
+              gap: '0',
+              opacity: 1,
+              borderRadius: '8px',
+              borderWidth: '1px',
+              background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
+              border: '1px solid var(--color-border-borderBrand, #F97C04)',
+              color: 'var(--color-border-borderBrand, #F97C04)',
+              fontSize: '14px',
+              fontWeight: '600',
+              fontFamily: 'DM Sans'
+            }}
+          >
             Start Learning
           </button>
 
@@ -165,7 +214,10 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-2 bg-white rounded-2xl border border-orange-200 shadow-lg overflow-hidden mobile-menu relative z-50">
+          <div className="lg:hidden mt-2 overflow-hidden mobile-menu relative z-50" style={{ 
+            background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
+            borderRadius: '8px'
+          }}>
             <nav className="py-4">
               {navLinks.map((link) => (
                 <a
