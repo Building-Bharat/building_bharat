@@ -1,5 +1,5 @@
 "use client";
-import Image from 'next/image';
+
 import { useEffect, useState } from 'react';
 
 export default function Header() {
@@ -12,9 +12,10 @@ export default function Header() {
 
   const navLinks = [
     { label: 'Home', href: '#', active: true },
+    { label: 'Premium', href: '#' },
     { label: 'Courses', href: '#' },
-    { label: 'For college', href: '#' },
     { label: 'Internships', href: '#' },
+    { label: 'Colleges', href: '#' },
     { label: 'Blogs', href: '#' },
   ];
 
@@ -124,23 +125,21 @@ export default function Header() {
           />
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative group text-lg font-normal transition-colors duration-300 px-3 py-1.5 overflow-hidden ${link.active ? 'text-white font-semibold nav-link-active' : 'text-gray-700 hover:text-white'}`}
+                className={`relative group text-base font-medium transition-colors duration-300 px-3 py-1.5 overflow-hidden ${link.active ? 'text-orange-500 font-semibold nav-link-active' : 'text-gray-900 hover:text-orange-500'}`}
                 style={{ zIndex: 1, display: 'inline-block' }}
               >
-                {/* Orange pill background */}
-                <span className="nav-pill-bg" />
                 {link.label}
               </a>
             ))}
           </nav>
 
           {/* Desktop CTA */}
-          <button className="hidden lg:flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 border-orange-500 text-orange-500 text-lg font-medium hover:bg-orange-500 hover:text-white transition-colors">
+          <button className="hidden lg:flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg border-2 border-orange-500 bg-white text-orange-500 text-base font-medium hover:bg-orange-500 hover:text-white transition-colors">
             Start Learning
           </button>
 
@@ -174,7 +173,7 @@ export default function Header() {
                   className={`block px-6 py-3 text-base font-medium transition-colors mobile-nav-link ${
                     link.active 
                       ? 'bg-orange-500 text-white' 
-                      : 'text-gray-700'
+                      : 'text-gray-900'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
