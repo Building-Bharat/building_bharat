@@ -1,5 +1,5 @@
 "use client";
-import Image from 'next/image';
+
 import { useEffect, useState } from 'react';
 
 export default function Header() {
@@ -12,9 +12,10 @@ export default function Header() {
 
   const navLinks = [
     { label: 'Home', href: '#', active: true },
+    { label: 'Premium', href: '#' },
     { label: 'Courses', href: '#' },
-    { label: 'For college', href: '#' },
     { label: 'Internships', href: '#' },
+    { label: 'Colleges', href: '#' },
     { label: 'Blogs', href: '#' },
   ];
 
@@ -115,32 +116,35 @@ export default function Header() {
         <div
           className={`max-w-[1400px] mx-auto bg-white rounded-2xl md:rounded-3xl border border-orange-200 flex items-center justify-between px-4 md:px-8 lg:px-12 py-3 md:py-5 pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100 shadow-[0_4px_24px_0_rgba(255,140,0,0.10),0_1.5px_0_0_#FFE5CC]' : 'opacity-0'}`}
         >
-          <Image
-            src="https://api.builder.io/api/v1/image/assets/TEMP/ec2b6b5c5060116b822828527f66356147c70790?width=112"
-            alt="Building Bharat Logo"
-            width={45}
-            height={44}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-[56px] lg:h-[55px]"
-          />
+          {/* Logo - BUILDING BHARAT */}
+          <div className="flex items-center gap-2">
+            <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-[56px] lg:h-[55px] bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-lg md:text-xl lg:text-2xl">
+              B
+            </div>
+            <div className="hidden md:block">
+              <div className="text-sm md:text-base lg:text-lg font-bold">
+                <span className="text-gray-900">BUILDING</span>
+                <span className="text-orange-500 ml-1">BHARAT</span>
+              </div>
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative group text-lg font-normal transition-colors duration-300 px-3 py-1.5 overflow-hidden ${link.active ? 'text-white font-semibold nav-link-active' : 'text-gray-700 hover:text-white'}`}
+                className={`relative group text-base font-medium transition-colors duration-300 px-3 py-1.5 overflow-hidden ${link.active ? 'text-orange-500 font-semibold nav-link-active' : 'text-gray-900 hover:text-orange-500'}`}
                 style={{ zIndex: 1, display: 'inline-block' }}
               >
-                {/* Orange pill background */}
-                <span className="nav-pill-bg" />
                 {link.label}
               </a>
             ))}
           </nav>
 
           {/* Desktop CTA */}
-          <button className="hidden lg:flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 border-orange-500 text-orange-500 text-lg font-medium hover:bg-orange-500 hover:text-white transition-colors">
+          <button className="hidden lg:flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg border-2 border-orange-500 bg-white text-orange-500 text-base font-medium hover:bg-orange-500 hover:text-white transition-colors">
             Start Learning
           </button>
 
@@ -174,7 +178,7 @@ export default function Header() {
                   className={`block px-6 py-3 text-base font-medium transition-colors mobile-nav-link ${
                     link.active 
                       ? 'bg-orange-500 text-white' 
-                      : 'text-gray-700'
+                      : 'text-gray-900'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
