@@ -116,7 +116,7 @@ export default function Header() {
           className={`max-w-[1400px] mx-auto bg-white rounded-2xl md:rounded-3xl border border-orange-200 flex items-center justify-between px-4 md:px-8 lg:px-12 py-3 md:py-5 pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100 shadow-[0_4px_24px_0_rgba(255,140,0,0.10),0_1.5px_0_0_#FFE5CC]' : 'opacity-0'}`}
         >
           <Image
-            src="https://api.builder.io/api/v1/image/assets/TEMP/ec2b6b5c5060116b822828527f66356147c70790?width=112"
+            src="/icons/logo.jpg"
             alt="Building Bharat Logo"
             width={45}
             height={44}
