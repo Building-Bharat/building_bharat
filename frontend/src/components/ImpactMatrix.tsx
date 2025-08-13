@@ -2,13 +2,48 @@ import { NextPage } from "next";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { DM_Sans } from "next/font/google";
-import CountUp from "react-countup";
+import { useState, useEffect } from "react";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "700", "800"],
 });
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"] });
+
+// Custom hook for counting animation
+const useCountUp = (end: number, duration: number = 2000) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime: number;
+    let animationFrame: number;
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentCount = Math.floor(easeOutQuart * end);
+      
+      setCount(currentCount);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [end, duration]);
+
+  return count;
+};
 
 const ImpactMatrix: NextPage = () => {
   return (
@@ -47,8 +82,10 @@ const ImpactMatrix: NextPage = () => {
           <h2 className="text-[23px] font-extrabold leading-8 font-[Montserrat]">
             Building Bharat Till Date
           </h2>
-          <p className={`${dmSans.className} text-[13px] leading-6 text-[#F1F1F1]`}>
-            Our journey in shaping India’s political and policy landscape
+          <p
+            className={`${dmSans.className} text-[13px] leading-6 text-[#F1F1F1] font-DMsans`}
+          >
+            Our journey in shaping India's political and policy landscape
           </p>
         </div>
 
@@ -65,13 +102,8 @@ const ImpactMatrix: NextPage = () => {
               className="flex flex-col items-start sm:items-start gap-1 w-[140px] sm:w-[200px] text-[20px] font-weight:600 font-[Montserrat]"
             >
               <span className="font-heading font-black text-base text-[#F1F1F1]">
-                <CountUp
-                  end={end}
-                  duration={15}
-                  easingFn={(t, b, c, d) =>
-                    c * (1 - Math.cos(((t / d) * Math.PI) / 2)) + b
-                  }
-                />+
+                <CountUpDisplay end={end} />
+                +
               </span>
               <span className={`${dmSans.className} text-[13px] text-[#F1F1F1]`}>
                 {label}
@@ -85,7 +117,7 @@ const ImpactMatrix: NextPage = () => {
           {[
             {
               title: "Excellence in Education",
-              text: "Recognized as India’s leading platform for political and policy education, with an industry-aligned curriculum designed for real-world impact.",
+              text: "Recognized as India's leading platform for political and policy education, with an industry-aligned curriculum designed for real-world impact.",
             },
             {
               title: "Strong Industry Network",
@@ -121,6 +153,12 @@ const ImpactMatrix: NextPage = () => {
       </div>
     </main>
   );
+};
+
+// CountUpDisplay component using the custom hook
+const CountUpDisplay = ({ end }: { end: number }) => {
+  const count = useCountUp(end, 2000);
+  return <span>{count}</span>;
 };
 
 export default ImpactMatrix;

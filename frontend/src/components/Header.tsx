@@ -24,24 +24,6 @@ export default function Header() {
     <header className="w-full sticky top-2 md:top-4 z-50">
       <div className="px-2 md:px-4 pointer-events-none">
         <style>{`
-          .nav-pill-bg {
-            position: absolute;
-            inset: 0;
-            border-radius: 9999px;
-            background: #f97316; /* orange-500 */
-            z-index: -1;
-            transition: width 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
-            width: 0%;
-            opacity: 0;
-          }
-          .group:hover .nav-pill-bg {
-            width: 100%;
-            opacity: 1;
-          }
-          .nav-link-active .nav-pill-bg {
-            width: 100%;
-            opacity: 1;
-          }
           .mobile-menu {
             transition: all 0.3s ease-in-out;
           }
@@ -145,7 +127,7 @@ export default function Header() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative group transition-colors duration-300 overflow-hidden ${link.active ? 'nav-link-active' : 'hover:text-orange-500'}`}
+                className={`relative group transition-colors duration-300 overflow-hidden ${link.active ? '' : 'hover:text-orange-500'}`}
                 style={{ 
                   zIndex: 1, 
                   display: 'inline-block',
@@ -159,7 +141,7 @@ export default function Header() {
                   lineHeight: '24px',
                   letterSpacing: '0%',
                   textAlign: 'center',
-                  background: link.active ? 'var(--color-text-textPrimary, #0A0A0A)' : 'transparent',
+                  background: link.active ? 'var(--color-surface-surfaceBrand, #F97C04)' : 'transparent',
                   color: link.active ? 'white' : 'var(--color-text-textPrimary, #0A0A0A)',
                   borderRadius: '4px',
                   padding: '0',

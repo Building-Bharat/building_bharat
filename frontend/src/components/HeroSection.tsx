@@ -12,7 +12,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: 'var(--color-surface-surfacePrimary, #E5E5E5)' }}>
+    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: 'var(--color-surface-surfacePrimary, #F1F1F1)' }}>
       <div className="container mx-auto px-4 md:px-8 lg:px-11 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         {/* Left Content */}
         <div className="flex-1 max-w-2xl text-center lg:text-left">
@@ -29,7 +29,7 @@ export default function HeroSection() {
               lineHeight: '48px',
               letterSpacing: '0%',
               textTransform: 'capitalize',
-              color: 'var(--color-text-textBrand, #004644)'
+              color: 'var(--color-text-textBrand, #1A2E2E)'
             }}
           >
             Crack Political and Policies Roles with Ease
@@ -46,7 +46,7 @@ export default function HeroSection() {
               fontSize: '16px',
               lineHeight: '24px',
               letterSpacing: '0%',
-              color: 'var(--color-text-textPrimary, #0A0A0A)'
+              color: 'var(--color-text-textPrimary, #555555)'
             }}
           >
             We combine a practical curriculum, expert mentorship, and a real-world learning path to help you build confidence and competence in political strategy.
@@ -222,7 +222,7 @@ export default function HeroSection() {
           {/* Original content fades out */}
           <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${showAnimation ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             <div className="text-center">
-              <div className="text-8xl font-normal text-teal-900 leading-tight">
+              <div className="text-8xl font-normal text-gray-900 leading-tight">
                 Building
               </div>
               <div className="text-8xl font-bold text-orange-500 leading-tight">
@@ -239,7 +239,7 @@ export default function HeroSection() {
         {/* Mobile/Tablet Hero Text (Static) */}
         <div className="lg:hidden flex-1 items-center justify-center max-w-lg relative h-[200px]">
           <div className="text-center">
-            <div className="text-4xl font-normal text-teal-900 leading-tight">
+            <div className="text-4xl font-normal text-gray-900 leading-tight">
               Building
             </div>
             <div className="text-4xl font-bold text-orange-500 leading-tight">
