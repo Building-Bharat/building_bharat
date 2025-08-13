@@ -50,7 +50,8 @@ export default function InitiativeSection() {
           {initiatives.map((item, idx) => (
             <div
               key={idx}
-              className="relative w-full max-w-[90%] sm:max-w-[280px] min-w-[200px] rounded-[24px] sm:rounded-[32px] shadow-[0_0_4px_0_rgba(26,26,26,0.25)] p-4 sm:p-5 flex flex-col items-center mt-[56px] bg-[#F1F1F1] cursor-pointer flex-shrink-0"
+              className="relative w-full max-w-[416px] md:max-w-[304px] opacity-100 rounded-[16px] bg-[#F1F1F1] shadow-[0px_4px_4px_rgba(150,150,150,0.3),0px_0px_4px_rgba(26,26,26,0.25)] p-4 flex flex-col items-center gap-4 mt-[56px] cursor-pointer flex-shrink-0"
+
             >
               <div className="w-[64px] h-[64px] sm:w-[70px] sm:h-[70px] md:w-[80px] md:h-[80px] shadow-[0_4px_4px_0_rgba(150,150,150,0.3)] flex items-center justify-center bg-[#F1F1F1] rounded-full -mt-12 shrink-0">
                 <Image
