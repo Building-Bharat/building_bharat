@@ -13,41 +13,47 @@ const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"] });
 const ImpactMatrix: NextPage = () => {
   return (
     <main
-      className={`${montserrat.className} relative w-full bg-gradient-to-l from-[#001414] to-[#007a77] text-white overflow-hidden min-h-auto`}
+      className={`${montserrat.className} relative w-full bg-gradient-to-l from-[#001414] to-[#007a77] text-white overflow-hidden `}
     >
-      {/* Background India Vector - Desktop only */}
+      {/* Background India Vector - Desktop */}
       <div className="pointer-events-none select-none absolute top-0 left-1/2 -translate-x-1/2 hidden md:block max-w-[1440px] w-full z-0">
         <Image
           src="/images/indiaVector.png"
           alt="India Vector"
           width={1440}
           height={1637}
-          style={{
-            width: "100%",
-            height: "auto",
-            maxWidth: "1440px",
-            opacity: 1.0, // Only the image is transparent
-          }}
+          style={{ width: "100%", height: "auto", maxWidth: "1440px" }}
+          priority
+        />
+      </div>
+
+      {/* Background India Vector - Mobile */}
+      <div className="pointer-events-none select-none absolute top-0 left-1/2 -translate-x-1/2 block md:hidden w-full z-0">
+        <Image
+          src="/images/indiaVectorSmall.png"
+          alt="India Vector Small"
+          width={500}
+          height={800}
+          style={{ width: "100%", height: "auto", opacity: 1.0 }}
           priority
         />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-16 py-12 md:py-16 flex flex-col items-center gap-12">
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-16 py-12 md:py-16 flex flex-col items-center gap-12 mb-[16px] sm:mb-[16px]">
+        
         {/* Heading */}
         <div className="flex flex-col items-center text-center gap-4 max-w-[600px] w-full">
           <h2 className="text-[23px] font-extrabold leading-8 font-[Montserrat]">
             Building Bharat Till Date
           </h2>
-          <p
-            className={`${dmSans.className} text-[13px] leading-6 text-[#F1F1F1] font-DMsans`}
-          >
+          <p className={`${dmSans.className} text-[13px] leading-6 text-[#F1F1F1]`}>
             Our journey in shaping India’s political and policy landscape
           </p>
         </div>
 
         {/* Stats */}
-        <div className="w-full max-w-[1312px] flex flex-wrap justify-center items-start gap-[34px] mt-[8px]">
+        <div className="w-full max-w-[1312px] flex flex-wrap ml-[64px] items-start gap-x-[34px] sm:gap-x-[124px] gap-y-6 mt-[8px]">
           {[
             { end: 1000, label: "Students Trained" },
             { end: 200, label: "Successful Placements" },
@@ -56,7 +62,7 @@ const ImpactMatrix: NextPage = () => {
           ].map(({ end, label }, i) => (
             <div
               key={i}
-              className="flex flex-col items-start text-center gap-1 w-[272px] sm:w-[200px] mr-[84px] font-[Montserrat]  "
+              className="flex flex-col items-start sm:items-start gap-1 w-[140px] sm:w-[200px] text-[20px] font-weight:600 font-[Montserrat]"
             >
               <span className="font-heading font-black text-base text-[#F1F1F1]">
                 <CountUp
@@ -65,12 +71,9 @@ const ImpactMatrix: NextPage = () => {
                   easingFn={(t, b, c, d) =>
                     c * (1 - Math.cos(((t / d) * Math.PI) / 2)) + b
                   }
-                />
-                +
+                />+
               </span>
-              <span
-                className={`${dmSans.className} text-[13px] text-[#F1F1F1]`}
-              >
+              <span className={`${dmSans.className} text-[13px] text-[#F1F1F1]`}>
                 {label}
               </span>
             </div>
@@ -78,14 +81,7 @@ const ImpactMatrix: NextPage = () => {
         </div>
 
         {/* Cards */}
-        <div
-          className="w-full max-w-[1312px]
-    flex flex-col sm:flex-row
-    flex-wrap
-    justify-center items-stretch
-    gap-4
-    px-4 sm:px-6 lg:px-8"
-        >
+        <div className="w-full max-w-[1312px] flex flex-col sm:flex-row flex-wrap justify-center items-stretch gap-4 px-2 sm:px-6">
           {[
             {
               title: "Excellence in Education",
@@ -102,9 +98,9 @@ const ImpactMatrix: NextPage = () => {
           ].map((card, i) => (
             <div
               key={i}
-              className={`flex flex-col gap-4 p-6 border border-[#f1f1f1] rounded-[32px] shadow-[0px_4px_4px_rgba(150,150,150,0.3)] flex-1 cursor-pointer min-w-[100px] max-w-full ${dmSans.className}`}
+              className={`flex flex-col gap-4 p-6 border border-[#f1f1f1] rounded-[8px] sm:rounded-[32px] shadow-[0px_4px_4px_rgba(150,150,150,0.3)] flex-1 cursor-pointer min-w-[250px] max-w-full ${dmSans.className}`}
             >
-              <div className="relative w-[30px] h-[24px] mt-5 flex justify-start shrink-0">
+              <div className="relative w-[30px] h-[24px] flex justify-start shrink-0">
                 <Image
                   src="/images/Fellowship.png"
                   alt="Icon"
@@ -113,10 +109,9 @@ const ImpactMatrix: NextPage = () => {
                   className="object-contain"
                 />
               </div>
-
-              <div className="flex flex-col items-start gap-4 text-start mt-2">
+              <div className="flex flex-col items-start gap-4 text-start">
                 <h3 className="font-bold font-[Montserrat]">{card.title}</h3>
-                <p className="leading-[24px] mt-8 font-DMsans font-weight:400 text-[#F1F1F1] text-[13px]">
+                <p className="leading-[24px] text-[#F1F1F1] text-[13px]">
                   {card.text}
                 </p>
               </div>
@@ -129,3 +124,4 @@ const ImpactMatrix: NextPage = () => {
 };
 
 export default ImpactMatrix;
+

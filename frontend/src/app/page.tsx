@@ -2,6 +2,7 @@
 
 import BharatMatters from '@/components/BharatMatters';
 import CareerSection from '@/components/CarrerSection';
+import Footer from '@/components/CoontactUs';
 import ImpactMatrix from '@/components/ImpactMatrix';
 
 
@@ -18,6 +19,7 @@ export default function Home() {
       <BharatMatters/>
       <ImpactMatrix/>
       <NetworkSection/>
+      <Footer/>
       
     </div>
   );
