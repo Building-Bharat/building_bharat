@@ -9,11 +9,9 @@ export default function AnimatedStates() {
   const [isRotating, setIsRotating] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Start smooth rotation to next position
+    const startAnimation = () => {
       setIsRotating(true);
       
-      // Smoothly rotate to next position over 1 second
       const startRotation = rotation;
       const targetRotation = rotation + 60;
       const startTime = Date.now();
@@ -32,18 +30,25 @@ export default function AnimatedStates() {
         if (progress < 1) {
           requestAnimationFrame(animateRotation);
         } else {
-          // Rotation complete, change state, reset rotation for seamlessness, and stop
+          // Rotation complete, change state and stop
           setIsRotating(false);
           setCurrentState(prev => prev === 6 ? 1 : prev + 1);
-          setRotation(prev => prev - 60);
         }
       };
       
       requestAnimationFrame(animateRotation);
-    }, 2000); // Wait 2 seconds between movements (1s stop + 1s movement)
+    };
+
+    // Start the initial animation
+    startAnimation();
+
+    // Set up interval for continuous animation
+    const interval = setInterval(() => {
+      startAnimation();
+    }, 2000); // Wait 2 seconds between animations (1s rotation + 1s pause)
 
     return () => clearInterval(interval);
-  }, [rotation]);
+  }, []); // Empty dependency array to run once
 
   // Icon data for each state - each icon moves clockwise to next position
   const iconStates = {
@@ -125,7 +130,7 @@ export default function AnimatedStates() {
     <div className="relative w-full h-full flex items-center justify-center">
       {/* Central "Building Bharat" text */}
       <div className="text-center z-10">
-        <div className="text-4xl font-normal text-teal-900 leading-tight">
+        <div className="text-4xl font-normal text-gray-900 leading-tight">
           Building
         </div>
         <div className="text-4xl font-bold text-orange-500 leading-tight">
@@ -158,7 +163,7 @@ export default function AnimatedStates() {
                   className="object-contain"
                 />
               </div>
-              <div className="text-xs text-teal-900 font-medium leading-tight max-w-20 text-center">
+              <div className="text-xs text-orange-500 font-medium leading-tight max-w-20 text-center">
                 {item.text}
               </div>
             </div>
