@@ -35,7 +35,7 @@ export default function CareerSection() {
                      font-black capitalize font-[Montserrat] text-[0.8125rem] sm:text-[0.84375rem] md:text-[0.875rem] 
                      leading-[1.5rem] md:leading-[2rem] mx-auto md:mx-0 transition-colors duration-300 hover:bg-[#F97C04] hover:text-white"
         >
-          Explore All Courses
+          Start Learning For Free 
         </button>
       </div>
 
