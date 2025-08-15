@@ -13,7 +13,6 @@ export default function Header() {
 
   const navLinks = [
     { label: 'Home', href: '#', active: true },
-    { label: 'Premium', href: '#' },
     { label: 'Courses', href: '#' },
     { label: 'Internships', href: '#' },
     { label: 'Colleges', href: '#' },
@@ -22,7 +21,7 @@ export default function Header() {
 
   return (
     <header className="w-full sticky top-2 md:top-4 z-50">
-      <div className="px-2 md:px-4 pointer-events-none">
+      <div className="px-4 sm:px-6 md:px-8 lg:px-20" style={{ paddingLeft: '20px', paddingRight: '20px' }}>
         <style>{`
           .mobile-menu {
             transition: all 0.3s ease-in-out;
@@ -99,13 +98,14 @@ export default function Header() {
         <div
           className={`mx-auto flex items-center pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100' : 'opacity-0'}`}
           style={{ 
-            width: '1312px',
-            height: '48px',
+            width: '100%',
+            maxWidth: '1200px',
+            height: '70px',
             justifyContent: 'space-between',
             paddingRight: '16px',
             paddingLeft: '16px',
             borderRadius: '8px',
-            background: 'var(--color-surface-surfaceSecondary, #F1F1F1)'
+            background: '#F1F1F1'
           }}
         >
           <Image
@@ -141,12 +141,22 @@ export default function Header() {
                   lineHeight: '24px',
                   letterSpacing: '0%',
                   textAlign: 'center',
-                  background: link.active ? 'var(--color-surface-surfaceBrand, #F97C04)' : 'transparent',
-                  color: link.active ? 'white' : 'var(--color-text-textPrimary, #0A0A0A)',
+                  background: 'transparent',
+                  color: link.active ? '#F97C04' : '#000000',
                   borderRadius: '4px',
                   padding: '0',
                   alignItems: 'center',
                   justifyContent: 'center'
+                }}
+                onMouseEnter={(e) => {
+                  if (!link.active) {
+                    e.currentTarget.style.color = '#F97C04';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!link.active) {
+                    e.currentTarget.style.color = '#000000';
+                  }
                 }}
               >
                 {link.label}
@@ -245,7 +255,7 @@ export default function Header() {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden mt-2 overflow-hidden mobile-menu relative z-50" style={{ 
-            background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
+            background: '#F1F1F1',
             borderRadius: '8px'
           }}>
             <nav className="py-4">

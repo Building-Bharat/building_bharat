@@ -7,15 +7,17 @@ import CareerSection from '@/components/CarrerSection';
 import ImpactMatrix from '@/components/ImpactMatrix';
 import InitiativeSection from '@/components/InitiativeFor';
 import NetworkSection from '@/components/NetworkSection';
+import StoriesThatInspire from '@/components/StoriesThatInspire';
 
 export default function Home() {
   return (
-    <div className="min-h-screen" style={{ background: 'var(--color-surface-surfacePrimary, #F1F1F1)' }}>
+    <div className="min-h-screen" style={{ background: '#E5E7EA' }}>
       <Header />
       <HeroSection />
       <InitiativeSection/>
       <CareerSection/>
       <BharatMatters/>
+      <StoriesThatInspire/>
       <ImpactMatrix/>
       <NetworkSection/>
     </div>

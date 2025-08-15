@@ -1,56 +1,58 @@
 "use client";
 
-import AnimatedStates from './AnimatedStates';
 import { useState, useEffect } from 'react';
 
 export default function HeroSection() {
-  const [showAnimation, setShowAnimation] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowAnimation(true), 2000); // 2s delay
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: 'var(--color-surface-surfacePrimary, #F1F1F1)' }}>
+    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
       <div className="container mx-auto px-4 md:px-8 lg:px-11 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         {/* Left Content */}
-        <div className="flex-1 max-w-2xl text-center lg:text-left">
-          <h1 
-            className="mb-4 md:mb-8"
-            style={{
-              width: '730px',
-              height: '96px',
-              opacity: 1,
-              fontFamily: 'Montserrat',
-              fontWeight: 800,
-              fontStyle: 'normal',
-              fontSize: '32px',
-              lineHeight: '48px',
-              letterSpacing: '0%',
-              textTransform: 'capitalize',
-              color: 'var(--color-text-textBrand, #1A2E2E)'
-            }}
-          >
-            Crack Political and Policies Roles with Ease
-          </h1>
-          <p 
-            className="mb-8 md:mb-12 mx-auto lg:mx-0"
-            style={{
-              width: '730px',
-              height: '48px',
-              opacity: 1,
-              fontFamily: 'DM Sans',
-              fontWeight: 400,
-              fontStyle: 'normal',
-              fontSize: '16px',
-              lineHeight: '24px',
-              letterSpacing: '0%',
-              color: 'var(--color-text-textPrimary, #555555)'
-            }}
-          >
-            We combine a practical curriculum, expert mentorship, and a real-world learning path to help you build confidence and competence in political strategy.
-          </p>
+        <div className="flex-1 max-w-2xl text-center lg:text-left" style={{ width: '100%', maxWidth: '544px' }}>
+          <div style={{ marginBottom: '32px' }}>
+            <h1 
+              className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl"
+              style={{
+                width: '100%',
+                maxWidth: '544px',
+                height: 'auto',
+                opacity: 1,
+                fontFamily: 'Montserrat',
+                fontWeight: 800,
+                fontStyle: 'normal',
+                fontSize: '32px',
+                lineHeight: '48px',
+                letterSpacing: '0%',
+                textTransform: 'capitalize',
+                color: '#005451',
+                textAlign: 'left'
+              }}
+            >
+              Crack Political and Policies<br />
+              Roles with Ease
+            </h1>
+          </div>
+          
+          <div style={{ marginBottom: '32px' }}>
+            <p 
+              className="mb-8 md:mb-12 mx-auto lg:mx-0 text-sm md:text-base lg:text-base"
+              style={{
+                width: '100%',
+                maxWidth: '544px',
+                height: 'auto',
+                opacity: 1,
+                fontFamily: 'DM Sans',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                lineHeight: '24px',
+                letterSpacing: '0%',
+                color: '#0A0A0A',
+                textAlign: 'left'
+              }}
+            >
+              We combine a practical curriculum, expert mentorship, and a real-world learning path to help you build confidence and competence in political strategy.
+            </p>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center lg:justify-start">
             <button 
@@ -96,7 +98,7 @@ export default function HeroSection() {
                 style={{
                   width: '24px',
                   height: '24px',
-                  color: 'var(--color-text-textInvert, #F1F1F1)',
+                  color: '#0A0A0A',
                   transition: 'all 0.3s ease-in-out',
                   marginRight: '8px',
                   opacity: '0',
@@ -114,7 +116,7 @@ export default function HeroSection() {
               </svg>
               <span style={{
                 width: 'auto',
-                minWidth: '81px',
+                minWidth: '175px',
                 height: '24px',
                 opacity: 1,
                 fontFamily: 'DM Sans',
@@ -124,7 +126,7 @@ export default function HeroSection() {
                 lineHeight: '24px',
                 letterSpacing: '0%',
                 textAlign: 'center',
-                color: 'var(--color-text-textInvert, #F1F1F1)',
+                color: '#0A0A0A',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.3s ease-in-out',
                 transform: 'translateX(0px)',
@@ -134,8 +136,9 @@ export default function HeroSection() {
                 Enroll Now
               </span>
             </button>
-            <button
-              className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105"
+
+            <button 
+              className="w-full sm:w-auto transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
               style={{
                 width: '239px',
                 height: '48px',
@@ -147,7 +150,7 @@ export default function HeroSection() {
                 opacity: 1,
                 borderRadius: '8px',
                 borderWidth: '1px',
-                background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
+                background: 'white',
                 border: '1px solid #F97C04',
                 cursor: 'pointer',
                 display: 'flex',
@@ -204,7 +207,7 @@ export default function HeroSection() {
                 lineHeight: '24px',
                 letterSpacing: '0%',
                 textAlign: 'center',
-                color: 'var(--color-text-textbrandsecondary, #F97C04)',
+                color: '#F97C04',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.3s ease-in-out',
                 transform: 'translateX(0px)',
@@ -217,35 +220,14 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right Content - Animated States (Desktop only) */}
-        <div className="hidden lg:flex flex-1 items-center justify-center max-w-lg relative h-[400px]">
-          {/* Original content fades out */}
-          <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${showAnimation ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-            <div className="text-center">
-              <div className="text-8xl font-normal text-gray-900 leading-tight">
-                Building
-              </div>
-              <div className="text-8xl font-bold text-orange-500 leading-tight">
-                BHARAT
-              </div>
-            </div>
-          </div>
-          {/* Animated States fades in */}
-          <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${showAnimation ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-            <AnimatedStates />
-          </div>
-        </div>
-
-        {/* Mobile/Tablet Hero Text (Static) */}
-        <div className="lg:hidden flex-1 items-center justify-center max-w-lg relative h-[200px]">
-          <div className="text-center">
-            <div className="text-4xl font-normal text-gray-900 leading-tight">
-              Building
-            </div>
-            <div className="text-4xl font-bold text-orange-500 leading-tight">
-              BHARAT
-            </div>
-          </div>
+        {/* Right Content - Always Above on Mobile */}
+        <div className="w-full lg:w-auto lg:flex-1 flex items-center justify-center order-first lg:order-last">
+          <div className="w-full h-full lg:w-[600px] lg:h-[400px]" style={{ 
+            width: '100%',
+            maxWidth: '300px',
+            height: '200px',
+            background: '#F1F1F1'
+          }} />
         </div>
       </div>
     </section>
