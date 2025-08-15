@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import BharatMatters from '@/components/BharatMatters';
 import CareerSection from '@/components/CarrerSection';
+import Footer from '@/components/CoontactUs';
 import ImpactMatrix from '@/components/ImpactMatrix';
 import InitiativeSection from '@/components/InitiativeFor';
 import NetworkSection from '@/components/NetworkSection';
@@ -20,6 +21,7 @@ export default function Home() {
       <StoriesThatInspire/>
       <ImpactMatrix/>
       <NetworkSection/>
+      <Footer/>
     </div>
   );
 }
