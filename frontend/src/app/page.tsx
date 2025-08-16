@@ -8,6 +8,7 @@ import Footer from '@/components/CoontactUs';
 import ImpactMatrix from '@/components/ImpactMatrix';
 import InitiativeSection from '@/components/InitiativeFor';
 import NetworkSection from '@/components/NetworkSection';
+import SuccessGuide from '@/components/successGuide';
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <BharatMatters/>
       <ImpactMatrix/>
       <NetworkSection/>
+      <SuccessGuide/>
       <Footer/>
     </div>
   );

@@ -25,7 +25,7 @@ export default function BharatMatters() {
       </div>
 
       {/* Section 1 */}
-      <section className="w-full max-w-[1312px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-8 md:gap-[32px] items-center">
+      <section className="w-full max-w-[1150px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-1 md:gap-[16px] items-center">
         <div className="text-center md:text-left mb-[74px] order-2 sm:order-1">
           <h2 className="font-Montserrat font-extrabold sm:font-semibold font-weight:600 text-[14px] md:text-[20px] leading-[1.4] text-[#0A0A0A] mb-[16px]">
             Live Sessions by the best in their domain
@@ -85,7 +85,7 @@ export default function BharatMatters() {
       </section>
 
       {/* Section 3 */}
-      <section className="w-full max-w-[1312px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-8 md:gap-[32px] items-center">
+      <section className="w-full max-w-[1150px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-8 md:gap-[32px] items-center">
         <div className="text-center md:text-left mb-[74px] order-2 sm:order-1">
           <h2 className="font-Montserrat font-extrabold sm:font-semibold font-weight:600 text-[14px] md:text-[20px] leading-[1.4] text-[#0A0A0A] mb-[16px]">
            Build What Actually Gets You Hired
