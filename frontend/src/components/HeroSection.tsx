@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import React from 'react';
+import AnimatedStates from './AnimatedStates';
 
 export default function HeroSection() {
   return (
@@ -10,10 +11,9 @@ export default function HeroSection() {
         <div className="flex-1 max-w-2xl text-center lg:text-left" style={{ width: '100%', maxWidth: '544px' }}>
           <div style={{ marginBottom: '32px' }}>
             <h1 
-              className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl"
+              className="mb-4 md:mb-8 text-lg sm:text-xl md:text-2xl lg:text-4xl responsive-heading"
               style={{
-                width: '100%',
-                maxWidth: '544px',
+                width: '544px',
                 height: 'auto',
                 opacity: 1,
                 fontFamily: 'Montserrat',
@@ -34,10 +34,9 @@ export default function HeroSection() {
           
           <div style={{ marginBottom: '32px' }}>
             <p 
-              className="mb-8 md:mb-12 mx-auto lg:mx-0 text-sm md:text-base lg:text-base"
+              className="mb-8 md:mb-12 mx-auto lg:mx-0 text-xs sm:text-sm md:text-base lg:text-base responsive-paragraph"
               style={{
-                width: '100%',
-                maxWidth: '544px',
+                width: '544px',
                 height: 'auto',
                 opacity: 1,
                 fontFamily: 'DM Sans',
@@ -54,7 +53,9 @@ export default function HeroSection() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center lg:justify-start">
+          {/* Buttons Container - Center on mobile, left on desktop */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start button-container">
+            {/* Enroll Now Button */}
             <button 
               className="w-full sm:w-auto transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
               style={{
@@ -67,7 +68,7 @@ export default function HeroSection() {
                 gap: '0',
                 opacity: 1,
                 borderRadius: '8px',
-                background: 'var(--color-surface-surfaceBrand, #F97C04)',
+                background: '#F97C04',
                 border: 'none',
                 cursor: 'pointer',
                 display: 'flex',
@@ -76,14 +77,12 @@ export default function HeroSection() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderRadius = '0px';
-                e.currentTarget.style.border = '2px solid var(--color-text-textInvert, #F1F1F1)';
                 e.currentTarget.querySelector('svg')!.style.opacity = '1';
                 e.currentTarget.querySelector('svg')!.style.transform = 'translateX(0px)';
                 e.currentTarget.querySelector('span')!.style.transform = 'translateX(8px)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderRadius = '8px';
-                e.currentTarget.style.border = 'none';
                 e.currentTarget.querySelector('svg')!.style.opacity = '0';
                 e.currentTarget.querySelector('svg')!.style.transform = 'translateX(-8px)';
                 e.currentTarget.querySelector('span')!.style.transform = 'translateX(0px)';
@@ -116,7 +115,7 @@ export default function HeroSection() {
               </svg>
               <span style={{
                 width: 'auto',
-                minWidth: '175px',
+                minWidth: '81px',
                 height: '24px',
                 opacity: 1,
                 fontFamily: 'DM Sans',
@@ -137,6 +136,7 @@ export default function HeroSection() {
               </span>
             </button>
 
+            {/* Start Learning For Free Button */}
             <button 
               className="w-full sm:w-auto transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
               style={{
@@ -177,9 +177,9 @@ export default function HeroSection() {
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
                 style={{
-                  width: '24px',
-                  height: '24px',
-                  color: 'var(--color-border-borderBrand, #F97C04)',
+                  width: '20px',
+                  height: '20px',
+                  color: '#F97C04',
                   transition: 'all 0.3s ease-in-out',
                   marginRight: '8px',
                   opacity: '0',
@@ -196,19 +196,6 @@ export default function HeroSection() {
                 />
               </svg>
               <span style={{
-                width: 'auto',
-                minWidth: '175px',
-                height: '24px',
-                opacity: 1,
-                fontFamily: 'DM Sans',
-                fontWeight: '600',
-                fontStyle: 'normal',
-                fontSize: '16px',
-                lineHeight: '24px',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#F97C04',
-                whiteSpace: 'nowrap',
                 transition: 'all 0.3s ease-in-out',
                 transform: 'translateX(0px)',
                 position: 'relative',
@@ -222,14 +209,137 @@ export default function HeroSection() {
 
         {/* Right Content - Always Above on Mobile */}
         <div className="w-full lg:w-auto lg:flex-1 flex items-center justify-center order-first lg:order-last">
-          <div className="w-full h-full lg:w-[600px] lg:h-[400px]" style={{ 
-            width: '100%',
-            maxWidth: '300px',
-            height: '200px',
-            background: '#F1F1F1'
-          }} />
+          <div className="relative w-full h-full lg:w-[600px] lg:h-[400px] flex items-center justify-center">
+            {/* Animated States Component */}
+            <AnimatedStates />
+          </div>
         </div>
       </div>
+
+      {/* CSS for responsive text */}
+      <style jsx>{`
+        /* Mobile styles (up to 639px) - Force single line */
+        @media (max-width: 639px) {
+          .responsive-heading {
+            width: 100% !important;
+            max-width: 100% !important;
+            font-size: clamp(8px, 3.5vw, 14px) !important;
+            line-height: 1.2 !important;
+            text-align: center !important;
+            padding: 0 4px !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            word-wrap: nowrap !important;
+            hyphens: none !important;
+            display: block !important;
+          }
+
+          /* Replace br with space on mobile only */
+          .responsive-heading br {
+            display: none !important;
+          }
+          
+          .responsive-heading br::before {
+            content: " " !important;
+            display: inline !important;
+            white-space: pre !important;
+          }
+          
+          .responsive-heading br::after {
+            content: " " !important;
+            display: inline !important;
+            white-space: pre !important;
+          }
+          
+          .responsive-paragraph {
+            width: 100% !important;
+            max-width: 100% !important;
+            font-size: 14px !important;
+            line-height: 20px !important;
+            text-align: center !important;
+            padding: 0;
+            display: block !important;
+            -webkit-line-clamp: unset !important;
+            -webkit-box-orient: unset !important;
+            overflow: visible !important;
+          }
+
+          /* Make buttons full width with decent margins on mobile */
+          .button-container {
+            padding: 0 20px !important;
+          }
+          
+          .button-container button {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+          }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 320px) {
+          .responsive-heading {
+            font-size: clamp(6px, 3vw, 10px) !important;
+            padding: 0 2px !important;
+          }
+        }
+
+        /* Tablet styles (640px to 1023px) - Desktop-like layout with tablet dimensions */
+        @media (min-width: 640px) and (max-width: 1023px) {
+          .responsive-heading {
+            width: 450px !important;
+            max-width: 450px !important;
+            font-size: 28px !important;
+            line-height: 40px !important;
+            text-align: left !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          
+          .responsive-paragraph {
+            width: 450px !important;
+            max-width: 450px !important;
+            font-size: 15px !important;
+            line-height: 22px !important;
+            text-align: left !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+
+          /* Tablet button styling - left aligned like desktop */
+          .button-container {
+            padding: 0 !important;
+            justify-content: flex-start !important;
+            align-items: flex-start !important;
+          }
+          
+          .button-container button {
+            width: auto !important;
+            min-width: auto !important;
+            max-width: none !important;
+          }
+        }
+
+        /* Desktop styles (1024px and above) - COMPLETELY UNCHANGED */
+        @media (min-width: 1024px) {
+          .responsive-heading {
+            width: 544px !important;
+            font-size: 32px !important;
+            line-height: 48px !important;
+            text-align: left !important;
+            padding: 0;
+          }
+          
+          .responsive-paragraph {
+            width: 544px !important;
+            font-size: 16px !important;
+            line-height: 24px !important;
+            text-align: left !important;
+            padding: 0;
+          }
+        }
+      `}</style>
     </section>
   );
 }
