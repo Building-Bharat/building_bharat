@@ -25,9 +25,9 @@ export default function BharatMatters() {
       </div>
 
       {/* Section 1 */}
-      <section className="w-full max-w-[1312px] mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12 grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-[32px] items-center">
-        <div className="text-center md:text-left mb-8 sm:mb-12 md:mb-[74px] order-2 sm:order-1">
-          <h2 className="font-Montserrat font-extrabold sm:font-semibold font-weight:600 text-sm sm:text-base md:text-[20px] leading-[1.4] text-[#0A0A0A] mb-4 sm:mb-6 md:mb-[16px] px-2">
+      <section className="w-full max-w-[1150px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-1 md:gap-[16px] items-center">
+        <div className="text-center md:text-left mb-[74px] order-2 sm:order-1">
+          <h2 className="font-Montserrat font-extrabold sm:font-semibold font-weight:600 text-[14px] md:text-[20px] leading-[1.4] text-[#0A0A0A] mb-[16px]">
             Live Sessions by the best in their domain
           </h2>
           <p className="font-DMsans text-xs sm:text-sm md:text-[16px] leading-[1.5] text-[#0A0A0A] max-w-[484px] mx-auto md:mx-0 mt-3 sm:mt-4 md:mt-6 px-2">
@@ -85,9 +85,9 @@ export default function BharatMatters() {
       </section>
 
       {/* Section 3 */}
-      <section className="w-full max-w-[1312px] mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12 grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-[32px] items-center">
-        <div className="text-center md:text-left mb-8 sm:mb-12 md:mb-[74px] order-2 sm:order-1">
-          <h2 className="font-Montserrat font-extrabold sm:font-semibold font-weight:600 text-sm sm:text-base md:text-[20px] leading-[1.4] text-[#0A0A0A] mb-4 sm:mb-6 md:mb-[16px] px-2">
+      <section className="w-full max-w-[1150px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-8 md:gap-[32px] items-center">
+        <div className="text-center md:text-left mb-[74px] order-2 sm:order-1">
+          <h2 className="font-Montserrat font-extrabold sm:font-semibold font-weight:600 text-[14px] md:text-[20px] leading-[1.4] text-[#0A0A0A] mb-[16px]">
            Build What Actually Gets You Hired
           </h2>
           <p className="font-DMsans text-xs sm:text-sm md:text-[16px] leading-[1.5] text-[#0A0A0A] max-w-[484px] mx-auto md:mx-0 mt-3 sm:mt-4 md:mt-6 px-2">

@@ -167,7 +167,7 @@ const ImpactMatrix: NextPage = () => {
 
 // CountUpDisplay component using the custom hook
 const CountUpDisplay = ({ end }: { end: number }) => {
-  const count = useCountUp(end, 15000);
+  const count = useCountUp(end, 18000);
   return <span>{count}</span>;
 };
 

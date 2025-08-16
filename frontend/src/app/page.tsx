@@ -8,7 +8,11 @@ import Footer from '@/components/CoontactUs';
 import ImpactMatrix from '@/components/ImpactMatrix';
 import InitiativeSection from '@/components/InitiativeFor';
 import NetworkSection from '@/components/NetworkSection';
+<<<<<<< HEAD
 import StoriesThatInspire from '@/components/StoriesThatInspire';
+=======
+import SuccessGuide from '@/components/successGuide';
+>>>>>>> ae86c6c037f67ed2cbf693e9aa6c523ed305469d
 
 export default function Home() {
   return (
@@ -21,6 +25,7 @@ export default function Home() {
       <StoriesThatInspire/>
       <ImpactMatrix/>
       <NetworkSection/>
+      <SuccessGuide/>
       <Footer/>
     </div>
   );
