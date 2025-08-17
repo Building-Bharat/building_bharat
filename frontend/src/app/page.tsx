@@ -10,7 +10,6 @@ import InitiativeSection from '@/components/InitiativeFor';
 import NetworkSection from '@/components/NetworkSection';
 import StoriesThatInspire from '@/components/StoriesThatInspire';
 import SuccessGuide from '@/components/successGuide';
-import ContactUs from '@/components/CoontactUs';
 
 export default function Home() {
   return (
