@@ -20,7 +20,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="w-full sticky top-2 md:top-4 z-50">
+    <header className="w-full overflow-x-hidden sticky top-2 md:top-4 z-50">
       <div className="px-4 sm:px-6 md:px-8 lg:px-20" style={{ paddingLeft: '20px', paddingRight: '20px' }}>
                  <style>{`
            /* Custom underline width for nav links */

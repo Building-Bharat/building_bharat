@@ -5,7 +5,7 @@ import AnimatedStates from './AnimatedStates';
 
 export default function HeroSection() {
   return (
-         <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
+         <section className="relative min-h-[500px] md:min-h-[600px] overflow-x-hidden w-full flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
        <div className="container mx-auto px-4 md:px-8 lg:px-11 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
          {/* Left Content */}
          <div className="flex-1 text-center lg:text-left" style={{ width: '100%', maxWidth: '544px' }}>
