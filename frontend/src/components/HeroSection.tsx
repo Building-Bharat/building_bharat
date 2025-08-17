@@ -5,10 +5,14 @@ import AnimatedStates from './AnimatedStates';
 
 export default function HeroSection() {
   return (
-         <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
+         <section className="relative min-h-[500px] md:min-h-[600px] overflow-x-hidden w-full flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
        <div className="container mx-auto px-4 md:px-8 lg:px-11 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
          {/* Left Content */}
          <div className="flex-1 text-center lg:text-left" style={{ width: '100%', maxWidth: '544px' }}>
+         <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
+               <div className="container mx-auto max-w-[1521px] px-4 md:px-8 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+                   {/* Left Content */}
+          <div className="flex-1 text-center lg:text-left lg:pl-6 lg:mr-16" style={{ width: '100%', maxWidth: '544px' }}>
           <div style={{ marginBottom: '32px' }}>
                          <h1 
                className="mb-4 md:mb-8 text-lg sm:text-xl md:text-2xl lg:text-4xl responsive-heading"
@@ -212,7 +216,7 @@ export default function HeroSection() {
         </div>
 
                  {/* Right Content - Always Above on Mobile */}
-         <div className="w-full lg:w-auto lg:flex-1 flex items-center justify-center order-first lg:order-last">
+         <div className="w-full lg:w-auto lg:flex-1 lg:pr-0 lg:ml-16 flex items-center justify-center order-first lg:order-last">
            <div className="relative w-full h-full flex items-center justify-center">
              {/* Animated States Component */}
              <AnimatedStates />

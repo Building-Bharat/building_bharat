@@ -20,10 +20,10 @@ export default function Home() {
       <InitiativeSection/>
       <CareerSection/>
       <BharatMatters/>
-                    <StoriesThatInspire/>
-              <ImpactMatrix/>
-              <HaveQuestionsLetsTalk/>
-              <NetworkSection/>
+    <StoriesThatInspire/>
+    <ImpactMatrix/>
+    <HaveQuestionsLetsTalk/>
+    <NetworkSection/>
       <SuccessGuide/>
       <Footer/>
     </div>
