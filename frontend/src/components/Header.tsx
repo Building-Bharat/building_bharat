@@ -13,7 +13,6 @@ export default function Header() {
 
   const navLinks = [
     { label: 'Home', href: '#', active: true },
-    { label: 'Premium', href: '#' },
     { label: 'Courses', href: '#' },
     { label: 'Internships', href: '#' },
     { label: 'Colleges', href: '#' },
@@ -22,29 +21,21 @@ export default function Header() {
 
   return (
     <header className="w-full sticky top-2 md:top-4 z-50">
-      <div className="px-2 md:px-4 pointer-events-none">
-        <style>{`
-          .nav-pill-bg {
-            position: absolute;
-            inset: 0;
-            border-radius: 9999px;
-            background: #f97316; /* orange-500 */
-            z-index: -1;
-            transition: width 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
-            width: 0%;
-            opacity: 0;
-          }
-          .group:hover .nav-pill-bg {
-            width: 100%;
-            opacity: 1;
-          }
-          .nav-link-active .nav-pill-bg {
-            width: 100%;
-            opacity: 1;
-          }
-          .mobile-menu {
-            transition: all 0.3s ease-in-out;
-          }
+      <div className="px-4 sm:px-6 md:px-8 lg:px-20" style={{ paddingLeft: '20px', paddingRight: '20px' }}>
+                 <style>{`
+           /* Custom underline width for nav links */
+           .nav-link-underline {
+             width: 0;
+             transition: width 0.3s ease-in-out;
+           }
+           
+           .group:hover .nav-link-underline {
+             width: var(--text-width, 100%);
+           }
+           
+           .mobile-menu {
+             transition: all 0.3s ease-in-out;
+           }
           .mobile-menu-btn {
             transition: all 0.2s ease-in-out;
           }
@@ -116,15 +107,16 @@ export default function Header() {
         `}</style>
         <div
           className={`mx-auto flex items-center pointer-events-auto transition-all duration-700 touch-manipulation ${visible ? 'opacity-100' : 'opacity-0'}`}
-          style={{ 
-            width: '1312px',
-            height: '48px',
-            justifyContent: 'space-between',
-            paddingRight: '16px',
-            paddingLeft: '16px',
-            borderRadius: '8px',
-            background: 'var(--color-surface-surfaceSecondary, #F1F1F1)'
-          }}
+                     style={{ 
+             width: '100%',
+             maxWidth: '1200px',
+             height: '70px',
+             justifyContent: 'space-between',
+             paddingRight: '16px',
+             paddingLeft: '16px',
+             borderRadius: '8px',
+             background: 'var(--Surface-Color-surface-white, #F1F1F1)'
+           }}
         >
           <Image
             src="/icons/logo.png"
@@ -145,7 +137,7 @@ export default function Header() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative group transition-colors duration-300 overflow-hidden ${link.active ? 'nav-link-active' : 'hover:text-orange-500'}`}
+                className={`relative group transition-colors duration-300 overflow-hidden ${link.active ? '' : 'hover:text-orange-500'}`}
                 style={{ 
                   zIndex: 1, 
                   display: 'inline-block',
@@ -159,15 +151,34 @@ export default function Header() {
                   lineHeight: '24px',
                   letterSpacing: '0%',
                   textAlign: 'center',
-                  background: link.active ? 'var(--color-text-textPrimary, #0A0A0A)' : 'transparent',
-                  color: link.active ? 'white' : 'var(--color-text-textPrimary, #0A0A0A)',
+                  background: 'transparent',
+                  color: link.active ? '#F97C04' : '#000000',
                   borderRadius: '4px',
                   padding: '0',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
+                onMouseEnter={(e) => {
+                  if (!link.active) {
+                    e.currentTarget.style.color = '#F97C04';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!link.active) {
+                    e.currentTarget.style.color = '#000000';
+                  }
+                }}
               >
                 {link.label}
+                                 {/* Hover underline effect */}
+                 <span 
+                   className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-orange-500 nav-link-underline"
+                   style={{
+                     backgroundColor: '#F97C04',
+                     height: '2px',
+                     '--text-width': `${link.label.length * 8}px`
+                   } as React.CSSProperties & { '--text-width': string }}
+                 />
               </a>
             ))}
           </nav>
@@ -262,16 +273,16 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-2 overflow-hidden mobile-menu relative z-50" style={{ 
-            background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
-            borderRadius: '8px'
-          }}>
+                     <div className="lg:hidden mt-2 overflow-hidden mobile-menu relative z-50" style={{ 
+             background: 'var(--Surface-Color-surface-white, #F1F1F1)',
+             borderRadius: '8px'
+           }}>
             <nav className="py-4">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className={`block px-6 py-3 text-base font-medium transition-colors mobile-nav-link ${
+                  className={`block px-6 py-3 text-base font-medium transition-colors mobile-nav-link relative group ${
                     link.active 
                       ? 'bg-orange-500 text-white' 
                       : 'text-gray-900'
@@ -279,6 +290,17 @@ export default function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
+                                     {/* Mobile hover underline effect */}
+                   {!link.active && (
+                     <span 
+                       className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-orange-500 nav-link-underline"
+                       style={{
+                         backgroundColor: '#F97C04',
+                         height: '2px',
+                         '--text-width': `${link.label.length * 8}px`
+                       } as React.CSSProperties & { '--text-width': string }}
+                     />
+                   )}
                 </a>
               ))}
             </nav>

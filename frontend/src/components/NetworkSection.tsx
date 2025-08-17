@@ -1,73 +1,62 @@
 import Image from "next/image";
+import { Montserrat, DM_Sans } from "next/font/google";
 
-export default function NetworkSection() {
-  const pattern = [
-    ["black", "white", "black", "black", "white", "black", "white"], // Row 1
-    ["white", "black", "white", "logo-merged", "white", "black", "white"], // Row 2
-    ["white", "black", "white", "skip", "white", "black", "white"], // Row 3
-    ["black", "white", "black", "black", "white", "black", "white"], // Row 4
-  ];
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["800"], // ExtraBold
+});
 
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400"], // Regular
+});
+
+export default function LearnersSection() {
   return (
-    <section className="bg-[#EAEAEA] py-12 overflow-hidden">
+    <section className="bg-white py-12 flex flex-col items-center">
       {/* Heading */}
-      <div className="text-center mb-8 px-4 max-w-[1312px] mx-auto">
-        <h2 className="font-black leading-[14px] tracking-[0] font-extrabold text-[16px] font-Montserrat text-[#005451] mb-[32px]">
-          Our Network Of Influence
-        </h2>
+      <h2
+        className={`${montserrat.className} text-[32px] font-extrabold leading-[38px] text-[#005451] text-center max-w-[1279px]`}
+      >
+        Our Learners Are Powering Governance & Campaigns Nationwide
+      </h2>
 
-        <p className="mt-2 text-[13px] font-DMsans leading-[12px] tracking-[0] mx-auto">
-          We’re proud to work with a trusted network of political leaders,
-          institutions, and policy organizations — connecting you to the people
-          and places where change happens.
-        </p>
+      {/* Paragraph */}
+      <p
+        className={`${dmSans.className} mt-[32px] text-[16px] font-normal leading-[20px] text-[#0A0A0A] text-center max-w-[1279px] px-4`}
+      >
+        With top peers, field mentors, and live political projects, they now
+        work in government offices, think tanks, and leading political
+        consultancies.
+      </p>
+
+      {/* Desktop Image */}
+      <div className="mt-8 hidden md:flex justify-center w-full">
+        <div className="relative w-[1279px] h-[531px]">
+          <Image
+            src="/images/learners-network-desktop.png"
+            alt="Learners Network Desktop"
+            fill
+            className="object-cover rounded-lg"
+            priority
+          />
+        </div>
       </div>
 
-      {/* Grid wrapper with clipped edges */}
-      <div className="mx-auto overflow-hidden px-4 sm:px-6 md:px-8">
-        <div
-          className="grid justify-center"
-          style={{
-            gridTemplateColumns: "repeat(7, minmax(100px, 200px))",
-            gridAutoRows: "76px",
-            gap: "32px",
-          }}
-        >
-          {pattern.flat().map((type, i) => {
-            if (type === "skip") return null;
-
-            return (
-              <div
-                key={i}
-                className="flex items-center justify-center border border-[#1A1A1A] rounded-[8px]"
-                style={{
-                  backgroundColor:
-                    type === "black"
-                      ? "#000"
-                      : type === "white"
-                      ? "#F1F1F1"
-                      : "transparent",
-                  gridRow: type === "logo-merged" ? "span 2" : "auto",
-                  height: type === "logo-merged" ? "200px" : undefined,
-                }}
-              >
-                <div className="flex justify-center items-center">
-                {type === "logo-merged" && (
-                  <Image
-                    src="/icons/logomid.png"
-                    alt="Building Bharat"
-                    width={200}
-                    height={200}
-                    className="object-contain  shadow-none border-none"
-                    priority
-                  />
-                )}
-                </div>
-              </div>
-            );
-          })}
+      {/* Mobile Image */}
+      <div className="mt-8 flex md:hidden justify-center w-full">
+        <div className="relative w-[440px] h-[531px]">
+          <Image
+            src="/images/learners-network-mobile.png"
+            alt="Learners Network Mobile"
+            fill
+            className="object-cover rounded-lg"
+            priority
+          />
         </div>
       </div>
     </section>
   );
 }
+
+

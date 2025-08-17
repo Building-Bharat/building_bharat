@@ -1,58 +1,63 @@
 "use client";
 
+import React from 'react';
 import AnimatedStates from './AnimatedStates';
-import { useState, useEffect } from 'react';
 
 export default function HeroSection() {
-  const [showAnimation, setShowAnimation] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowAnimation(true), 2000); // 2s delay
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: 'var(--color-surface-surfacePrimary, #E5E5E5)' }}>
-      <div className="container mx-auto px-4 md:px-8 lg:px-11 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
-        {/* Left Content */}
-        <div className="flex-1 max-w-2xl text-center lg:text-left">
-          <h1 
-            className="mb-4 md:mb-8"
-            style={{
-              width: '730px',
-              height: '96px',
-              opacity: 1,
-              fontFamily: 'Montserrat',
-              fontWeight: 800,
-              fontStyle: 'normal',
-              fontSize: '32px',
-              lineHeight: '48px',
-              letterSpacing: '0%',
-              textTransform: 'capitalize',
-              color: 'var(--color-text-textBrand, #004644)'
-            }}
-          >
-            Crack Political and Policies Roles with Ease
-          </h1>
-          <p 
-            className="mb-8 md:mb-12 mx-auto lg:mx-0"
-            style={{
-              width: '730px',
-              height: '48px',
-              opacity: 1,
-              fontFamily: 'DM Sans',
-              fontWeight: 400,
-              fontStyle: 'normal',
-              fontSize: '16px',
-              lineHeight: '24px',
-              letterSpacing: '0%',
-              color: 'var(--color-text-textPrimary, #0A0A0A)'
-            }}
-          >
-            We combine a practical curriculum, expert mentorship, and a real-world learning path to help you build confidence and competence in political strategy.
-          </p>
+         <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
+       <div className="container mx-auto px-4 md:px-8 lg:px-11 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+         {/* Left Content */}
+         <div className="flex-1 text-center lg:text-left" style={{ width: '100%', maxWidth: '544px' }}>
+          <div style={{ marginBottom: '32px' }}>
+                         <h1 
+               className="mb-4 md:mb-8 text-lg sm:text-xl md:text-2xl lg:text-4xl responsive-heading"
+               style={{
+                 width: '100%',
+                 maxWidth: '544px',
+                 height: 'auto',
+                 opacity: 1,
+                 fontFamily: 'Montserrat',
+                 fontWeight: 800,
+                 fontStyle: 'normal',
+                 fontSize: '32px',
+                 lineHeight: '48px',
+                 letterSpacing: '0%',
+                 textTransform: 'capitalize',
+                 color: '#005451',
+                 textAlign: 'left'
+               }}
+             >
+               Crack Political and Policies<br />
+               Roles with Ease
+             </h1>
+          </div>
+          
+          <div style={{ marginBottom: '32px' }}>
+                         <p 
+               className="mb-8 md:mb-12 mx-auto lg:mx-0 text-xs sm:text-sm md:text-base lg:text-base responsive-paragraph"
+               style={{
+                 width: '100%',
+                 maxWidth: '544px',
+                 height: 'auto',
+                 opacity: 1,
+                 fontFamily: 'DM Sans',
+                 fontWeight: 400,
+                 fontStyle: 'normal',
+                 fontSize: '16px',
+                 lineHeight: '24px',
+                 letterSpacing: '0%',
+                 color: '#0A0A0A',
+                 textAlign: 'left'
+               }}
+             >
+               We combine a practical curriculum, expert mentorship, and a real-world learning path to help you build confidence and competence in political strategy.
+             </p>
+          </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center lg:justify-start">
+          {/* Buttons Container - Center on mobile, left on desktop */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start button-container">
+            {/* Enroll Now Button */}
             <button 
               className="w-full sm:w-auto transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
               style={{
@@ -65,7 +70,7 @@ export default function HeroSection() {
                 gap: '0',
                 opacity: 1,
                 borderRadius: '8px',
-                background: 'var(--color-surface-surfaceBrand, #F97C04)',
+                background: '#F97C04',
                 border: 'none',
                 cursor: 'pointer',
                 display: 'flex',
@@ -74,14 +79,12 @@ export default function HeroSection() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderRadius = '0px';
-                e.currentTarget.style.border = '2px solid var(--color-text-textInvert, #F1F1F1)';
                 e.currentTarget.querySelector('svg')!.style.opacity = '1';
                 e.currentTarget.querySelector('svg')!.style.transform = 'translateX(0px)';
                 e.currentTarget.querySelector('span')!.style.transform = 'translateX(8px)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderRadius = '8px';
-                e.currentTarget.style.border = 'none';
                 e.currentTarget.querySelector('svg')!.style.opacity = '0';
                 e.currentTarget.querySelector('svg')!.style.transform = 'translateX(-8px)';
                 e.currentTarget.querySelector('span')!.style.transform = 'translateX(0px)';
@@ -96,7 +99,7 @@ export default function HeroSection() {
                 style={{
                   width: '24px',
                   height: '24px',
-                  color: 'var(--color-text-textInvert, #F1F1F1)',
+                  color: '#0A0A0A',
                   transition: 'all 0.3s ease-in-out',
                   marginRight: '8px',
                   opacity: '0',
@@ -124,7 +127,7 @@ export default function HeroSection() {
                 lineHeight: '24px',
                 letterSpacing: '0%',
                 textAlign: 'center',
-                color: 'var(--color-text-textInvert, #F1F1F1)',
+                color: '#0A0A0A',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.3s ease-in-out',
                 transform: 'translateX(0px)',
@@ -134,8 +137,10 @@ export default function HeroSection() {
                 Enroll Now
               </span>
             </button>
-            <button
-              className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105"
+
+            {/* Start Learning For Free Button */}
+            <button 
+              className="w-full sm:w-auto transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
               style={{
                 width: '239px',
                 height: '48px',
@@ -147,7 +152,7 @@ export default function HeroSection() {
                 opacity: 1,
                 borderRadius: '8px',
                 borderWidth: '1px',
-                background: 'var(--color-surface-surfaceSecondary, #F1F1F1)',
+                background: 'white',
                 border: '1px solid #F97C04',
                 cursor: 'pointer',
                 display: 'flex',
@@ -174,9 +179,9 @@ export default function HeroSection() {
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
                 style={{
-                  width: '24px',
-                  height: '24px',
-                  color: 'var(--color-border-borderBrand, #F97C04)',
+                  width: '20px',
+                  height: '20px',
+                  color: '#F97C04',
                   transition: 'all 0.3s ease-in-out',
                   marginRight: '8px',
                   opacity: '0',
@@ -192,62 +197,144 @@ export default function HeroSection() {
                   d="M13 7l5 5m0 0l-5 5m5-5H6"
                 />
               </svg>
-              <span style={{
-                width: 'auto',
-                minWidth: '175px',
-                height: '24px',
-                opacity: 1,
-                fontFamily: 'DM Sans',
-                fontWeight: '600',
-                fontStyle: 'normal',
-                fontSize: '16px',
-                lineHeight: '24px',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: 'var(--color-text-textbrandsecondary, #F97C04)',
-                whiteSpace: 'nowrap',
-                transition: 'all 0.3s ease-in-out',
-                transform: 'translateX(0px)',
-                position: 'relative',
-                zIndex: 1
-              }}>
-                Start Learning For Free
-              </span>
+                                                                                                                       <span style={{
+                   transition: 'all 0.3s ease-in-out',
+                   transform: 'translateX(0px)',
+                   position: 'relative',
+                   zIndex: 1,
+                   color: '#F97C04',
+                   fontWeight: '500'
+                 }}>
+                   Start Learning For Free
+                 </span>
             </button>
           </div>
         </div>
 
-        {/* Right Content - Animated States (Desktop only) */}
-        <div className="hidden lg:flex flex-1 items-center justify-center max-w-lg relative h-[400px]">
-          {/* Original content fades out */}
-          <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${showAnimation ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-            <div className="text-center">
-              <div className="text-8xl font-normal text-teal-900 leading-tight">
-                Building
-              </div>
-              <div className="text-8xl font-bold text-orange-500 leading-tight">
-                BHARAT
-              </div>
-            </div>
-          </div>
-          {/* Animated States fades in */}
-          <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${showAnimation ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-            <AnimatedStates />
-          </div>
-        </div>
-
-        {/* Mobile/Tablet Hero Text (Static) */}
-        <div className="lg:hidden flex-1 items-center justify-center max-w-lg relative h-[200px]">
-          <div className="text-center">
-            <div className="text-4xl font-normal text-teal-900 leading-tight">
-              Building
-            </div>
-            <div className="text-4xl font-bold text-orange-500 leading-tight">
-              BHARAT
-            </div>
-          </div>
-        </div>
+                 {/* Right Content - Always Above on Mobile */}
+         <div className="w-full lg:w-auto lg:flex-1 flex items-center justify-center order-first lg:order-last">
+           <div className="relative w-full h-full flex items-center justify-center">
+             {/* Animated States Component */}
+             <AnimatedStates />
+           </div>
+         </div>
       </div>
+
+             {/* CSS for responsive text */}
+       <style jsx>{`
+         /* Mobile styles (up to 639px) - Single line heading with larger font */
+         @media (max-width: 639px) {
+           .responsive-heading {
+             width: 100% !important;
+             max-width: 100% !important;
+             font-size: 18px !important;
+             line-height: 22px !important;
+             text-align: center !important;
+             padding: 0 !important;
+             white-space: nowrap !important;
+             overflow: hidden !important;
+             text-overflow: ellipsis !important;
+             word-wrap: normal !important;
+             hyphens: none !important;
+           }
+
+           .responsive-paragraph {
+             width: 100% !important;
+             max-width: 100% !important;
+             font-size: 14px !important;
+             line-height: 20px !important;
+             text-align: center !important;
+             padding: 0 !important;
+             overflow: visible !important;
+           }
+
+           /* Make buttons full width without extra padding */
+           .button-container {
+             padding: 0 !important;
+             width: 100% !important;
+           }
+           
+           .button-container button {
+             width: 100% !important;
+             min-width: 100% !important;
+             max-width: 100% !important;
+           }
+         }
+
+         /* Extra small screens */
+         @media (max-width: 320px) {
+           .responsive-heading {
+             font-size: 16px !important;
+             line-height: 20px !important;
+             padding: 0 !important;
+           }
+         }
+
+         /* Small mobile screens with better fit */
+         @media (min-width: 375px) and (max-width: 639px) {
+           .responsive-heading {
+             font-size: 20px !important;
+             line-height: 24px !important;
+           }
+         }
+
+         /* Tablet styles (640px to 1023px) - Responsive widths */
+         @media (min-width: 640px) and (max-width: 1023px) {
+           .responsive-heading {
+             width: 100% !important;
+             max-width: 450px !important;
+             font-size: 28px !important;
+             line-height: 40px !important;
+             text-align: left !important;
+             padding: 0 !important;
+             margin: 0 !important;
+           }
+           
+           .responsive-paragraph {
+             width: 100% !important;
+             max-width: 450px !important;
+             font-size: 15px !important;
+             line-height: 22px !important;
+             text-align: left !important;
+             padding: 0 !important;
+             margin: 0 !important;
+           }
+
+           /* Tablet button styling - left aligned like desktop */
+           .button-container {
+             padding: 0 !important;
+             justify-content: flex-start !important;
+             align-items: flex-start !important;
+           }
+           
+           .button-container button {
+             width: auto !important;
+             min-width: auto !important;
+             max-width: none !important;
+           }
+         }
+
+         /* Desktop styles (1024px and above) - Responsive with max constraint */
+         @media (min-width: 1024px) {
+           .responsive-heading {
+             width: 100% !important;
+             max-width: 544px !important;
+             font-size: 32px !important;
+             line-height: 48px !important;
+             text-align: left !important;
+             padding: 0 !important;
+           }
+           
+           .responsive-paragraph {
+             width: 100% !important;
+             max-width: 544px !important;
+             font-size: 16px !important;
+             line-height: 24px !important;
+             text-align: left !important;
+             padding: 0 !important;
+           }
+         }
+       `}</style>
     </section>
   );
 }
