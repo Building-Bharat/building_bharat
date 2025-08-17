@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function StoriesThatInspire() {
   return (
-    <section className="px-4 sm:px-6 md:px-8" style={{ background: '#F1F1F1', width: 'auto', height: 'auto', minHeight: '578px', margin: '0 auto' }}>
+    <section className="px-4 sm:px-6 md:px-8" style={{ background: 'var(--Surface-Color-surface-grey, #E5E7EA)', width: 'auto', height: 'auto', minHeight: '578px', margin: '0 auto' }}>
       <div className="container mx-auto text-center py-8 sm:py-12 md:py-16" style={{ maxWidth: '1152px', height: 'auto', minHeight: '100%' }}>
         {/* Title */}
         <h2 

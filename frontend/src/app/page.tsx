@@ -9,6 +9,7 @@ import ImpactMatrix from '@/components/ImpactMatrix';
 import InitiativeSection from '@/components/InitiativeFor';
 import NetworkSection from '@/components/NetworkSection';
 import StoriesThatInspire from '@/components/StoriesThatInspire';
+import HaveQuestionsLetsTalk from '@/components/HaveQuestionsLetsTalk';
 import SuccessGuide from '@/components/successGuide';
 
 export default function Home() {
@@ -19,9 +20,10 @@ export default function Home() {
       <InitiativeSection/>
       <CareerSection/>
       <BharatMatters/>
-      <StoriesThatInspire/>
-      <ImpactMatrix/>
-      <NetworkSection/>
+                    <StoriesThatInspire/>
+              <ImpactMatrix/>
+              <HaveQuestionsLetsTalk/>
+              <NetworkSection/>
       <SuccessGuide/>
       <Footer/>
     </div>
