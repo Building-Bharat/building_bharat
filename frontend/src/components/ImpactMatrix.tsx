@@ -68,8 +68,8 @@ const ImpactMatrix: NextPage = () => {
           src="/images/indiaVectorSmall.png"
           alt="India Vector Small"
           width={500}
-          height={800}
-          style={{ width: "100%", height: "auto", opacity: 1.0 }}
+          height={480}
+          style={{ opacity: 0.8 }}
           priority
         />
       </div>
