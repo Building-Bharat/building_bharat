@@ -77,19 +77,19 @@ const ImpactMatrix: NextPage = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-16 py-12 md:py-16 flex flex-col items-center gap-12 mb-[16px] sm:mb-[16px]">
         {/* Heading */}
-        <div className="flex flex-col items-center text-center gap-4 max-w-[600px] w-full px-4">
-          <h2 className="text-xl sm:text-2xl md:text-[23px] font-extrabold leading-7 sm:leading-8 font-[Montserrat]">
+        <div className="flex flex-col items-center text-center gap-4 max-w-[600px] w-full">
+          <h2 className="text-[23px] font-extrabold leading-8 font-[Montserrat]">
             Building Bharat Till Date
           </h2>
           <p
-            className={`${dmSans.className} text-xs sm:text-sm md:text-[13px] leading-5 sm:leading-6 text-[#F1F1F1] font-DMsans px-2`}
+            className={`${dmSans.className} text-[13px] leading-6 text-[#F1F1F1] font-DMsans`}
           >
             Our journey in shaping India's political and policy landscape
           </p>
         </div>
 
         {/* Stats */}
-        <div className="w-full max-w-[1312px] flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-[34px] md:gap-x-[124px] gap-y-4 sm:gap-y-6 mt-[8px] px-4">
+        <div className="w-full max-w-[1312px] flex flex-wrap items-center justify-center gap-x-[34px] sm:gap-x-[124px] gap-y-6 mt-[8px]">
           {[
             { end: 1000, label: "Students Trained" },
             { end: 200, label: "Successful Placements" },
@@ -98,13 +98,13 @@ const ImpactMatrix: NextPage = () => {
           ].map(({ end, label }, i) => (
             <div
               key={i}
-              className="flex flex-col items-center sm:items-center justify-center gap-1 w-[120px] sm:w-[140px] md:w-[200px] text-center"
+              className="flex flex-col items-center sm:items-center justify-center gap-1 w-[140px] sm:w-[200px] text-[20px] font-weight:600 font-[Montserrat]"
             >
-              <span className="font-heading font-black text-lg sm:text-xl md:text-base text-[#F1F1F1]">
+              <span className="font-heading font-black text-base text-[#F1F1F1]">
                 <CountUpDisplay end={end} />+
               </span>
               <span
-                className={`${dmSans.className} text-xs sm:text-sm md:text-[13px] text-[#F1F1F1] text-center leading-tight`}
+                className={`${dmSans.className} text-[13px] text-[#F1F1F1]`}
               >
                 {label}
               </span>
@@ -113,7 +113,7 @@ const ImpactMatrix: NextPage = () => {
         </div>
 
         {/* Cards */}
-        <div className="w-full max-w-[1312px] flex flex-col sm:flex-row flex-wrap justify-center items-center gap-6 sm:gap-8 px-4 sm:px-6">
+        <div className="w-full max-w-[1312px] flex flex-col sm:flex-row flex-wrap justify-center items-center gap-8 px-2 sm:px-6  ">
           {[
             {
               icon: "/images/Fellowship.png",
@@ -133,27 +133,27 @@ const ImpactMatrix: NextPage = () => {
           ].map((card, i) => (
             <div
               key={i}
-              className="relative flex flex-col items-center w-full sm:w-[360px] max-w-[360px]"
+              className="relative flex flex-col items-center w-[360px]"
             >
               {/* Icon above card */}
-              <div className="absolute -top-6 sm:-top-8 w-[48px] h-[48px] sm:w-[64px] sm:h-[64px] p-2 bg-[#F1F1F1] rounded-full shadow-[0px_4px_4px_rgba(150,150,150,0.3)] flex items-center justify-center z-10 mt-[24px] sm:mt-[32px]">
+              <div className="absolute -top-8 w-[64px] h-[64px] p-2 bg-[#F1F1F1] rounded-full shadow-[0px_4px_4px_rgba(150,150,150,0.3)] flex items-center justify-center z-10 mt-[32px]">
                 <Image
                   src={card.icon}
                   alt={card.title}
                   width={29}
                   height={24}
-                  className="object-contain w-5 h-5 sm:w-7 sm:h-6"
+                  className="object-contain"
                 />
               </div>
 
               {/* Card body */}
               <div
-                className={`mt-6 sm:mt-8 flex flex-col items-center text-center pt-6 sm:pt-[32px] pb-6 sm:pb-[32px] px-4 sm:px-[16px] gap-3 sm:gap-4 w-full sm:w-[360px] h-auto sm:h-[200px] min-h-[180px] sm:min-h-[200px] border border-[#F1F1F1] rounded-[16px] shadow-[0px_4px_4px_rgba(150,150,150,0.3)] bg-transparent ${dmSans.className}`}
+                className={`mt-8 flex flex-col items-center text-center pt-[32px] pb-[32px] px-[16px] gap-4 w-[360px] h-[200px] border border-[#F1F1F1] rounded-[16px] shadow-[0px_4px_4px_rgba(150,150,150,0.3)] bg-transparent ${dmSans.className}`}
               >
-                <h3 className="font-bold font-[Montserrat] text-[#FFFFFF] text-sm sm:text-base md:text-[16px] leading-[18px] sm:leading-[20px] mt-[20px] sm:mt-[25px]">
+                <h3 className="font-bold font-[Montserrat] text-[#FFFFFF] text-[16px] leading-[20px] mt-[25px]">
                   {card.title}
                 </h3>
-                <p className="text-[#F1F1F1] text-xs sm:text-sm md:text-[13px] leading-[18px] sm:leading-[20px] mt-2 sm:mt-[6px]">
+                <p className="text-[#F1F1F1] text-[13px] leading-[20px] mt-[6px]">
                   {card.text}
                 </p>
               </div>
