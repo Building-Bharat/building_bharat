@@ -11,6 +11,34 @@ const dmSans = DM_Sans({
   weight: ["400"], // Regular
 });
 
+// List of logos
+const logosRow1 = [
+  "/images/indfound.png",
+  "/images/cpr.png",
+  "/images/nitiayog.png",
+  "/images/vidhi.png",
+  "/images/orf.png",
+];
+
+const logosRow2 = [
+  "/images/ipac.png",
+  "/images/jansuraj.png",
+  "/images/filings.png",
+  "/images/prs.png",
+  "/images/mukherjee.png",
+  "/images/gandhi.png",
+];
+
+const logosBehind = [
+  "/images/book.png",
+  "/images/jarvis.png",
+  "/images/teach.png",
+  "/images/varahe.png",
+  "/images/showtime.png",
+];
+
+const buildingBharatLogo = "/images/bharat.png";
+
 export default function LearnersSection() {
   return (
     <section className="bg-white py-12 flex flex-col items-center">
@@ -30,33 +58,52 @@ export default function LearnersSection() {
         consultancies.
       </p>
 
-      {/* Desktop Image */}
-      <div className="mt-8 hidden md:flex justify-center w-full">
-        <div className="relative w-[1279px] h-[531px]">
+      {/* Logos Section */}
+      <div className="mt-12 w-full flex flex-col gap-8 relative overflow-hidden">
+        {/* Row 1 */}
+        <div className="flex gap-[64px] animate-marquee whitespace-nowrap">
+          {[...logosRow1, ...logosRow1].map((logo, idx) => (
+            <div key={idx} className="inline-block flex-shrink-0">
+              <Image src={logo} alt={`Logo ${idx}`} width={120} height={60} />
+            </div>
+          ))}
+        </div>
+
+        {/* Center Logo with row behind */}
+        <div className="relative flex justify-center mt-4">
+          {/* Row Behind */}
+          <div className="absolute inset-0 flex gap-[16px] animate-marquee opacity-30">
+            {[...logosBehind, ...logosBehind].map((logo, idx) => (
+              <div key={idx} className="inline-block flex-shrink-0">
+                <Image
+                  src={logo}
+                  alt={`Logo Behind ${idx}`}
+                  width={120}
+                  height={60}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Building Bharat Logo */}
           <Image
-            src="/images/learners-network-desktop.png"
-            alt="Learners Network Desktop"
-            fill
-            className="object-cover rounded-lg"
-            priority
+            src={buildingBharatLogo}
+            alt="Building Bharat"
+            width={160}
+            height={80}
+            className="relative z-10"
           />
         </div>
-      </div>
 
-      {/* Mobile Image */}
-      <div className="mt-8 flex md:hidden justify-center w-full">
-        <div className="relative w-[440px] h-[531px]">
-          <Image
-            src="/images/learners-network-mobile.png"
-            alt="Learners Network Mobile"
-            fill
-            className="object-cover rounded-lg"
-            priority
-          />
+        {/* Row 2 */}
+        <div className="flex gap-[16px] animate-marquee-reverse whitespace-nowrap mt-4">
+          {[...logosRow2, ...logosRow2].map((logo, idx) => (
+            <div key={idx} className="inline-block flex-shrink-0">
+              <Image src={logo} alt={`Logo ${idx}`} width={120} height={60} />
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
-
-
