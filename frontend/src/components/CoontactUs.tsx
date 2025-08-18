@@ -5,9 +5,9 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A0A0A] text-white w-full h-[380px] overflow-y-hidden border border-[#F1F1F14D]">
+    <footer className="bg-[#0A0A0A] text-white w-full h-full min-h-[380px] overflow-y-hidden border border-[#F1F1F14D]">
       {/* Top Section */}
-      <div className="max-w-[1440px] mx-auto flex flex-wrap md:flex-nowrap gap-[110px] px-6 sm:px-0 py-16">
+      <div className="max-w-[1440px] mx-auto flex flex-wrap md:flex-nowrap gap-[32px] sm:gap-[110px] px-4 sm:px-6 sm:px-0 py-10">
         {/* Building Bharat */}
         <div className="w-full md:w-[365px] h-auto sm:h-[220px] flex flex-col gap-4 p-4 items-start">
           <h3 className="font-bold text-[20px] leading-[28px] ml-[0px] sm:ml-[5px] mb-[16px] font-Montserrat font-weight:700">

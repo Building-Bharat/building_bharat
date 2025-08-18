@@ -1,8 +1,22 @@
 // app/bharatmatters/page.jsx
+"use client";
+
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
+import { motion } from "framer-motion";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
+
+// Animation variants
+const fadeInLeft = {
+  hidden: { opacity: 0, x: -100 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 100 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+};
 
 export default function BharatMatters() {
   return (
@@ -11,7 +25,7 @@ export default function BharatMatters() {
     >
       {/* Heading */}
       <div className="gap-4 w-full max-w-[1480px] h-auto flex justify-center items-center px-4">
-        <h2 className="font-Montserrat text-[#004644] leading-[1.2] text-[18px] md:text-[32px] font-extrabold text-center mt-[24px]">
+        <h2 className="font-Montserrat text-[#004644] leading-[1.2] text-[18px] md:text-[32px] font-extrabold text-center mt-[32px] sm:mt-[60px]">
           Why Building Bharat Is Different!
         </h2>
       </div>
@@ -24,46 +38,70 @@ export default function BharatMatters() {
         </p>
       </div>
 
-      {/* Section 1 */}
+      {/* Section 1 (Image Right) */}
       <section className="w-full max-w-[1150px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-1 md:gap-[16px] items-center">
-        <div className="text-center md:text-left mb-[74px] order-2 sm:order-1">
-          <h2 className="font-Montserrat font-bold sm:font-bold font-weight:700 text-[16px] sm:text-[20px] leading-[24px] sm:leading-[28px] text-[#0A0A0A] mb-[16px]">
-            Live Sessions by the best in their domain
-          </h2>
-          <p className="font-DMsans text-[13px] md:text-[16px] leading-[1.5] text-[#0A0A0A] max-w-[484px] mx-auto md:mx-0 mt-2 sm:mt-6">
-           Gain firsthand insight into how decisions are made, policies are shaped, and campaigns are led. These sessions help you think like a strategist, act like a policymaker, and grow into a leader.
-          </p>
-          <ul className="list-disc pl-6 mt-4 sm:mt-8 space-y-4 sm:space-y-6 mx-auto md:mx-0 text-left">
-            <li className="font-DMsans text-[13px] md:text-[16px]">
-             Weekly sessions with consultants and ex-IAS officers
-            </li>
-            <li className="font-DMsans text-[13px] md:text-[16px] ">
-            Live Q&As with former parliamentarians 
-            </li>
-            <li className="font-DMsans text-[13px] md:text-[16px]">
-              War-room simulations, crisis drills & campaign strategy games
-            </li>
-          </ul>
-        </div>
-        <div className="w-full flex items-center justify-center order-1 sm:order-2">
+        <motion.div
+          variants={fadeInRight}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="w-full flex items-center justify-center order-1 sm:order-2"
+        >
           <img
             src="/images/left.png"
             className="w-[544px] h-[350px] object-contain rounded-lg lg:w-[544px] lg:h-[524.3077px] lg:p-4 sm:w-[424px] sm:h-[392.9231px] sm:p-2"
             alt="Live Sessions"
           />
-        </div>
+        </motion.div>
+        <motion.div
+          variants={fadeInLeft}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="text-center md:text-left mb-[74px] order-2 sm:order-1"
+        >
+          <h2 className="font-Montserrat font-bold sm:font-bold font-weight:700 text-[16px] sm:text-[20px] leading-[24px] sm:leading-[28px] text-[#0A0A0A] mb-[16px]">
+            Live Sessions by the best in their domain
+          </h2>
+          <p className="font-DMsans text-[13px] md:text-[16px] leading-[1.5] text-[#0A0A0A] max-w-[484px] mx-auto md:mx-0 mt-2 sm:mt-6">
+            Gain firsthand insight into how decisions are made, policies are shaped, and campaigns are led. These sessions help you think like a strategist, act like a policymaker, and grow into a leader.
+          </p>
+          <ul className="list-disc pl-6 mt-4 sm:mt-8 space-y-4 sm:space-y-6 mx-auto md:mx-0 text-left">
+            <li className="font-DMsans text-[13px] md:text-[16px]">
+              Weekly sessions with consultants and ex-IAS officers
+            </li>
+            <li className="font-DMsans text-[13px] md:text-[16px] ">
+              Live Q&As with former parliamentarians
+            </li>
+            <li className="font-DMsans text-[13px] md:text-[16px]">
+              War-room simulations, crisis drills & campaign strategy games
+            </li>
+          </ul>
+        </motion.div>
       </section>
 
-      {/* Section 2 */}
+      {/* Section 2 (Image Left) */}
       <section className="w-full max-w-[1312px] mx-auto px-3 md:px-3 py-2 md:py-2 grid md:grid-cols-2 gap-8 items-center ">
-        <div className="order-1 sm:order-2 flex justify-center mt-2 md:mt-0">
+        <motion.div
+          variants={fadeInLeft}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="order-1 sm:order-2 flex justify-center mt-2 md:mt-0"
+        >
           <img
             src="/images/left1.png"
             className="w-[544px] h-[350px] object-contain rounded-lg lg:w-[544px] lg:h-[524.3077px] lg:p-4 sm:w-[424px] sm:h-[392.9231px] sm:p-2"
             alt="Internships"
           />
-        </div>
-        <div className="text-center md:text-left order-1 sm:order-2">
+        </motion.div>
+        <motion.div
+          variants={fadeInRight}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="text-center md:text-left order-1 sm:order-2"
+        >
           <h2 className="font-Montserrat font-bold sm:font-bold font-weight:700 text-[16px] md:text-[20px] sm:leading-[28px] leading-[20px] text-[#0A0A0A] mb-[16px]">
             Internships & Jobs That Matter
           </h2>
@@ -75,74 +113,100 @@ export default function BharatMatters() {
               Partnered job pipelines with 15+ organizations and offices
             </li>
             <li className="font-DMsans text-[13px] md:text-[16px]">
-             Internship & Jobs for top learners via our exclusive portal
+              Internship & Jobs for top learners via our exclusive portal
             </li>
             <li className="font-DMsans text-[13px] md:text-[16px]">
               Post-course career support through alumni network & mentor connects
             </li>
           </ul>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Section 3 */}
+            {/* Section 3 (Image Right) */}
       <section className="w-full max-w-[1150px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-8 md:gap-[32px] items-center">
-        <div className="text-center md:text-left mb-[74px] order-2 sm:order-1">
+        <motion.div
+          variants={fadeInRight}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="w-full flex items-center justify-center order-1 sm:order-2"
+        >
+          <img
+            src="/images/left2.png"
+            className="w-[544px] h-[350px] object-contain rounded-lg lg:w-[544px] lg:h-[524.3077px] lg:p-4 sm:w-[424px] sm:h-[392.9231px] sm:p-2"
+            alt="Portfolio Projects"
+          />
+        </motion.div>
+        <motion.div
+          variants={fadeInLeft}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="text-center md:text-left mb-[74px] order-2 sm:order-1"
+        >
           <h2 className="font-Montserrat font-bold sm:font-bold font-weight:700 text-[16px] md:text-[20px] leading-[20px] sm:leading-[28px] text-[#0A0A0A] mb-[16px]">
-           Build What Actually Gets You Hired
+            Build What Actually Gets You Hired
           </h2>
           <p className="font-DMsans text-[13px] md:text-[16px] leading-[1.5] text-[#0A0A0A] max-w-[484px] mx-auto md:mx-0 mt-2 sm:mt-6">
-           Go beyond generic CV points. Turn every module into a resume-worthy milestone with assignments, and case studies that reflect real industry work
+            Go beyond generic CV points. Turn every module into a resume-worthy milestone with assignments, and case studies that reflect real industry work.
           </p>
           <ul className="list-disc pl-6 mt-4 sm:mt-8 space-y-4 sm:space-y-6 mx-auto md:mx-0 text-left">
             <li className="font-DMsans text-[13px] md:text-[16px]">
-            10+ hands-on assignments across all modules
+              10+ hands-on assignments across all modules
             </li>
             <li className="font-DMsans text-[13px] md:text-[16px] ">
-            Covers 20+ political and policy job roles 
+              Covers 20+ political and policy job roles
             </li>
             <li className="font-DMsans text-[13px] md:text-[16px]">
               Final Capstone project, and portfolio review
             </li>
           </ul>
-        </div>
-        <div className="w-full flex items-center justify-center order-1 sm:order-2">
-          <img
-            src="/images/left2.png"
-            className="w-[544px] h-[350px] object-contain rounded-lg lg:w-[544px] lg:h-[524.3077px] lg:p-4 sm:w-[424px] sm:h-[392.9231px] sm:p-2"
-            alt="Live Sessions"
-          />
-        </div>
+        </motion.div>
       </section>
 
-      {/* Section 4 */}
-       <section className="w-full max-w-[1312px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-8 md:gap-[32px] items-center">
-        <div className="w-full flex items-center justify-center order-1 sm:order-1">
+      {/* Section 4 (Image Left) */}
+      <section className="w-full max-w-[1312px] mx-auto px-4 md:px-3 py-4 md:py-6 grid md:grid-cols-2 gap-8 md:gap-[32px] items-center">
+        <motion.div
+          variants={fadeInLeft}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="w-full flex items-center justify-center order-1 sm:order-1"
+        >
           <img
             src="/images/left3.png"
             className="w-[544px] h-[350px] object-contain rounded-lg lg:w-[544px] lg:h-[524.3077px] lg:p-4 sm:w-[424px] sm:h-[392.9231px] sm:p-2"
-            alt="Live Sessions"
+            alt="Interview Preparation"
           />
-        </div>
-        <div className="text-center md:text-left mb-[74px] order-2 sm:order-2">
+        </motion.div>
+        <motion.div
+          variants={fadeInRight}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="text-center md:text-left mb-[74px] order-2 sm:order-2"
+        >
           <h2 className="font-Montserrat font-bold sm:font-bold font-weight:700 text-[16px] md:text-[20px] leading-[20px] sm:leading-[28px] text-[#0A0A0A] mb-[16px]">
-          Ace the Interview, Land the Role
+            Ace the Interview, Land the Role
           </h2>
           <p className="font-DMsans text-[13px] md:text-[16px] leading-[1.5] text-[#0A0A0A] max-w-[484px] mx-auto md:mx-0 mt-2 sm:mt-6">
-           Get hands-on prep with mock interviews and 1000+ real interview questions used by top consulting firms and policy institutions.
+            Get hands-on prep with mock interviews and 1000+ real interview questions used by top consulting firms and policy institutions.
           </p>
           <ul className="list-disc pl-6 mt-4 sm:mt-8 space-y-4 sm:space-y-6 mx-auto md:mx-0 text-left">
             <li className="font-DMsans text-[13px] md:text-[16px]">
-           Live resume & mock interview sessions
+              Live resume & mock interview sessions
             </li>
             <li className="font-DMsans text-[13px] md:text-[16px] ">
-           Personalized weekly feedback from our mentors
+              Personalized weekly feedback from our mentors
             </li>
             <li className="font-DMsans text-[13px] md:text-[16px]">
-             Live resume & mock interview sessions
+              Live resume & mock interview sessions
             </li>
           </ul>
-        </div>
+        </motion.div>
       </section>
+
     </main>
   );
 }
+
