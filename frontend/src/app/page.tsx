@@ -14,7 +14,7 @@ import SuccessGuide from '@/components/successGuide';
 
 export default function Home() {
   return (
-    <div className="min-h-screen" style={{ background: '#E5E7EA' }}>
+    <div className="min-h-screen overflow-x-hidden" style={{ background: '#E5E7EA' }}>
       <Header />
       <HeroSection />
       <InitiativeSection/>
