@@ -59,49 +59,77 @@ export default function LearnersSection() {
       </p>
 
       {/* Logos Section */}
-      <div className="mt-12 w-full flex flex-col gap-8 relative overflow-hidden">
+      <div className="mt-12 w-full flex flex-col gap-8 relative">
         {/* Row 1 */}
-        <div className="flex gap-[64px] animate-marquee whitespace-nowrap">
-          {[...logosRow1, ...logosRow1].map((logo, idx) => (
-            <div key={idx} className="inline-block flex-shrink-0">
-              <Image src={logo} alt={`Logo ${idx}`} width={120} height={60} />
-            </div>
-          ))}
+        <div className=" w-full">
+          <div className="animate-marquee">
+            {[...logosRow1, ...logosRow1].map((logo, idx) => (
+              <div
+                key={idx}
+                className="inline-flex border border-[#9EA2AE] items-center justify-center flex-shrink-0 bg-white rounded-lg shadow-sm w-auto h-auto p-2 mx-8"
+              >
+                <Image
+                  src={logo}
+                  alt={`Logo ${idx}`}
+                  width={120}
+                  height={60}
+                  className="object-contain"
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Center Logo with row behind */}
         <div className="relative flex justify-center mt-4">
           {/* Row Behind */}
-          <div className="absolute inset-0 flex gap-[16px] animate-marquee opacity-30">
+          <div className="absolute inset-0 flex gap-[16px] animate-marquee opacity-100">
             {[...logosBehind, ...logosBehind].map((logo, idx) => (
-              <div key={idx} className="inline-block flex-shrink-0">
+              <div
+                key={idx}
+                className="inline-flex items-center border border-[#9EA2AE] justify-center flex-shrink-0 bg-white rounded-lg shadow-sm w-auto h-auto p-2"
+              >
                 <Image
                   src={logo}
                   alt={`Logo Behind ${idx}`}
                   width={120}
                   height={60}
+                  className="object-contain"
                 />
               </div>
             ))}
           </div>
 
           {/* Building Bharat Logo */}
-          <Image
-            src={buildingBharatLogo}
-            alt="Building Bharat"
-            width={160}
-            height={80}
-            className="relative z-10"
-          />
+          <div className="bg-white border border-[#9EA2AE] rounded-xl shadow-md relative z-10 w-[180px] h-[100px] flex items-center justify-center p-3">
+            <Image
+              src={buildingBharatLogo}
+              alt="Building Bharat"
+              width={150}
+              height={150}
+              className="object-contain"
+            />
+          </div>
         </div>
 
         {/* Row 2 */}
-        <div className="flex gap-[16px] animate-marquee-reverse whitespace-nowrap mt-4">
-          {[...logosRow2, ...logosRow2].map((logo, idx) => (
-            <div key={idx} className="inline-block flex-shrink-0">
-              <Image src={logo} alt={`Logo ${idx}`} width={120} height={60} />
-            </div>
-          ))}
+        <div className=" w-full mt-4">
+          <div className="animate-marquee-reverse">
+            {[...logosRow2, ...logosRow2].map((logo, idx) => (
+              <div
+                key={idx}
+                className="inline-flex items-center border border-[#9EA2AE] justify-center flex-shrink-0 bg-white rounded-lg shadow-sm w-auto h-auto p-2 mx-4"
+              >
+                <Image
+                  src={logo}
+                  alt={`Logo ${idx}`}
+                  width={120}
+                  height={60}
+                  className="object-contain"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
