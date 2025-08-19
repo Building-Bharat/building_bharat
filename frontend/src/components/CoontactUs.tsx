@@ -1,22 +1,66 @@
 // components/Footer.tsx
 import Image from "next/image";
 import { Globe } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A0A0A] text-white w-full border border-[#F1F1F14D]">
+    <footer className="bg-[#0A0A0A] text-white w-full max-w-[1521px] h-full min-h-[380px] overflow-y-hidden">
       {/* Top Section */}
-      <div className="max-w-[1440px] mx-auto flex flex-wrap md:flex-nowrap gap-4 px-6 sm:px-12 md:px-16 py-16">
+      <div className="max-w-[1440px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-[60px] lg:gap-[110px] px-4 sm:px-6 lg:px-0 py-10">
         {/* Building Bharat */}
-        <div className="w-full md:w-[426.67px] h-auto flex flex-col gap-4 p-4 items-start">
-          <h3 className="font-semibold text-[20px] leading-[28px] ml-[0px] sm:ml-[5px] mb-[16px] font-Montserrat">
+        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
+          <h3 className="font-bold text-[20px] leading-[28px] ml-[0px] sm:ml-[5px] mb-[16px] font-Montserrat font-weight:700">
             Building Bharat
           </h3>
           <div className="flex gap-7">
-            <Image src="/icons/youtube.png" alt="YouTube" width={40} height={40} className="rounded-full cursor-pointer" />
-            <Image src="/icons/twitter.png" alt="Twitter" width={40} height={40} className="rounded-full cursor-pointer" />
-            <Image src="/icons/instagram.png" alt="Instagram" width={40} height={40} className="rounded-full cursor-pointer" />
-            <Image src="/icons/facebook.png" alt="Facebook" width={40} height={40} className="rounded-full cursor-pointer" />
+            <Link
+              href="https://www.youtube.com/@thebuildingBharat"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/youtube.png"
+                alt="YouTube"
+                width={40}
+                height={40}
+                className="rounded-full cursor-pointer"
+              />
+            </Link>
+            <Link
+              href="https://x.com/building_bharat"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/twitter.png"
+                alt="YouTube"
+                width={40}
+                height={40}
+                className="rounded-full cursor-pointer"
+              />
+            </Link>
+
+            <Link
+              href="https://www.instagram.com/building.bharat/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/instagram.png"
+                alt="YouTube"
+                width={40}
+                height={40}
+                className="rounded-full cursor-pointer"
+              />
+            </Link>
+            <Image
+              src="/icons/facebook.png"
+              alt="Facebook"
+              width={40}
+              height={40}
+              className="rounded-full cursor-pointer"
+            />
           </div>
 
           {/* Cookie + Language */}
@@ -43,36 +87,43 @@ export default function Footer() {
         </div>
 
         {/* Quick Links */}
-        <div className="w-full md:w-[394.67px] h-auto flex flex-col gap-4 p-4 items-start">
-          <h4 className="font-bold text-sm">Quick Links</h4>
+        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
+          <h4 className="font-bold text-[20px] leading-[28px] font-Montserrat font-weight:700 text-[#F1F1F1]">
+            Quick Links
+          </h4>
           {[
             "About Us",
-            "Courses",
             "Workshops",
-            "Careers",
-            "Blog",
+            "Blogs",
             "Privacy Policy",
             "Terms & Conditions",
           ].map((item, i) => (
-            <a key={i} href="#" className="h-[32px] flex items-center justify-center sm:justify-start text-sm hover:text-gray-300 transition-colors">
+            <a
+              key={i}
+              href="#"
+              className="h-[32px] flex items-center font-DMsans font-weight:100 justify-center sm:justify-start text-[14px] leading-[20px] hover:text-gray-300 transition-colors gap-[32px]"
+            >
               {item}
             </a>
           ))}
         </div>
 
         {/* Resources */}
-        <div className="w-full md:w-[394.67px] h-auto flex flex-col gap-4 p-4 items-start">
-          <h4 className="font-bold text-sm">Resources</h4>
-          {Array(5)
-            .fill("Lorem ipsum")
-            .map((item, i) => (
-              <a key={i} href="#" className="h-[32px] flex items-center text-sm">
-                {item}
-              </a>
-            ))}
+        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
+          <h4 className="font-bold text-[20px] leading-[28px] font-Montserrat font-weight:700 text-[#F1F1F1]">
+            Courses
+          </h4>
+          {["Course 1", "Course 2", "Course 3"].map((item, i) => (
+            <a
+              key={i}
+              href="#"
+              className="h-[32px] flex items-center justify-center sm:justify-start text-sm hover:text-gray-300 transition-colors"
+            >
+              {item}
+            </a>
+          ))}
         </div>
       </div>
     </footer>
   );
 }
-

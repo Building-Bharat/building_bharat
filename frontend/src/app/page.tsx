@@ -7,10 +7,10 @@ import CareerSection from '@/components/CarrerSection';
 import Footer from '@/components/CoontactUs';
 import ImpactMatrix from '@/components/ImpactMatrix';
 import InitiativeSection from '@/components/InitiativeFor';
-import NetworkSection from '@/components/NetworkSection';
 import StoriesThatInspire from '@/components/StoriesThatInspire';
 import HaveQuestionsLetsTalk from '@/components/HaveQuestionsLetsTalk';
 import SuccessGuide from '@/components/successGuide';
+import LearnersSection from '@/components/NetworkSection';
 
 export default function Home() {
   return (
@@ -24,6 +24,7 @@ export default function Home() {
     <ImpactMatrix/>
     <NetworkSection/>
     <HaveQuestionsLetsTalk/>
+    <LearnersSection/>
       <SuccessGuide/>
       <Footer/>
     </div>

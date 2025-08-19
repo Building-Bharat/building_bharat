@@ -3,11 +3,11 @@ import { Montserrat, DM_Sans } from "next/font/google";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["800"], // ExtraBold
+  weight: ["700"], // ExtraBold
 });
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["400"], // Regular
+  weight: ["400","300"], // Regular
 });
 
 export default function SuccessGuide() {
@@ -17,7 +17,7 @@ export default function SuccessGuide() {
       <div className="flex-1 flex flex-col gap-10 p-4 w-full md:max-w-[544px] min-h-[400px] md:ml-8 order-2 md:order-1">
         {/* Heading */}
         <h3
-          className={`${montserrat.className} font-extrabold text-[20px] leading-[28px] text-[#F1F1F1]`}
+          className={`${montserrat.className} font-bold text-[16px] sm:text-[20px] font-weight:700 leading-[24px] sm:leading-[28px] text-[#F1F1F1]`}
         >
           Download the Free Political Career Success Guide
         </h3>
@@ -31,7 +31,7 @@ export default function SuccessGuide() {
           ].map((item, i) => (
             <li
               key={i}
-              className={`${dmSans.className} text-[16px] leading-[20px] text-[#F1F1F1] font-normal flex gap-2`}
+              className={`${dmSans.className} text-[16px] leading-[20px] text-[#F1F1F1] font-regular font-weight:400 flex gap-2`}
             >
               <span className="text-[#F9FAFB]">•</span> {item}
             </li>
@@ -39,13 +39,13 @@ export default function SuccessGuide() {
         </ul>
 
         {/* Email Form */}
-<div className="flex flex-nowrap gap-1 w-full max-w-[512px] mt-2">
+<div className="flex flex-col sm:flex-row gap-2 w-full max-w-[512px] mt-2">
   <input
     type="email"
     placeholder="Enter your email address"
-    className="flex-1 h-[52px] rounded-[8px] px-3 py-2 text-sm text-black border border-[#F97C04] focus:outline-none"
+    className=" h-[48px] w-full sm:w-[327px] font-light rounded-[8px] px-3 py-2 font-DMsans font-weight:300 text-[#6D717F] text-[13px] sm:text-[13px] leading-[16px] sm:leading-[20px] border border-[#F97C04] focus:outline-none"
   />
-  <button className="bg-[#F97C04] h-[52px] px-6 rounded-[8px] text-black font-semibold">
+  <button className="bg-[#F97C04] w-full sm:w-[137px] h-[48px] ml-[0px] sm:ml-[24px] px-6 rounded-[8px] text-black font-semibold">
     Submit
   </button>
 </div>
