@@ -14,9 +14,9 @@ const dmSans = DM_Sans({
   weight: ["400"], // Regular
 });
 
-// ✅ Variants for parent containers
+
 const container = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0},
   show: {
     opacity: 1,
     transition: {
@@ -25,7 +25,7 @@ const container = {
   },
 };
 
-// ✅ Variants for each logo
+
 const item = {
   hidden: { opacity: 0, y: 20 },
   show: {
@@ -77,7 +77,7 @@ const buildingBharatLogo = "/images/bharat.png";
 
 export default function LearnersSection() {
   return (
-    <section className="bg-white py-12 flex flex-col items-center">
+    <section className=" py-12 flex flex-col items-center bg-[#E5E7EA]">
       {/* Heading */}
       <h2
         className={`${montserrat.className} text-[16px] sm:text-[32px] font-extrabold leading-[24px] sm:leading-[38px] text-[#005451] text-center max-w-[1279px]`}
@@ -87,11 +87,9 @@ export default function LearnersSection() {
 
       {/* Paragraph */}
       <p
-        className={`${dmSans.className} mt-[32px] text-[16px] font-normal leading-[20px] text-[#0A0A0A] text-center max-w-[1279px] px-4`}
+        className={`${dmSans.className} mt-[10px] sm:mt-[32px] text-[14px] sm:text-[16px] font-normal leading-[20px] text-[#0A0A0A] text-center max-w-[1279px] px-4`}
       >
-        With top peers, field mentors, and live political projects, they now
-        work in government offices, think tanks, and leading political
-        consultancies.
+       With top peers, field mentors, and live political projects, they now work in government offices, think tanks, and leading political consultancies.
       </p>
 
       {/* Logos Section */}
@@ -113,9 +111,10 @@ export default function LearnersSection() {
               <Image
                 src={logo}
                 alt={`Logo ${idx}`}
-                width={120}
-                height={60}
-                className="object-contain"
+                width={0} // let CSS handle sizing
+                height={0}
+                sizes="100vw"
+                className="object-contain w-20 h-10 sm:w-28 sm:h-14 md:w-32 md:h-16"
               />
             </motion.div>
           ))}
@@ -135,7 +134,7 @@ export default function LearnersSection() {
               <motion.div
                 key={idx}
                 variants={item}
-                className="inline-flex items-center  justify-center bg-white rounded-lg shadow-sm p-2"
+                className="inline-flex items-center  justify-center bg-[#E5E7EA] rounded-lg shadow-sm p-2"
               >
                 <Image
                   src={logo}
@@ -152,16 +151,17 @@ export default function LearnersSection() {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: logosBehind.length * 0.25 }} 
+            transition={{ duration: 0.8, delay: logosBehind.length * 0.25 }}
             viewport={{ once: true }}
-            className="bg-white border border-[#F97C04] rounded-xl shadow-md relative z-10 w-[200px] h-[200px] flex items-center justify-center p-3"
+            className="bg-white border border-[#F97C04] rounded-xl shadow-md relative z-10 w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] flex items-center justify-center p-3"
           >
             <Image
               src={buildingBharatLogo}
               alt="Building Bharat"
-              width={200}
-              height={200}
-              className="object-contain"
+              width={0} // let CSS handle sizing
+              height={0}
+              sizes="100vw"
+              className="object-contain w-[120px] h-[120px] sm:w-[200px] sm:h-[200px]"
             />
           </motion.div>
         </div>
@@ -183,9 +183,10 @@ export default function LearnersSection() {
               <Image
                 src={logo}
                 alt={`Logo ${idx}`}
-                width={120}
-                height={60}
-                className="object-contain"
+                width={0} // let CSS handle sizing
+                height={0}
+                sizes="100vw"
+                className="object-contain w-20 h-10 sm:w-28 sm:h-14 md:w-32 md:h-16"
               />
             </motion.div>
           ))}
@@ -194,4 +195,3 @@ export default function LearnersSection() {
     </section>
   );
 }
-
