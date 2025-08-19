@@ -94,28 +94,29 @@ const ImpactMatrix: NextPage = () => {
         </div>
 
         {/* Stats */}
-        <div className="w-full max-w-[1312px] flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-[124px] gap-y-6 mt-2">
-          {[
-            { end: 1000, label: "Students Trained" },
-            { end: 200, label: "Successful Placements" },
-            { end: 50, label: "Partner Organizations" },
-            { end: 15, label: "Specialized Courses" },
-          ].map(({ end, label }, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center justify-center gap-1 w-[120px] sm:w-[200px] text-[18px] sm:text-[20px]"
-            >
-              <span className="font-bold text-[16px] sm:text-[20px] leading-[24px] sm:leading-[28px] text-[#F9FAFB]">
-                <CountUpDisplay end={end} />+
-              </span>
-              <span
-                className={`${dmSans.className} text-[12px] sm:text-[14px] text-[#F1F1F1] text-center`}
-              >
-                {label}
-              </span>
-            </div>
-          ))}
-        </div>
+<div className="w-full max-w-[1312px] flex flex-wrap justify-center gap-x-6 sm:gap-x-[124px] gap-y-6 mt-2">
+  {[
+    { end: 1000, label: "Students Trained" },
+    { end: 200, label: "Successful Placements" },
+    { end: 50, label: "Partner Organizations" },
+    { end: 15, label: "Specialized Courses" },
+  ].map(({ end, label }, i) => (
+    <div
+      key={i}
+      className="flex flex-col items-center justify-start w-[140px] sm:w-[200px] text-center"
+    >
+      <span className="font-bold text-[20px] sm:text-[24px] leading-none text-[#F9FAFB]">
+        <CountUpDisplay end={end} />+
+      </span>
+      <span
+        className={`${dmSans.className} text-[12px] sm:text-[14px] text-[#F1F1F1] mt-1 leading-tight min-h-[36px] sm:min-h-[40px]`}
+      >
+        {label}
+      </span>
+    </div>
+  ))}
+</div>
+
 
         {/* Cards */}
         <div className="w-full max-w-[1312px] flex flex-col sm:flex-row flex-wrap justify-center items-center gap-6 sm:gap-8 px-2 sm:px-6">
