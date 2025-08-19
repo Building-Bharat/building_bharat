@@ -22,8 +22,8 @@ export default function Home() {
       <BharatMatters/>
     <StoriesThatInspire/>
     <ImpactMatrix/>
-    <HaveQuestionsLetsTalk/>
     <NetworkSection/>
+    <HaveQuestionsLetsTalk/>
       <SuccessGuide/>
       <Footer/>
     </div>

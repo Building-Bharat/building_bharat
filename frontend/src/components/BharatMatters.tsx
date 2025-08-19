@@ -19,7 +19,7 @@ export default function BharatMatters() {
       {/* Subtitle */}
       <div className="px-4 mt-2">
         <p className="font-DMsans text-[13px] sm:text-[14px] leading-[20px] font-weight:400 flex justify-center items-center text-center text-[#0A0A0A] max-w-[800px] mx-auto mt-[16px]">
-          India's most future-focused Political Consultancy and Public Policy
+          India&apos;s most future-focused Political Consultancy and Public Policy
           platform — where real learning meets real opportunity.
         </p>
       </div>
@@ -31,7 +31,7 @@ export default function BharatMatters() {
             Live Sessions by the best in their domain
           </h2>
           <p className="font-DMsans text-[13px] md:text-[16px] leading-[1.5] text-[#0A0A0A] max-w-[484px] mx-auto md:mx-0 mt-2 sm:mt-6">
-           Gain firsthand insight into how decisions are made, policies are shaped, and campaigns are led. These sessions help you think like a strategist, act like a policymaker, and grow into a leader.
+            Gain firsthand insight into how decisions are made, policies are shaped, and campaigns are led. These sessions help you think like a strategist, act like a policymaker, and grow into a leader.
           </p>
           <ul className="list-disc pl-6 mt-4 sm:mt-8 space-y-4 sm:space-y-6 mx-auto md:mx-0 text-left">
             <li className="font-DMsans text-[13px] md:text-[16px]">
@@ -68,7 +68,7 @@ export default function BharatMatters() {
             Internships & Jobs That Matter
           </h2>
           <p className="font-DMsans text-[13px] md:text-[16px] leading-[1.5] text-[#0A0A0A] max-w-[484px] mx-auto md:mx-0 mt-2 sm:mt-6">
-            We're not just handing out certificates. Get mapped to high-trust roles in political consultancies and government offices through our curated hiring ecosystem.
+            We&apos;re not just handing out certificates. Get mapped to high-trust roles in political consultancies and government offices through our curated hiring ecosystem.
           </p>
           <ul className="list-disc pl-6 mt-4 sm:mt-8 space-y-4 sm:space-y-6 mx-auto md:mx-0 text-left">
             <li className="font-DMsans text-[13px] md:text-[16px]">

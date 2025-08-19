@@ -107,7 +107,7 @@ const ImpactMatrix: NextPage = () => {
           <p
             className={`${dmSans.className} text-[13px] font-weight:400 sm sm:text-[16px]  leading-[20px] sm:leading-[20px] text-[#F9FAFB] font-DMsans`}
           >
-            Our journey in shaping India's political and policy landscape
+            Our journey in shaping India&apos;s political and policy landscape
           </p>
         </div>
 
