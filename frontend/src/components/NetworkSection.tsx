@@ -128,7 +128,7 @@ export default function LearnersSection() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="flex gap-10 absolute inset-0 justify-center"
+            className="flex gap-10 absolute inset-0 justify-center hidden sm:flex md:flex "
           >
             {logosBehind.map((logo, idx) => (
               <motion.div
@@ -141,7 +141,7 @@ export default function LearnersSection() {
                   alt={`Logo Behind ${idx}`}
                   width={120}
                   height={100}
-                  className="object-contain"
+                  className="object-contain sm:hidden"
                 />
               </motion.div>
             ))}

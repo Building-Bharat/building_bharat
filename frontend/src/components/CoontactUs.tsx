@@ -5,11 +5,11 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A0A0A] text-white w-full h-full min-h-[380px] overflow-y-hidden border border-[#F1F1F14D]">
+    <footer className="bg-[#0A0A0A] text-white w-full max-w-[1521px] h-full min-h-[380px] overflow-y-hidden">
       {/* Top Section */}
-      <div className="max-w-[1440px] mx-auto flex flex-wrap md:flex-nowrap gap-[32px] sm:gap-[110px] px-4 sm:px-6 sm:px-0 py-10">
+      <div className="max-w-[1440px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-[60px] lg:gap-[110px] px-4 sm:px-6 lg:px-0 py-10">
         {/* Building Bharat */}
-        <div className="w-full md:w-[365px] h-auto sm:h-[220px] flex flex-col gap-4 p-4 items-start">
+        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
           <h3 className="font-bold text-[20px] leading-[28px] ml-[0px] sm:ml-[5px] mb-[16px] font-Montserrat font-weight:700">
             Building Bharat
           </h3>
@@ -87,7 +87,7 @@ export default function Footer() {
         </div>
 
         {/* Quick Links */}
-        <div className="w-full md:w-[394.67px] h-auto flex flex-col gap-4 p-4 items-start">
+        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
           <h4 className="font-bold text-[20px] leading-[28px] font-Montserrat font-weight:700 text-[#F1F1F1]">
             Quick Links
           </h4>
@@ -109,7 +109,7 @@ export default function Footer() {
         </div>
 
         {/* Resources */}
-        <div className="w-full md:w-[394.67px] h-auto flex flex-col gap-4 p-4 items-start">
+        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
           <h4 className="font-bold text-[20px] leading-[28px] font-Montserrat font-weight:700 text-[#F1F1F1]">
             Courses
           </h4>
