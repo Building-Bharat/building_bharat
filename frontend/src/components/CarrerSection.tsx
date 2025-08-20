@@ -6,7 +6,11 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "700"],
 });
 
+
+
 export default function CareerSection() {
+  
+
   return (
     <section className="flex flex-col md:flex-row w-full max-w-[95.0625rem] mx-auto p-0 justify-center items-stretch gap-0 bg-gradient-to-l from-[#007A77] to-[#001414] shadow-md">
       {/* Left Section - Green Gradient */}
@@ -30,14 +34,35 @@ export default function CareerSection() {
           </p>
         </div>
 
-        <button
-          className="flex h-[2.5rem] sm:h-[2.75rem] md:h-[3rem] py-[0.5rem] px-[1.5rem] sm:px-[1.75rem] md:px-[2rem] justify-center items-center 
-                     rounded-lg border border-[#F97C04] bg-[#E5E5E5] text-[#F97C04] 
-                     font-black capitalize font-[Montserrat] text-[0.8125rem] sm:text-[0.84375rem] md:text-[0.875rem] 
-                     leading-[1.5rem] md:leading-[2rem] mx-auto md:mx-0 transition-colors duration-300 hover:bg-[#F97C04] hover:text-white"
-        >
-          Start Learning For Free 
-        </button>
+    <button
+  className="group flex h-[2.5rem] sm:h-[2.75rem] md:h-[3rem] py-[0.5rem] px-[1.5rem] sm:px-[1.75rem] md:px-[2rem] 
+             justify-center items-center rounded-lg border border-[#F97C04] bg-[#E5E5E5] text-[#F97C04] 
+             font-black capitalize font-bold font-[Montserrat] text-[0.8125rem] sm:text-[0.84375rem] md:text-[0.875rem] 
+             leading-[1.5rem] md:leading-[2rem] mx-auto md:mx-0 transition-colors duration-300 
+             hover:bg-[#F97C04] hover:text-white relative overflow-hidden"
+>
+  <svg
+    className="w-5 h-5 absolute left-4 transition-all duration-300 ease-in-out opacity-0 -translate-x-2 
+               group-hover:opacity-100 group-hover:translate-x-0"
+    fill="none"
+    stroke="white"
+    viewBox="0 0 24 24"
+    style={{ width: "20px", height: "20px" }}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M13 7l5 5m0 0l-5 5m5-5H6"
+    />
+  </svg>
+
+  <span
+    className="transition-all duration-300 relative z-10 group-hover:translate-x-2"
+  >
+    Start Learning For Free
+  </span>
+</button>
       </div>
 
       {/* Right Section - Black Background */}
