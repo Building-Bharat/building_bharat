@@ -15,14 +15,14 @@ export default function LearnersSection() {
       {/* Header */}
       <div className="text-center mb-10 px-4">
         <h1
-          className={`text-[18px] md:text-[32px] leading-[24px]  md:leading-[38px] font-extrabold font-Montserrat text-[#005451] mb-6 transition-all duration-1000 ${
+          className={`text-[16px] md:text-[32px] leading-[24px]  md:leading-[38px] font-extrabold font-Montserrat text-[#005451] mb-6 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           Our Learners Are Powering Governance & Campaigns Nationwide
         </h1>
         <p
-          className={`text-[16px] leading-[20px] text-gray-600 max-w-4xl mx-auto transition-all duration-1000 delay-300 ${
+          className={` text-[12px] sm:text-[16px] leading-[20px] text-black max-w-4xl mx-auto transition-all duration-1000 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
