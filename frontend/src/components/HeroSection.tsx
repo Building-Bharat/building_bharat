@@ -5,10 +5,10 @@ import AnimatedStates from './AnimatedStates';
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
-      <div className="container mx-auto max-w-[1521px] px-4 md:px-8 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0 lg:mt-8" style={{ background: '#E5E7EA' }}>
+      <div className="container mx-auto max-w-[1200px] px-[10px] md:px-4 lg:px-4 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-10">
         {/* Left Content */}
-        <div className="flex-1 text-center lg:text-left lg:pl-0" style={{ width: '100%', maxWidth: '544px' }}>
+        <div className="flex-1 text-center md:text-center lg:text-left lg:pl-0" style={{ width: '100%', maxWidth: '544px' }}>
           <div style={{ marginBottom: '32px' }}>
             <h1 
               className="mb-4 md:mb-8 text-lg sm:text-xl md:text-2xl lg:text-4xl responsive-heading"
@@ -28,8 +28,9 @@ export default function HeroSection() {
                 textAlign: 'left'
               }}
             >
-              Crack Political and Policies<br />
-              Roles with Ease
+              Crack Political and Policies
+              <br className="block md:hidden lg:block" />
+              {' '}Roles with Ease
             </h1>
           </div>
           
@@ -211,9 +212,9 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right Content - Always Above on Mobile */}
-        <div className="w-full lg:w-auto lg:flex-1 flex items-center justify-center order-first lg:order-last">
-          <div className="relative w-full h-full flex items-center justify-center">
+        {/* Right Content - align to right on desktop and keep within container */}
+        <div className="w-full md:mt-6 lg:w-[560px] xl:w-[600px] flex items-center justify-center md:justify-center lg:justify-end order-first lg:order-last lg:ml-auto overflow-visible mt-10 md:mt-14 lg:mt-0">
+          <div className="relative w-full h-full flex items-center justify-center md:justify-center lg:justify-end">
             {/* Animated States Component */}
             <AnimatedStates />
           </div>
@@ -227,13 +228,17 @@ export default function HeroSection() {
           .responsive-heading {
             width: 100% !important;
             max-width: 100% !important;
-            font-size: 18px !important;
-            line-height: 22px !important;
+            font-family: Montserrat !important;
+            font-weight: 800 !important;
+            font-size: clamp(12px, 4.6vw, 18px) !important;
+            line-height: clamp(18px, 6.4vw, 24px) !important;
+            letter-spacing: 0px !important;
+            color: #005451 !important;
             text-align: center !important;
-            padding: 0 !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
+            padding: 0 8px !important;
+            margin: 0 auto !important;
+            white-space: normal !important;
+            overflow: visible !important;
             word-wrap: normal !important;
             hyphens: none !important;
           }
@@ -282,29 +287,32 @@ export default function HeroSection() {
         @media (min-width: 640px) and (max-width: 1023px) {
           .responsive-heading {
             width: 100% !important;
-            max-width: 450px !important;
-            font-size: 28px !important;
-            line-height: 40px !important;
-            text-align: left !important;
-            padding: 0 !important;
+            max-width: 100% !important;
+            font-size: clamp(20px, 3.2vw, 28px) !important;
+            line-height: clamp(26px, 4.2vw, 40px) !important;
+            text-align: center !important;
+            padding: 0 16px !important;
             margin: 0 !important;
+            margin-left: -19px !important; /* slight left shift only on tablet */
+            white-space: nowrap !important;
           }
           
           .responsive-paragraph {
             width: 100% !important;
-            max-width: 450px !important;
+            max-width: 100% !important;
             font-size: 15px !important;
             line-height: 22px !important;
-            text-align: left !important;
-            padding: 0 !important;
+            text-align: center !important;
+            padding: 0 16px !important;
             margin: 0 !important;
           }
 
           /* Tablet button styling - left aligned like desktop */
           .button-container {
-            padding: 0 !important;
-            justify-content: flex-start !important;
-            align-items: flex-start !important;
+            padding: 0 16px !important;
+            margin: 0 !important;
+            justify-content: center !important;
+            align-items: center !important;
           }
           
           .button-container button {

@@ -131,8 +131,7 @@ export default function AnimatedStates() {
   const currentStep = Math.floor((rotation / 60) % 6);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center min-h-[400px] sm:min-h-[500px] md:min-h-[600px] overflow-visible"
-         style={{ padding: '60px' }}>
+    <div className="relative w-full h-full flex items-center justify-center min-h-[400px] sm:min-h-[500px] md:min-h-[600px] overflow-visible lg:translate-x-4 xl:translate-x-6 py-[60px] px-0 lg:pl-[160px]">
       {/* Central "Building Bharat" text */}
       <div className="text-center z-10 relative">
         <div className="font-normal leading-tight" style={{ color: '#004644', width: '88px', height: '28px', fontSize: '24px' }}>
@@ -205,7 +204,7 @@ export default function AnimatedStates() {
 
       {/* Desktop Rotating icon circle */}
       <div 
-        className="absolute w-96 h-96 sm:w-[28rem] sm:h-[28rem] lg:w-[32rem] lg:h-[32rem] hidden md:block"
+        className="absolute w-96 h-96 sm:w-[28rem] sm:h-[28rem] md:w-[30rem] md:h-[30rem] lg:w-[32rem] lg:h-[32rem] hidden md:block"
         style={{
           transform: `rotate(${rotation}deg)`,
           transition: isRotating ? 'none' : 'transform 0.3s ease-out'

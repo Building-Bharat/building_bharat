@@ -51,7 +51,7 @@ export default function Header() {
   return (
     <header className={`w-full overflow-x-hidden z-50 transition-all duration-500 ease-in-out fixed top-0 left-0 right-0 ${
       isInHero 
-        ? 'md:sticky md:top-4' 
+        ? 'md:fixed md:top-0 md:left-0 md:right-0 lg:sticky lg:top-4' 
         : 'md:fixed md:top-0 md:left-0 md:right-0'
     }`}>
       <div className={`transition-all duration-500 ease-in-out ${
