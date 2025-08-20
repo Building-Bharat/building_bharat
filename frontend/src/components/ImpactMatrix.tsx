@@ -82,7 +82,7 @@ const ImpactMatrix: NextPage = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-16 py-10 md:py-13 flex flex-col items-center gap-12 mb-4 sm:mb-4">
         {/* Heading */}
-        <div className="flex flex-col items-center text-center gap-4 max-w-[600px] w-full px-2">
+        <div className="flex flex-col items-center mt-0 sm:mt-[32px] text-center gap-4 max-w-[600px] w-full px-2">
           <h2 className="text-[18px] sm:text-[32px] font-extrabold leading-[24px] sm:leading-[38px] text-[#F9FAFB]">
             Building Bharat Till Date
           </h2>
