@@ -11,6 +11,8 @@ import StoriesThatInspire from '@/components/StoriesThatInspire';
 import HaveQuestionsLetsTalk from '@/components/HaveQuestionsLetsTalk';
 import SuccessGuide from '@/components/successGuide';
 import NetworkSection from '@/components/NetworkSection';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export default function Home() {
   return (
@@ -26,6 +28,7 @@ export default function Home() {
       <NetworkSection/>
       <SuccessGuide/>
       <Footer/>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
