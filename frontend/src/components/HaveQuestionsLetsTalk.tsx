@@ -21,38 +21,44 @@ export default function HaveQuestionsLetsTalk() {
             <div className="max-w-lg mx-auto lg:mx-0">
                              {/* Heading */}
                <h2 
-                 className="mb-12"
                  style={{
                    fontFamily: 'Montserrat, sans-serif',
-                   fontWeight: 600,
-                   fontSize: '32px',
-                   lineHeight: '40px',
+                   fontWeight: 700,
+                   fontSize: '20px',
+                   lineHeight: '28px',
                    color: '#005451',
                    margin: 0,
-                   padding: 0
+                   padding: 0,
+                   marginBottom: '20px',
+                   width: '512px',
+                   height: '28px',
+                   letterSpacing: '0px'
                  }}
                >
-                 Have Questions? Let's Talk.
+                 Have Questions? Let&apos;s Talk.
                </h2>
 
                {/* Description */}
                <p 
-                 className="mb-20"
                  style={{
                    fontFamily: 'DM Sans, sans-serif',
                    fontWeight: 400,
                    fontSize: '16px',
-                   lineHeight: '24px',
+                   lineHeight: '20px',
                    color: '#0A0A0A',
                    margin: 0,
-                   padding: 0
+                   padding: 0,
+                   marginBottom: '20px',
+                   width: '512px',
+                   height: '40px',
+                   letterSpacing: '0px'
                  }}
                >
-                 Exploring political consulting or have questions? Fill the form — we'll be in touch soon.
+                 Exploring political consulting or have questions? Fill the form — we&apos;ll be in touch soon.
                </p>
 
               {/* Contact Form */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {/* Full Name */}
                 <div>
                   <input
@@ -107,7 +113,7 @@ export default function HaveQuestionsLetsTalk() {
                 <div>
                   <input
                     type="tel"
-                    placeholder="Phone Number (optional — We'll only call if needed)"
+                    placeholder="Phone Number (optional — We&apos;ll only call if needed)"
                     className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300"
                     style={{
                       fontFamily: 'DM Sans, sans-serif',
@@ -152,7 +158,7 @@ export default function HaveQuestionsLetsTalk() {
                 </div>
 
                 {/* Submit Button */}
-                <div className="pt-4">
+                <div>
                   <button
                     type="submit"
                     className="flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105"

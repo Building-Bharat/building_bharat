@@ -7,14 +7,14 @@ import CareerSection from '@/components/CarrerSection';
 import Footer from '@/components/CoontactUs';
 import ImpactMatrix from '@/components/ImpactMatrix';
 import InitiativeSection from '@/components/InitiativeFor';
-import NetworkSection from '@/components/NetworkSection';
 import StoriesThatInspire from '@/components/StoriesThatInspire';
 import HaveQuestionsLetsTalk from '@/components/HaveQuestionsLetsTalk';
 import SuccessGuide from '@/components/successGuide';
+import NetworkSection from '@/components/NetworkSection';
 
 export default function Home() {
   return (
-    <div className="min-h-screen" style={{ background: '#E5E7EA' }}>
+    <div className="min-h-screen overflow-x-hidden" style={{ background: '#E5E7EA' }}>
       <Header />
       <HeroSection />
       <InitiativeSection/>

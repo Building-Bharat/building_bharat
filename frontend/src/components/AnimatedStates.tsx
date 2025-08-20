@@ -165,12 +165,12 @@ export default function AnimatedStates() {
       >
         {icons.map((item, index) => (
           <div key={`mobile-${item.text}-${index}`} style={getPositionStyles(index)}>
-            {/* Icon and text container that counter-rotates to stay readable */}
+            {/* Icon and text container that counter-rotates instantly to stay readable */}
             <div 
               className="flex flex-col items-center justify-center"
               style={{
                 transform: `rotate(-${rotation}deg)`,
-                transition: 'transform 0.1s ease-out'
+                transition: 'none' // Remove transition to prevent tilting
               }}
             >
               {/* Icon without background circle */}
@@ -213,12 +213,12 @@ export default function AnimatedStates() {
       >
         {icons.map((item, index) => (
           <div key={`desktop-${item.text}-${index}`} style={getDesktopPositionStyles(index)}>
-            {/* Icon and text container that counter-rotates to stay readable */}
+            {/* Icon and text container that counter-rotates instantly to stay readable */}
             <div 
               className="flex flex-col items-center justify-center"
               style={{
                 transform: `rotate(-${rotation}deg)`,
-                transition: 'transform 0.1s ease-out'
+                transition: 'none' // Remove transition to prevent tilting
               }}
             >
               {/* Icon without background circle */}
