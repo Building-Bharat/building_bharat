@@ -32,7 +32,7 @@ const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 
 
   return (
-    <section className="w-full max-w-[1521px] min-h-[528px] bg-[#0A0A0A] mx-auto flex flex-col md:flex-row md:items-center gap-6 p-4">
+    <section className="w-full max-w-ful min-h-full bg-[#0A0A0A] mx-auto flex flex-col md:flex-row md:items-center gap-6 p-4">
       {/* Left Section - Text + Form */}
       <div className="flex-1 flex flex-col gap-10 p-4 w-full md:max-w-[544px] min-h-[400px] md:ml-8 order-2 md:order-1">
         {/* Heading */}

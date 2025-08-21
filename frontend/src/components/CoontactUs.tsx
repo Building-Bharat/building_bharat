@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A0A0A] text-white w-full max-w-[1521px] h-full min-h-[380px] overflow-y-hidden">
+    <footer className="bg-[#0A0A0A] text-white w-full max-w-full h-full min-h-full overflow-y-hidden">
       {/* Top Section */}
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-[60px] lg:gap-[110px] px-4 sm:px-6 lg:px-0 py-10">
         {/* Building Bharat */}
