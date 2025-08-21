@@ -24,8 +24,8 @@ export default function Home() {
       <BharatMatters/>
       <StoriesThatInspire/>
       <ImpactMatrix/>
-      <HaveQuestionsLetsTalk/>
       <NetworkSection/>
+      <HaveQuestionsLetsTalk/>
       <SuccessGuide/>
       <Footer/>
       <ToastContainer position="top-right" autoClose={3000} />
