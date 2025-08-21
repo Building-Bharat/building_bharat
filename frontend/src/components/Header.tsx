@@ -56,7 +56,7 @@ export default function Header() {
     }`}>
       <div className={`transition-all duration-500 ease-in-out ${
         isInHero 
-          ? 'px-0 sm:px-6 md:px-8 lg:px-20' 
+          ? 'px-0 sm:px-6 md:px-8 lg:px-0' 
           : 'px-0'
       }`} style={{ 
         paddingLeft: '0px', 
@@ -173,12 +173,21 @@ export default function Header() {
               margin-left: 0 !important;
             }
           }
+
+          /* Desktop/laptop presets */
+          @media (min-width: 1024px) {
+            .header-container { height: 56px !important; justify-content: space-between !important; }
+            /* While in hero: centered with margins */
+            .header-desktop-inHero { width: calc(100vw - 128px) !important; max-width: none !important; padding: 8px 16px !important; border-radius: 8px !important; margin: 16px 64px 32px 64px !important; }
+            /* After hero: grow to full-bleed and stick to top with no margins */
+            .header-desktop-full { width: 100vw !important; max-width: none !important; padding: 8px 16px !important; border-radius: 0 !important; margin: 0 !important; }
+          }
         `}</style>
         
         <div
-          className={`mx-auto flex items-center pointer-events-auto header-container touch-manipulation ${
+          className={`w-full flex items-center pointer-events-auto header-container touch-manipulation ${
             visible ? 'opacity-100' : 'opacity-0'
-          } ${!isInHero ? 'header-backdrop shadow-lg' : ''} ${!isInHero ? 'md:w-screen' : ''} flex-row-reverse lg:flex-row`}
+          } ${!isInHero ? 'header-backdrop shadow-lg' : ''} ${!isInHero ? 'md:w-screen' : ''} flex-row-reverse lg:flex-row ${isInHero ? 'header-desktop-inHero' : 'header-desktop-full'}`}
           style={{ 
             width: '100%',
             maxWidth: isInHero ? '1200px' : 'none',
@@ -190,8 +199,6 @@ export default function Header() {
             background: isInHero 
               ? 'var(--Surface-Color-surface-white, #F1F1F1)' 
               : 'rgba(241, 241, 241, 0.95)',
-            marginLeft: isInHero ? 'auto' : '0',
-            marginRight: isInHero ? 'auto' : '0',
             transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
@@ -269,7 +276,7 @@ export default function Header() {
             className="hidden lg:flex items-center justify-center transition-all duration-500 ease-in-out hover:scale-105"
             style={{
               width: isInHero ? '173px' : '190px',
-              height: isInHero ? '48px' : '56px',
+              height: '40px',
               paddingTop: '0',
               paddingRight: isInHero ? '32px' : '36px',
               paddingBottom: '0',
@@ -284,6 +291,9 @@ export default function Header() {
               fontSize: isInHero ? '14px' : '16px',
               fontWeight: '600',
               fontFamily: 'DM Sans',
+              marginTop: '8px',
+              marginRight: '0px',
+              marginBottom: '8px',
               transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
             onMouseEnter={(e) => {

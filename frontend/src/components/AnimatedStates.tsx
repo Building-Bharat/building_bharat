@@ -8,20 +8,26 @@ export default function AnimatedStates() {
   const [isRotating, setIsRotating] = useState(false);
 
   useEffect(() => {
+    // Shared timing config
+    const rotationDuration = 800; // Faster: ~0.8s per rotation
+    const pauseDuration = 500; // 0.5s pause after each rotation
+
     const startAnimation = () => {
       setIsRotating(true);
       
       const startRotation = rotation;
       const targetRotation = rotation + 60; // 60 degrees for each position (360/6 = 60)
       const startTime = Date.now();
-      const duration = 1200; // Increased speed: 1.2 seconds (was 1.5 seconds)
       
       const animateRotation = () => {
         const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+        const progress = Math.min(elapsed / rotationDuration, 1);
         
-        // Smooth easing function for natural movement
-        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        // Smooth easing: easeInOutCubic for gentler start/stop
+        const easeProgress =
+          progress < 0.5
+            ? 4 * Math.pow(progress, 3)
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
         const currentRotation = startRotation + (targetRotation - startRotation) * easeProgress;
         
         setRotation(currentRotation);
@@ -29,7 +35,8 @@ export default function AnimatedStates() {
         if (progress < 1) {
           requestAnimationFrame(animateRotation);
         } else {
-          // Rotation complete, stop rotating
+          // Snap exactly to the target to prevent micro-jitter
+          setRotation(targetRotation);
           setIsRotating(false);
         }
       };
@@ -62,7 +69,7 @@ export default function AnimatedStates() {
       if (!isRotating) {
         startAnimation();
       }
-    }, 2700); // Wait time between rotations
+    }, rotationDuration + pauseDuration); // Rotation duration + 0.5s pause
 
     return () => {
       clearTimeout(initialDelay);
@@ -131,7 +138,7 @@ export default function AnimatedStates() {
   const currentStep = Math.floor((rotation / 60) % 6);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center min-h-[400px] sm:min-h-[500px] md:min-h-[600px] overflow-visible lg:translate-x-4 xl:translate-x-6 py-[60px] px-0 lg:pl-[160px]">
+    <div className="relative w-full h-full flex items-center justify-center min-h-[400px] sm:min-h-[500px] md:min-h-[600px] overflow-visible py-[60px] px-0 lg:pl-[160px]">
       {/* Central "Building Bharat" text */}
       <div className="text-center z-10 relative">
         <div className="font-normal leading-tight" style={{ color: '#004644', width: '88px', height: '28px', fontSize: '24px' }}>
@@ -159,7 +166,8 @@ export default function AnimatedStates() {
         className="absolute w-72 h-72 sm:w-80 sm:h-80 md:hidden"
         style={{
           transform: `rotate(${rotation}deg)`,
-          transition: isRotating ? 'none' : 'transform 0.3s ease-out'
+          transition: isRotating ? 'none' : 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)',
+          willChange: 'transform'
         }}
       >
         {icons.map((item, index) => (
@@ -207,7 +215,8 @@ export default function AnimatedStates() {
         className="absolute w-96 h-96 sm:w-[28rem] sm:h-[28rem] md:w-[30rem] md:h-[30rem] lg:w-[32rem] lg:h-[32rem] hidden md:block"
         style={{
           transform: `rotate(${rotation}deg)`,
-          transition: isRotating ? 'none' : 'transform 0.3s ease-out'
+          transition: isRotating ? 'none' : 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)',
+          willChange: 'transform'
         }}
       >
         {icons.map((item, index) => (
