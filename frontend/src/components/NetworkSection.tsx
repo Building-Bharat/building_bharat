@@ -497,7 +497,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-24  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 block sm:hidden ${
+          className={`h-24  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "3100ms" }}
@@ -506,8 +506,8 @@ export default function CompanyLogosSection() {
             <Image
               src="/images/minds.png"
               alt="Icon"
-              width={180}
-              height={40}
+              width={190}
+              height={90}
               className="max-w-full h-auto object-contain"
             />
           </span>
