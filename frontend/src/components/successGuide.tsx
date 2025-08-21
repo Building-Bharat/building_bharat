@@ -1,5 +1,8 @@
-// components/SuccessGuide.tsx
+
+"use client";
 import { Montserrat, DM_Sans } from "next/font/google";
+import { FormEvent } from "react";
+import { toast,ToastContainer } from "react-toastify";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -7,10 +10,27 @@ const montserrat = Montserrat({
 });
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["400","300"], // Regular
+  weight: ["400", "300"], // Regular
 });
 
 export default function SuccessGuide() {
+
+const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault(); // ⬅️ stops page reload
+
+  const form = e.currentTarget; // HTMLFormElement
+  const emailInput = form.elements.namedItem("email") as HTMLInputElement;
+  const email = emailInput.value;
+
+  if (!email || !/\S+@\S+\.\S+/.test(email)) {
+    toast.error("Please enter a valid email address");
+    return;
+  }
+
+  toast.success("Email submitted successfully!");
+};
+
+
   return (
     <section className="w-full max-w-[1521px] min-h-[528px] bg-[#0A0A0A] mx-auto flex flex-col md:flex-row md:items-center gap-6 p-4">
       {/* Left Section - Text + Form */}
@@ -39,17 +59,24 @@ export default function SuccessGuide() {
         </ul>
 
         {/* Email Form */}
-<div className="flex flex-col sm:flex-row gap-2 w-full max-w-[512px] mt-2">
-  <input
-    type="email"
-    placeholder="Enter your email address"
-    className=" h-[48px] w-full sm:w-[327px] font-light rounded-[8px] px-3 py-2 font-DMsans font-weight:300 text-[#6D717F] text-[13px] sm:text-[13px] leading-[16px] sm:leading-[20px] border border-[#F97C04] focus:outline-none"
-  />
-  <button className="bg-[#F97C04] w-full sm:w-[137px] h-[48px] ml-[0px] sm:ml-[24px] px-6 rounded-[8px] text-black font-semibold">
-    Submit
-  </button>
-</div>
-
+        <>
+        <form
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-col sm:flex-row gap-2 w-full max-w-[512px] mt-2">
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email address"
+              className=" h-[48px] w-full sm:w-[327px] font-light rounded-[8px] px-3 py-2 font-DMsans font-weight:300 text-[#6D717F] text-[13px] sm:text-[13px] leading-[16px] sm:leading-[20px] border border-[#F97C04] focus:outline-none"
+            />
+            <button className="bg-[#F97C04] w-full sm:w-[137px] h-[48px] ml-[0px] sm:ml-[24px] px-6 rounded-[8px] text-black font-semibold">
+              Submit
+            </button>
+          </div>
+        </form>
+        <ToastContainer position="top-right" autoClose={3000} />
+        </>
       </div>
 
       {/* Right Section - Grey Box */}
@@ -59,5 +86,3 @@ export default function SuccessGuide() {
     </section>
   );
 }
-
-
