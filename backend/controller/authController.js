@@ -29,7 +29,7 @@ function createSendToken(newUser, statusCode, res) {
 	});
 }
 
-exports.register = async (req, res) => {
+exports.emailSignUp = async (req, res) => {
 	const newUser = await User.create({
 		name: req.body.name,
 		email: req.body.email,
@@ -41,7 +41,7 @@ exports.register = async (req, res) => {
 };
 
 
-exports.login = async (req, res) => {
+exports.loginEmail = async (req, res) => {
 	const { email, password } = req.body;
 
 	if (!email || !password) {
@@ -153,5 +153,52 @@ exports.forgotPassword = async (req, res, next) => {
 };
 
 exports.resetPassword = async (req, res, next) => {
-	const
-}
+	const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+
+	const user = await User.findOne({
+		passwordResetToken: hashedToken,
+		passwordResetExpires: { $gt: Date.now() }
+	});
+
+	if (!user) {
+		return next(new Error('Token is invalid or has expired'));
+	}
+
+	user.password = req.body.password;
+	user.passwordConfirm = req.body.passwordConfirm;
+	user.passwordResetToken = undefined;
+	user.passwordResetExpires = undefined;
+
+	await user.save();
+
+	res.status(200).json({
+		status: 'success',
+		message: 'Password reset successful! Please log in.'
+	});
+
+	createSendToken(user, 200, res);
+};
+
+
+exports.updatePassword = async (req, res, next) => {
+	const user = await User.findById(req.user.id).select('+password');
+
+	if (!user || !(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+		return res.status(401).json({
+			error: 'Your current password is wrong.'
+		});
+	}
+
+	user.password = req.body.password;
+	user.passwordConfirm = req.body.passwordConfirm;
+	await user.save();
+
+	res.status(200).json({
+		status: 'success',
+		message: 'Password updated successfully!'
+	});
+
+	createSendToken(user, 200, res);
+};
+
+
