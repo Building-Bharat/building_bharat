@@ -12,7 +12,7 @@ export default function CareerSection() {
   
 
   return (
-    <section className="flex flex-col md:flex-row w-full max-w-[95.0625rem] mx-auto p-0 justify-center items-stretch gap-0 bg-gradient-to-l from-[#007A77] to-[#001414] shadow-md">
+    <section className="flex flex-col md:flex-row w-full max-w-full mx-auto p-0 justify-center items-stretch gap-0 bg-gradient-to-l from-[#007A77] to-[#001414] shadow-md">
       {/* Left Section - Green Gradient */}
       <div
         className="flex flex-col justify-center w-full md:w-1/2 
