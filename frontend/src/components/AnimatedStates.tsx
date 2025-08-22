@@ -113,8 +113,33 @@ export default function AnimatedStates() {
   };
 
   const getDesktopPositionStyles = (index: number) => {
-    // Desktop version with larger radius
-    const radius = 200; // Desktop radius
+    // Desktop version with larger radius - responsive for iPad Air
+    // Check if window exists (client-side only)
+    if (typeof window === 'undefined') {
+      // Server-side fallback - use consistent radius to prevent hydration mismatch
+      const radius = 200;
+      const angleInRadians = ((index * 60) + 30) * (Math.PI / 180);
+      
+      const x = Math.cos(angleInRadians) * radius;
+      const y = Math.sin(angleInRadians) * radius;
+      
+      return {
+        position: 'absolute' as const,
+        left: `calc(50% + ${x}px - 2rem)`,
+        top: `calc(50% - ${y}px - 2rem)`,
+        width: '4rem',
+        height: '4rem',
+        display: 'flex',
+        flexDirection: 'column' as const,
+        alignItems: 'center' as const,
+        justifyContent: 'center' as const,
+        textAlign: 'center' as const
+      };
+    }
+    
+    // Client-side responsive radius - larger for desktop only, keep iPad Pro at original size
+    const radius = Math.min(window.innerWidth, window.innerHeight) > 800 ? 
+      (window.innerWidth >= 1366 ? 280 : 200) : 200;
     const angleInRadians = ((index * 60) + 30) * (Math.PI / 180);
     
     const x = Math.cos(angleInRadians) * radius;
@@ -216,7 +241,10 @@ export default function AnimatedStates() {
         style={{
           transform: `rotate(${rotation}deg)`,
           transition: isRotating ? 'none' : 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)',
-          willChange: 'transform'
+          willChange: 'transform',
+          // iPad Air specific sizing - larger radius
+          width: 'clamp(384px, 25vw, 480px)',
+          height: 'clamp(384px, 25vw, 480px)'
         }}
       >
         {icons.map((item, index) => (
@@ -285,4 +313,4 @@ export default function AnimatedStates() {
       </svg>
     </div>
   );
-}
+} 

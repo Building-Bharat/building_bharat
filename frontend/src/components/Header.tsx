@@ -14,11 +14,9 @@ export default function Header() {
     
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight; // Assuming hero is full viewport height
-      
-      // Check if we're past the hero section
-      const pastHero = scrollY > heroHeight * 0.8; // Trigger when 80% through hero
-      
+      const heroHeight = window.innerHeight; // assume hero ~ viewport height
+      // Stay in hero mode (sticky) until we've scrolled past the hero height
+      const pastHero = scrollY >= heroHeight;
       setIsScrolled(scrollY > 10);
       setIsInHero(!pastHero);
     };
@@ -49,10 +47,10 @@ export default function Header() {
   ];
 
   return (
-    <header className={`w-full overflow-x-hidden z-50 transition-all duration-500 ease-in-out fixed top-0 left-0 right-0 ${
+    <header className={`w-full overflow-x-hidden z-50 transition-all duration-500 ease-in-out ${
       isInHero 
-        ? 'md:fixed md:top-0 md:left-0 md:right-0 lg:sticky lg:top-4' 
-        : 'md:fixed md:top-0 md:left-0 md:right-0'
+        ? 'md:fixed md:top-0 md:left-0 md:right-0 lg:sticky lg:top-0' 
+        : 'fixed top-0 left-0 right-0'
     }`}>
       <div className={`transition-all duration-500 ease-in-out ${
         isInHero 
