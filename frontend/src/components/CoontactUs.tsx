@@ -30,13 +30,13 @@ export default function Footer() {
               />
             </Link>
             <Link
-              href="https://x.com/building_bharat"
+              href="https://www.linkedin.com/company/buildingbharat/posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
-                src="/icons/twitter.png"
-                alt="Twitter"
+                src="/icons/linkedin.png"
+                alt="Linkedin"
                 width={40}
                 height={40}
                 className="rounded-full cursor-pointer"
@@ -48,20 +48,26 @@ export default function Footer() {
               rel="noopener noreferrer"
             >
               <Image
-                src="/icons/instagram.png"
+                src="/icons/insta.png"
                 alt="Instagram"
                 width={40}
                 height={40}
                 className="rounded-full cursor-pointer"
               />
             </Link>
-            <Image
-              src="/icons/facebook.png"
-              alt="Facebook"
-              width={40}
-              height={40}
-              className="rounded-full cursor-pointer"
-            />
+            <Link
+              href="https://whatsapp.com/channel/0029Vb6EEEw5Ejy3yymn7E3T"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/whatsapp.png"
+                alt="Whatsapp"
+                width={40}
+                height={40}
+                className="rounded-full cursor-pointer"
+              />
+            </Link>
           </div>
 
           {/* Cookie + Language */}
