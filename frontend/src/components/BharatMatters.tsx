@@ -49,7 +49,7 @@ export default function BharatMatters() {
         >
           <img
             src="/images/left.png"
-            className="w-full  max-w-[1100px] h-auto object-contain rounded-lg"
+            className="w-full  max-w-[1100px] h-full object-contain rounded-lg"
             alt="Live Sessions"
           />
         </motion.div>

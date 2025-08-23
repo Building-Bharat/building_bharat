@@ -12,7 +12,7 @@ export default function CareerSection() {
   
 
   return (
-    <section className="flex flex-col md:flex-row w-full max-w-full mx-auto p-0 justify-center items-stretch gap-0 bg-gradient-to-l from-[#007A77] to-[#001414] shadow-md">
+    <section className="flex flex-col h-auto sm:h-[300px] md:h-auto md:flex-row w-full max-w-full mx-auto p-0 justify-center items-stretch gap-0 bg-gradient-to-l from-[#007A77] to-[#001414] shadow-md">
       {/* Left Section - Green Gradient */}
       <div
         className="flex flex-col justify-center w-full md:w-1/2 
@@ -35,19 +35,26 @@ export default function CareerSection() {
         </div>
 
     <button
-  className="group flex h-[2.5rem] sm:h-[2.75rem] md:h-[3rem] py-[0.5rem] px-[1.5rem] sm:px-[1.75rem] md:px-[2rem] 
-             justify-center items-center rounded-lg border border-[#F97C04] bg-[#E5E5E5] text-[#F97C04] 
-             font-black capitalize font-bold font-[Montserrat] text-[0.8125rem] sm:text-[0.84375rem] md:text-[0.875rem] 
-             leading-[1.5rem] md:leading-[2rem] mx-auto md:mx-0 transition-colors duration-300 
-             hover:bg-[#F97C04] hover:text-white relative overflow-hidden"
+  className="group 
+             relative inline-flex items-center justify-center
+             px-8 py-3
+             w-full md:w-auto
+             bg-[#F1F1F1] text-[#F97C04] 
+             border border-[#F97C04]
+             rounded-lg hover:rounded-[1px]
+             font-[DM Sans] font-bold text-[16px] leading-6
+             transition-all duration-300 ease-in-out
+             transform hover:scale-x-105 hover:translate-x-1"
 >
+  {/* Arrow (hidden until hover) */}
   <svg
-    className="w-5 h-5 absolute left-4 transition-all duration-300 ease-in-out opacity-0 -translate-x-2 
+    className="w-5 h-5 absolute left-4 
+               opacity-0 -translate-x-2 
+               transition-all duration-300 ease-in-out
                group-hover:opacity-100 group-hover:translate-x-0"
     fill="none"
-    stroke="white"
+    stroke="#F97C04"
     viewBox="0 0 24 24"
-    style={{ width: "20px", height: "20px" }}
   >
     <path
       strokeLinecap="round"
@@ -57,16 +64,14 @@ export default function CareerSection() {
     />
   </svg>
 
-  <span
-    className="transition-all duration-300 relative z-10 group-hover:translate-x-2"
-  >
-    Start Learning For Free
-  </span>
+  {/* Button text */}
+  <span className="pl-2">Start Learning For Free</span>
 </button>
+
       </div>
 
       {/* Right Section - Black Background */}
-      <div className="flex items-center justify-center w-full md:w-1/2 bg-[#0A0A0A] min-h-[15rem] sm:min-h-[18rem] md:min-h-[20rem] lg:min-h-[24rem] order-1 md:order-2">
+      <div className="flex items-center justify-center w-full md:w-1/2 bg-[#0A0A0A] min-h-[15rem] sm:min-h-[300px] order-1 md:order-2">
         {/* Add image or video here */}
       </div>
     </section>

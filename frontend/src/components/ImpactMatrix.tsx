@@ -36,8 +36,11 @@ const useCountUp = (end: number, duration: number = 2000) => {
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      const currentCount = Math.floor(easeOutQuart * end);
+        const easeInOutCubic =
+    progress < 0.5
+      ? 4 * Math.pow(progress, 3) // accelerate
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2; // decelerate
+      const currentCount = Math.floor(easeInOutCubic * end);
       setCount(currentCount);
       if (progress < 1) animationFrame = requestAnimationFrame(animate);
     };
