@@ -1,17 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function CompanyLogosSection() {
   const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    setIsVisible(true);
-  }, []);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Run only once
+        }
+      },
+      { threshold: 0.2 } // Trigger when 20% of section is visible
+    );
 
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
   return (
-    <section className="py-8">
+    <section className="py-8" ref={sectionRef}>
+      {/* Header */}
       {/* Header */}
       <div className="text-center mb-12 px-4">
         <h1
