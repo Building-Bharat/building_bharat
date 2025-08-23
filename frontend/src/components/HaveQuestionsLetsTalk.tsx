@@ -30,8 +30,9 @@ export default function HaveQuestionsLetsTalk() {
                    margin: 0,
                    padding: 0,
                    marginBottom: '20px',
-                   width: '512px',
-                   height: '28px',
+                   width: '100%',
+                   maxWidth: '512px',
+                   height: 'auto',
                    letterSpacing: '0px'
                  }}
                >
@@ -44,13 +45,14 @@ export default function HaveQuestionsLetsTalk() {
                    fontFamily: 'DM Sans, sans-serif',
                    fontWeight: 400,
                    fontSize: '16px',
-                   lineHeight: '20px',
+                   lineHeight: '22px',
                    color: '#0A0A0A',
                    margin: 0,
                    padding: 0,
                    marginBottom: '20px',
-                   width: '512px',
-                   height: '40px',
+                   width: '100%',
+                   maxWidth: '512px',
+                   height: 'auto',
                    letterSpacing: '0px'
                  }}
                >

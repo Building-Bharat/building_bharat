@@ -5,15 +5,17 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A0A0A] text-white w-full max-w-[1521px] h-full min-h-[380px] overflow-y-hidden">
+    <footer className="bg-[#0A0A0A] text-white w-full overflow-hidden">
       {/* Top Section */}
-      <div className="max-w-[1440px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-[60px] lg:gap-[110px] px-4 sm:px-6 lg:px-0 py-10">
+      <div className="max-w-[1440px]  mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ml-[16px] sm:ml-[50px] gap-8 px-4 sm:px-6 lg:px-8 py-10">
         {/* Building Bharat */}
-        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
-          <h3 className="font-bold text-[20px] leading-[28px] ml-[0px] sm:ml-[5px] mb-[16px] font-Montserrat font-weight:700">
+        <div className="flex flex-col gap-4 p-2 sm:p-4">
+          <h3 className="font-bold text-[16px] sm:text-[20px] leading-[24px] sm:leading-[28px] font-Montserrat mb-4">
             Building Bharat
           </h3>
-          <div className="flex gap-7">
+
+          {/* Social Icons */}
+          <div className="flex flex-wrap gap-4 sm:gap-6">
             <Link
               href="https://www.youtube.com/@thebuildingBharat"
               target="_blank"
@@ -34,13 +36,12 @@ export default function Footer() {
             >
               <Image
                 src="/icons/twitter.png"
-                alt="YouTube"
+                alt="Twitter"
                 width={40}
                 height={40}
                 className="rounded-full cursor-pointer"
               />
             </Link>
-
             <Link
               href="https://www.instagram.com/building.bharat/"
               target="_blank"
@@ -48,7 +49,7 @@ export default function Footer() {
             >
               <Image
                 src="/icons/instagram.png"
-                alt="YouTube"
+                alt="Instagram"
                 width={40}
                 height={40}
                 className="rounded-full cursor-pointer"
@@ -64,31 +65,36 @@ export default function Footer() {
           </div>
 
           {/* Cookie + Language */}
-          <div className="flex flex-wrap items-center gap-4 mt-8 ml-[0px] sm:ml-[2px]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-6">
             <a href="#" className="text-sm underline font-DMsans">
               Cookie settings
             </a>
 
-            {/* Divider Line (hidden on xs) */}
-            <div className="block w-px h-5 bg-[#F9FAFB] ml-[24px]"></div>
+            <div className="hidden sm:block w-px h-5 bg-[#F9FAFB]"></div>
 
-            {/* Language Selector */}
-            <div className="flex items-center gap-2 border border-[#F1F1F1] rounded pt-[8px] pr-[16px] pb-[8px] pl-[16px] cursor-pointer ml-[26px]">
-              <Globe size={16} />
+            <div className="inline-flex items-center gap-4 px-4 py-2 rounded-[8px] border border-[#F1F1F1] cursor-pointer">
+              {/* Globe icon */}
+              <Globe size={20} className="text-[#F1F1F1]" />
+
+              {/* Language select */}
               <select
-                className="bg-[#0A0A0A] text-sm outline-none font-DMsans"
+                className="bg-transparent text-[#F1F1F1] text-[14px] font-DMsans font-bold leading-6 outline-none cursor-pointer"
                 defaultValue="English"
               >
-                <option value="English">English</option>
-                <option value="Hindi">हिन्दी</option>
+                <option value="English" className="text-black">
+                  English
+                </option>
+                <option value="Hindi" className="text-black">
+                  हिन्दी
+                </option>
               </select>
             </div>
           </div>
         </div>
 
         {/* Quick Links */}
-        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
-          <h4 className="font-bold text-[20px] leading-[28px] font-Montserrat font-weight:700 text-[#F1F1F1]">
+        <div className="flex flex-col gap-4 p-2 sm:p-4">
+          <h4 className="font-bold text-[16px] sm:text-[20px] leading-[24px] sm:leading-[28px] font-Montserrat text-[#F1F1F1]">
             Quick Links
           </h4>
           {[
@@ -101,23 +107,23 @@ export default function Footer() {
             <a
               key={i}
               href="#"
-              className="h-[32px] flex items-center font-DMsans font-weight:100 justify-center sm:justify-start text-[14px] leading-[20px] hover:text-gray-300 transition-colors gap-[32px]"
+              className="text-sm sm:text-[14px] leading-[20px] font-DMsans hover:text-gray-300 transition-colors"
             >
               {item}
             </a>
           ))}
         </div>
 
-        {/* Resources */}
-        <div className="w-full h-auto flex flex-col gap-4 p-4 items-start">
-          <h4 className="font-bold text-[20px] leading-[28px] font-Montserrat font-weight:700 text-[#F1F1F1]">
+        {/* Courses */}
+        <div className="flex flex-col gap-4 p-2 sm:p-4">
+          <h4 className="font-bold text-[16px] sm:text-[20px] leading-[24px] sm:leading-[28px] font-Montserrat text-[#F1F1F1]">
             Courses
           </h4>
           {["Course 1", "Course 2", "Course 3"].map((item, i) => (
             <a
               key={i}
               href="#"
-              className="h-[32px] flex items-center justify-center sm:justify-start text-sm hover:text-gray-300 transition-colors"
+              className="text-sm sm:text-[14px] leading-[20px] font-DMsans hover:text-gray-300 transition-colors"
             >
               {item}
             </a>

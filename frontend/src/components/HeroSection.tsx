@@ -2,13 +2,17 @@
 
 import React from 'react';
 import AnimatedStates from './AnimatedStates';
+// import LottieAnimation from './LottieAnimation'; // Commented out but kept for future use
 
 export default function HeroSection() {
+  // State to toggle between old and new animation - Commented out since only original animation is displayed
+  // const [useNewAnimation, setUseNewAnimation] = useState(true);
+
   return (
-    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0" style={{ background: '#E5E7EA' }}>
-      <div className="container mx-auto max-w-[1521px] px-4 md:px-8 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+    <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0 lg:mx-[64px]" style={{ background: '#E5E7EA' }}>
+      <div className="mx-auto w-full px-[10px] md:px-4 lg:px-0 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-10">
         {/* Left Content */}
-        <div className="flex-1 text-center lg:text-left lg:pl-0" style={{ width: '100%', maxWidth: '544px' }}>
+        <div className="flex-1 text-center md:text-center lg:text-left lg:pl-0 left-content-ipad-air" style={{ width: '100%', maxWidth: '544px' }}>
           <div style={{ marginBottom: '32px' }}>
             <h1 
               className="mb-4 md:mb-8 text-lg sm:text-xl md:text-2xl lg:text-4xl responsive-heading"
@@ -28,8 +32,7 @@ export default function HeroSection() {
                 textAlign: 'left'
               }}
             >
-              Crack Political and Policies<br />
-              Roles with Ease
+              Crack Political and Policies Roles with Ease
             </h1>
           </div>
           
@@ -211,10 +214,25 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right Content - Always Above on Mobile */}
-        <div className="w-full lg:w-auto lg:flex-1 flex items-center justify-center order-first lg:order-last">
-          <div className="relative w-full h-full flex items-center justify-center">
-            {/* Animated States Component */}
+        {/* Right Content - align to right on desktop and keep within container */}
+        <div className="w-full md:mt-6 lg:w-[560px] xl:w-[600px] flex items-center justify-center md:justify-center lg:justify-end order-first lg:order-last lg:ml-auto overflow-visible md:mt-14 lg:mt-0">
+          <div className="relative w-full h-full flex items-center justify-center md:justify-center lg:justify-end ipad-pro-right-content mobile-right-content desktop-right-content">
+            
+            {/* Animation Toggle Button - Commented out since only original animation is displayed */}
+            {/* <button 
+              onClick={() => setUseNewAnimation(!useNewAnimation)}
+              className="absolute top-2 right-2 z-10 bg-blue-500 text-white px-2 py-1 rounded text-xs opacity-50 hover:opacity-100 transition-opacity"
+              title="Toggle between old and new animation"
+            >
+              {useNewAnimation ? 'Old' : 'New'}
+            </button> */}
+
+            {/* New Lottie Animation - Commented out but kept for future use */}
+            {/* {useNewAnimation && (
+              <LottieAnimation />
+            )} */}
+
+            {/* Original Animated States Component - Always displayed */}
             <AnimatedStates />
           </div>
         </div>
@@ -227,13 +245,17 @@ export default function HeroSection() {
           .responsive-heading {
             width: 100% !important;
             max-width: 100% !important;
+            font-family: Montserrat !important;
+            font-weight: 800 !important;
             font-size: 18px !important;
-            line-height: 22px !important;
+            line-height: 10px !important;
+            letter-spacing: 0px !important;
+            color: #005451 !important;
             text-align: center !important;
-            padding: 0 !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
+            padding: 0 8px !important;
+            margin: 0 auto !important;
+            white-space: normal !important;
+            overflow: visible !important;
             word-wrap: normal !important;
             hyphens: none !important;
           }
@@ -250,14 +272,57 @@ export default function HeroSection() {
 
           /* Make buttons full width without extra padding */
           .button-container {
-            padding: 0 !important;
+            padding: 0 16px !important;
             width: 100% !important;
           }
           
           .button-container button {
-            width: 100% !important;
-            min-width: 100% !important;
+            width: calc(100% - 32px) !important;
+            min-width: calc(100% - 32px) !important;
+            max-width: calc(100% - 32px) !important;
+            overflow: hidden !important;
+            position: relative !important;
+            margin: 0 auto !important;
+          }
+
+          /* Mobile button hover effects - prevent overflow */
+          .button-container button:hover {
+            transform: scale(1.02) !important;
+            overflow: hidden !important;
+          }
+
+          /* Mobile button content overflow control */
+          .button-container button span,
+          .button-container button svg {
             max-width: 100% !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+          }
+
+          /* Mobile right side animated part margin reduction */
+          .mobile-right-content {
+            margin-top: 16px !important;
+            margin-bottom: 16px !important;
+            padding: 0 !important;
+          }
+
+          /* Remove unwanted mobile spacing */
+          .mobile-right-content .relative {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+
+          /* Override default mobile margins */
+          .mobile-right-content {
+            margin-top: 16px !important;
+            margin-bottom: 16px !important;
+            padding: 0 !important;
+          }
+
+          /* Force remove any extra mobile spacing */
+          .w-full.md\\:mt-6.lg\\:w-\\[560px\\].xl\\:w-\\[600px\\] {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
           }
         }
 
@@ -282,29 +347,32 @@ export default function HeroSection() {
         @media (min-width: 640px) and (max-width: 1023px) {
           .responsive-heading {
             width: 100% !important;
-            max-width: 450px !important;
-            font-size: 28px !important;
-            line-height: 40px !important;
-            text-align: left !important;
-            padding: 0 !important;
+            max-width: 100% !important;
+            font-size: clamp(20px, 3.2vw, 28px) !important;
+            line-height: clamp(26px, 4.2vw, 40px) !important;
+            text-align: center !important;
+            padding: 0 16px !important;
             margin: 0 !important;
+            margin-left: -19px !important; /* slight left shift only on tablet */
+            white-space: nowrap !important;
           }
           
           .responsive-paragraph {
             width: 100% !important;
-            max-width: 450px !important;
+            max-width: 100% !important;
             font-size: 15px !important;
             line-height: 22px !important;
-            text-align: left !important;
-            padding: 0 !important;
+            text-align: center !important;
+            padding: 0 16px !important;
             margin: 0 !important;
           }
 
           /* Tablet button styling - left aligned like desktop */
           .button-container {
-            padding: 0 !important;
-            justify-content: flex-start !important;
-            align-items: flex-start !important;
+            padding: 0 16px !important;
+            margin: 0 !important;
+            justify-content: center !important;
+            align-items: center !important;
           }
           
           .button-container button {
@@ -332,6 +400,75 @@ export default function HeroSection() {
             line-height: 24px !important;
             text-align: left !important;
             padding: 0 !important;
+          }
+
+          /* Desktop specific - push right side element towards right */
+          .desktop-right-content {
+            position: relative !important;
+            right: -25px !important;
+            overflow: visible !important;
+            max-width: 100% !important;
+            justify-content: flex-end !important;
+          }
+        }
+
+        /* iPad Air specific styles (820px to 1023px) - Perfect alignment like iPad Mini */
+        @media (min-width: 820px) and (max-width: 1023px) {
+          .responsive-heading {
+            width: 100% !important;
+            max-width: 100% !important;
+            font-size: clamp(20px, 3.2vw, 28px) !important;
+            line-height: clamp(26px, 4.2vw, 40px) !important;
+            text-align: center !important;
+            padding: 0 16px !important;
+            margin: 0 auto !important;
+            white-space: nowrap !important;
+            position: relative !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            margin-left: -45px !important; /* Pull more towards left for perfect centering */
+          }
+          
+          .responsive-paragraph {
+            width: 100% !important;
+            max-width: 100% !important;
+            font-size: 15px !important;
+            line-height: 22px !important;
+            text-align: center !important;
+            padding: 0 16px !important;
+            margin: 0 auto !important;
+          }
+
+          /* iPad Air button styling - center aligned */
+          .button-container {
+            padding: 0 16px !important;
+            margin: 0 auto !important;
+            justify-content: center !important;
+            align-items: center !important;
+          }
+          
+          .button-container button {
+            width: auto !important;
+            min-width: auto !important;
+            max-width: none !important;
+          }
+
+          /* Pull entire left content element towards left in iPad Air */
+          .left-content-ipad-air {
+            position: relative !important;
+            left: -20px !important;
+            transform: translateX(0) !important;
+          }
+        }
+
+        /* iPad Pro specific styles (1024px to 1366px) - Pull right side towards left */
+        @media (min-width: 1024px) and (max-width: 1366px) {
+          .ipad-pro-right-content {
+            position: relative !important;
+            right: 45px !important;
+            overflow: visible !important;
+            max-width: 100% !important;
+            justify-content: flex-end !important;
           }
         }
       `}</style>

@@ -37,7 +37,7 @@ export default function StoriesThatInspire() {
     setDirection(clickDirection);
     setTextDirection(clickDirection);
     
-    // Text slides out first (150ms), then content changes, then slides in
+    // Text slides out first (300ms), then content changes, then slides in
     setTimeout(() => {
       if (clickDirection === 'next') {
         setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -50,13 +50,13 @@ export default function StoriesThatInspire() {
         setTextDirection('');
       }, 10);
       
-    }, 150); // Text slides out duration
+    }, 300); // Text slides out duration (slower for smoothness)
     
     // Complete transition
     setTimeout(() => {
       setIsTransitioning(false);
       setDirection('');
-    }, 300);
+    }, 600);
   };
 
   const handleDotClick = (index: number) => {
@@ -69,7 +69,7 @@ export default function StoriesThatInspire() {
       setDirection(clickDirection);
       setTextDirection(clickDirection);
       
-      // Text slides out first, then content changes, then slides in
+      // Text slides out first (300ms), then content changes, then slides in
       setTimeout(() => {
         setCurrentIndex(index);
         
@@ -78,13 +78,13 @@ export default function StoriesThatInspire() {
           setTextDirection('');
         }, 10);
         
-      }, 150);
+      }, 300);
       
       // Complete transition
       setTimeout(() => {
         setIsTransitioning(false);
         setDirection('');
-      }, 300);
+      }, 600);
     }
   };
 
@@ -130,17 +130,16 @@ export default function StoriesThatInspire() {
 
         {/* Description */}
         <p 
-          className="text-base sm:text-lg mb-6 sm:mb-8 text-black px-2 sm:px-4 md:px-6 lg:px-8 mx-auto"
+          className="text-base sm:text-lg mb-6 sm:mb-8 text-black px-2 sm:px-4 md:px-6 lg:px-8 mx-auto whitespace-normal md:whitespace-normal lg:whitespace-nowrap"
           style={{
             fontFamily: 'DM Sans, sans-serif',
             fontWeight: 400,
             fontStyle: 'normal',
-            fontSize: 'clamp(12px, 2.2vw, 16px)',
-            lineHeight: 'clamp(18px, 3.2vw, 22px)',
+            fontSize: 'clamp(12px, 1.8vw, 16px)',
+            lineHeight: 'clamp(18px, 2.8vw, 22px)',
             letterSpacing: '0px',
             textAlign: 'center',
-            maxWidth: '95%',
-            whiteSpace: 'nowrap'
+            maxWidth: '95%'
           }}
         >
           Our learners share stories of growth, impact, and transformation — and we&apos;re proud to be part of their journey.
@@ -367,15 +366,15 @@ export default function StoriesThatInspire() {
         
         /* Animation Classes for Text */
         .animate-text-slide-out-left {
-          animation: textSlideOutLeft 0.15s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+          animation: textSlideOutLeft 0.3s cubic-bezier(0.4, 0, 0.6, 1) forwards;
         }
         
         .animate-text-slide-out-right {
-          animation: textSlideOutRight 0.15s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+          animation: textSlideOutRight 0.3s cubic-bezier(0.4, 0, 0.6, 1) forwards;
         }
         
         .animate-text-slide-in {
-          animation: textSlideIn 0.15s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+          animation: textSlideIn 0.3s cubic-bezier(0.4, 0, 0.6, 1) forwards;
         }
         
         /* Improved Smooth Sliding Animations - Direct Movement with Fast Scaling */

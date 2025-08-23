@@ -64,7 +64,12 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+    overflow-x: hidden;
   }
+  html { overflow-x: hidden; }
+  /* Hide vertical scrollbar UI but keep scrolling enabled */
+  html, body { -ms-overflow-style: none; scrollbar-width: none; }
+  html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
 }
 
 @layer utilities {

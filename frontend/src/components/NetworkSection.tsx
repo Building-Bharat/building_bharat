@@ -1,196 +1,536 @@
 "use client";
 
 import Image from "next/image";
-import { Montserrat, DM_Sans } from "next/font/google";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["800"], // ExtraBold
-});
+export default function CompanyLogosSection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400"], // Regular
-});
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Run only once
+        }
+      },
+      { threshold: 0.2 } // Trigger when 20% of section is visible
+    );
 
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
-const container = {
-  hidden: { opacity: 0},
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.25, // logos appear one by one
-    },
-  },
-};
-
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-// Logos
-const logosRow1 = [
-  "/images/indfound.png",
-  "/images/cpr.png",
-  "/images/nitiayog.png",
-  "/images/vidhi.png",
-  "/images/orf.png",
-  "/images/ipac.png",
-  "/images/jansuraj.png",
-  "/images/filings.png",
-  "/images/prs.png",
-];
-
-const logosRow2 = [
-  "/images/ipac.png",
-  "/images/jansuraj.png",
-  "/images/filings.png",
-  "/images/prs.png",
-  "/images/mukherjee.png",
-  "/images/gandhi.png",
-  "/images/indfound.png",
-  "/images/cpr.png",
-  "/images/nitiayog.png",
-  "/images/vidhi.png",
-];
-
-const logosBehind = [
-  "/images/book.png",
-  "/images/jarvis.png",
-  "/images/teach.png",
-  "/images/varahe.png",
-  "/images/showtime.png",
-  "/images/indfound.png",
-  "/images/cpr.png",
-  "/images/nitiayog.png",
-  "/images/vidhi.png",
-];
-
-const buildingBharatLogo = "/images/bharat.png";
-
-export default function LearnersSection() {
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
   return (
-    <section className=" py-12 flex flex-col items-center bg-[#E5E7EA]">
-      {/* Heading */}
-      <h2
-        className={`${montserrat.className} text-[16px] sm:text-[32px] font-extrabold leading-[24px] sm:leading-[38px] text-[#005451] text-center max-w-[1279px]`}
-      >
-        Our Learners Are Powering Governance & Campaigns Nationwide
-      </h2>
-
-      {/* Paragraph */}
-      <p
-        className={`${dmSans.className} mt-[10px] sm:mt-[32px] text-[14px] sm:text-[16px] font-normal leading-[20px] text-[#0A0A0A] text-center max-w-[1279px] px-4`}
-      >
-       With top peers, field mentors, and live political projects, they now work in government offices, think tanks, and leading political consultancies.
-      </p>
-
-      {/* Logos Section */}
-      <div className="mt-12 w-full flex flex-col gap-8 relative">
-        {/* Row 1 */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-6"
+    <section className="py-8" ref={sectionRef}>
+      {/* Header */}
+      {/* Header */}
+      <div className="text-center mb-12 px-4">
+        <h1
+          className={`text-[16px] sm:text-[32px] leading-[24px] sm:leading-[38px] font-Montserrat font-weight:800 font-extrabold text-[#005451] mb-4 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
-          {logosRow1.map((logo, idx) => (
-            <motion.div
-              key={idx}
-              variants={item}
-              className="inline-flex border border-[#9EA2AE] items-center justify-center bg-white rounded-lg shadow-sm p-2"
-            >
-              <Image
-                src={logo}
-                alt={`Logo ${idx}`}
-                width={0} // let CSS handle sizing
-                height={0}
-                sizes="100vw"
-                className="object-contain w-20 h-10 sm:w-28 sm:h-14 md:w-32 md:h-16"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+          Our Learners Are Powering Governance & Campaigns Nationwide
+        </h1>
+        <p
+          className={`text-black text-[14px] sm:text-[16px] leading-[20px] font-DMsans font-weight:400  max-w-auto mx-auto transition-all duration-1000 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          With top peers, field mentors, and live political projects, they now
+          work in government offices, think tanks, and leading political
+          consultancies.
+        </p>
+      </div>
 
-        {/* Center Logo with row behind */}
-        <div className="relative flex justify-center mt-4">
-          {/* Behind row animates first */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="flex gap-10 absolute inset-0 justify-center hidden sm:flex md:flex "
-          >
-            {logosBehind.map((logo, idx) => (
-              <motion.div
-                key={idx}
-                variants={item}
-                className="inline-flex items-center  justify-center bg-[#E5E7EA] rounded-lg shadow-sm p-2"
-              >
-                <Image
-                  src={logo}
-                  alt={`Logo Behind ${idx}`}
-                  width={120}
-                  height={100}
-                  className="object-contain sm:hidden"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Bharat Logo comes last */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: logosBehind.length * 0.25 }}
-            viewport={{ once: true }}
-            className="bg-white border border-[#F97C04] rounded-xl shadow-md relative z-10 w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] flex items-center justify-center p-3"
-          >
+      {/* Company Logos Grid */}
+      <div
+        className="
+            grid 
+     grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7
+     gap-4 px-2 sm:px-4
+   
+        "
+      >
+        {/* Row 1 */}
+        <div
+          className={`h-16  border border-[#F97C04] rounded-lg  hidden sm:block bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "500ms" }}
+        >
+          <span className="text-blue-600 font-semibold text-sm flex justify-center items-center mt-0 sm:mt-[14px] ">
             <Image
-              src={buildingBharatLogo}
-              alt="Building Bharat"
-              width={0} // let CSS handle sizing
-              height={0}
-              sizes="100vw"
-              className="object-contain w-[120px] h-[120px] sm:w-[200px] sm:h-[200px]"
+              src="/images/3c.png"
+              alt="Icon"
+              width={110}
+              height={40}
+              className="max-w-auto w-auto h-auto object-contain"
             />
-          </motion.div>
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "600ms" }}
+        >
+          <span className="text-blue-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[8px]">
+            <Image
+              src="/images/lamp.jpg"
+              alt="Icon"
+              width={120}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-20  border border-[#F97C04] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "700ms" }}
+        >
+          <span className="text-blue-600 font-semibold text-sm flex justify-center items-center">
+            <Image
+              src="/images/book.webp"
+              alt="Icon"
+              width={90}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-16  border border-[#F97C04] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "800ms" }}
+        >
+          <span className="font-semibold text-sm flex justify-center items-center">
+            <Image
+              src="/images/cpr.jpg"
+              alt="Icon"
+              width={90}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] hidden sm:block  rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "900ms" }}
+        >
+          <span className=" font-semibold text-sm flex justify-center items-center sm:mt-[16px] mt-0">
+            <Image
+              src="/images/cvoter.png"
+              alt="Icon"
+              width={150}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-20  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1000ms" }}
+        >
+          <span className="font-semibold text-sm">
+            <Image
+              src="/images/dex.png"
+              alt="Icon"
+              width={150}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-16  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1100ms" }}
+        >
+          <span className="text-blue-600 font-semibold text-sm">
+            <Image
+              src="/images/filings.png"
+              alt="Icon"
+              width={120}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
         </div>
 
         {/* Row 2 */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-6 mt-4"
+        <div
+          className={`h-23  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 hidden sm:block transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1200ms" }}
         >
-          {logosRow2.map((logo, idx) => (
-            <motion.div
-              key={idx}
-              variants={item}
-              className="inline-flex border border-[#9EA2AE] items-center justify-center bg-white rounded-lg shadow-sm p-2"
-            >
-              <Image
-                src={logo}
-                alt={`Logo ${idx}`}
-                width={0} // let CSS handle sizing
-                height={0}
-                sizes="100vw"
-                className="object-contain w-20 h-10 sm:w-28 sm:h-14 md:w-32 md:h-16"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+          <span className="text-blue-600 font-bold text-sm flex justify-center items-center">
+            <Image
+              src="/images/gandhi.jpeg"
+              alt="Icon"
+              width={190}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-20  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 block md:hidden lg:block transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1300ms" }}
+        >
+          <span className="text-blue-600 font-bold text-sm flex justify-center items-center sm:mt-[8px] mt-0">
+            <Image
+              src="/images/ppgf.png"
+              alt="Icon"
+              width={110}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] rounded-lg flex items-center justify-center block md:hidden lg:block bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1400ms" }}
+        >
+          <span className="font-bold text-lg  flex justify-center items-center sm:mt-[8px] mt-0">
+            <Image
+              src="/images/indfound.png"
+              alt="Icon"
+              width={80}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+  className={`
+    row-span-2 h-44 border border-[#F97C04] rounded-lg flex items-center justify-center 
+    bg-gradient-to-t from-blue-400 via-blue-300 to-blue-200 
+    hover:shadow-xl hover:scale-110 transition-all duration-500 
+    ${isVisible ? "opacity-100 translate-y-0 rotate-0" : "opacity-0 translate-y-12 rotate-12"}
+    col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 xl:col-span-6 2xl:col-span-1
+  `}
+  style={{ transitionDelay: "1500ms" }}
+>
+  <div className="text-center">
+    <div className="w-48 h-48 rounded-full mx-auto mb-2 flex items-center justify-center transition-all duration-300">
+      <Image
+        src="/images/bharat.png"
+        alt="Icon"
+        width={200}
+        height={200}
+        className="max-w-full h-auto object-contain"
+      />
+    </div>
+  </div>
+  </div>
+  
+  
+
+
+
+        <div
+          className={`h-24  border border-[#F97C04] rounded-lg flex items-center hidden lg:block justify-center  bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1600ms" }}
+        >
+          <span className="font-bold text-lg flex justify-center items-center">
+            <Image
+              src="/images/ipac.jpeg"
+              alt="Icon"
+              width={90}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-20  border border-[#F97C04] rounded-lg flex items-center justify-center hidden lg:block bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1700ms" }}
+        >
+          <span className="text-blue-600 font-bold text-lg flex justify-center items-center">
+            <Image
+              src="/images/jarvis.jpeg"
+              alt="Icon"
+              width={70}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] rounded-lg hidden lg:block flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1800ms" }}
+        >
+          <span className="text-red-600 font-bold text-lg flex justify-center items-center">
+            <Image
+              src="/images/jansuraj.png"
+              alt="Icon"
+              width={90}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        {/* Row 3 */}
+        <div
+          className={`h-24  border border-[#F97C04] hidden lg:block rounded-lg  bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "1900ms" }}
+        >
+          <span className="text-blue-600 font-bold text-sm flex justify-center items-center mt-0 sm:mt-[32px]">
+            <Image
+              src="/images/mukherjee.png"
+              alt="Icon"
+              width={150}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-20  border border-[#F97C04] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2000ms" }}
+        >
+          <span className="text-orange-500 font-bold text-sm flex justify-center items-center">
+            <Image
+              src="/images/orf.jpg"
+              alt="Icon"
+              width={120}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2100ms" }}
+        >
+          <span className="text-blue-600 font-bold text-lg">
+            <Image
+              src="/images/prs.png"
+              alt="Icon"
+              width={70}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2200ms" }}
+        >
+          <span className="text-red-600 font-bold text-sm">
+            <Image
+              src="/images/rajneeti.jpeg"
+              alt="Icon"
+              width={70}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-16  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2300ms" }}
+        >
+          <span className="font-bold text-sm">
+            <Image
+              src="/images/showtime.jpeg"
+              alt="Icon"
+              width={50}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-20  border border-[#F97C04] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2400ms" }}
+        >
+          <span className="text-blue-600 font-bold text-lg">
+            <Image
+              src="/images/taksa.webp"
+              alt="Icon"
+              width={150}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        {/* Row 4 */}
+        <div
+          className={`h-24  border border-[#F97C04] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2500ms" }}
+        >
+          <span className="text-pink-600 font-semibold text-sm">
+            <Image
+              src="/images/teach.webp"
+              alt="Icon"
+              width={190}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-20  border border-[#F97C04] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2600ms" }}
+        >
+          <span className="font-bold text-lg flex justify-center items-center mt-0 sm:mt-[12px]">
+            <Image
+              src="/images/varahe.png"
+              alt="Icon"
+              width={150}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2700ms" }}
+        >
+          <span className="text-green-600 font-bold text-sm flex justify-center items-center">
+            <Image
+              src="/images/smartneta.png"
+              alt="Icon"
+              width={80}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24 lg:h-16  border border-[#F97C04] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2800ms" }}
+        >
+          <span className="text-red-600 font-bold text-lg flex justify-center items-center">
+            <Image
+              src="/images/vidhi.jpg"
+              alt="Icon"
+              width={150}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "2900ms" }}
+        >
+          <span className="text-blue-600 font-semibold text-sm flex justify-center items-center mt-0 sm:mt-[20px]">
+            <Image
+              src="/images/namo.png"
+              alt="Icon"
+              width={100}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-20  border border-[#F97C04] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "3000ms" }}
+        >
+          <span className="text-blue-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[24px]">
+            <Image
+              src="/images/democracy.png"
+              alt="Icon"
+              width={100}
+              height={40}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
+
+        <div
+          className={`h-24  border border-[#F97C04] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "3100ms" }}
+        >
+          <span className="text-red-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[24px]">
+            <Image
+              src="/images/minds.png"
+              alt="Icon"
+              width={190}
+              height={90}
+              className="max-w-full h-auto object-contain"
+            />
+          </span>
+        </div>
       </div>
     </section>
   );
