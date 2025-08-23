@@ -2,8 +2,12 @@
 
 import React from 'react';
 import AnimatedStates from './AnimatedStates';
+// import LottieAnimation from './LottieAnimation'; // Commented out but kept for future use
 
 export default function HeroSection() {
+  // State to toggle between old and new animation - Commented out since only original animation is displayed
+  // const [useNewAnimation, setUseNewAnimation] = useState(true);
+
   return (
     <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 md:pt-12 lg:pt-0 lg:mx-[64px]" style={{ background: '#E5E7EA' }}>
       <div className="mx-auto w-full px-[10px] md:px-4 lg:px-0 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-10">
@@ -213,7 +217,22 @@ export default function HeroSection() {
         {/* Right Content - align to right on desktop and keep within container */}
         <div className="w-full md:mt-6 lg:w-[560px] xl:w-[600px] flex items-center justify-center md:justify-center lg:justify-end order-first lg:order-last lg:ml-auto overflow-visible md:mt-14 lg:mt-0">
           <div className="relative w-full h-full flex items-center justify-center md:justify-center lg:justify-end ipad-pro-right-content mobile-right-content desktop-right-content">
-            {/* Animated States Component */}
+            
+            {/* Animation Toggle Button - Commented out since only original animation is displayed */}
+            {/* <button 
+              onClick={() => setUseNewAnimation(!useNewAnimation)}
+              className="absolute top-2 right-2 z-10 bg-blue-500 text-white px-2 py-1 rounded text-xs opacity-50 hover:opacity-100 transition-opacity"
+              title="Toggle between old and new animation"
+            >
+              {useNewAnimation ? 'Old' : 'New'}
+            </button> */}
+
+            {/* New Lottie Animation - Commented out but kept for future use */}
+            {/* {useNewAnimation && (
+              <LottieAnimation />
+            )} */}
+
+            {/* Original Animated States Component - Always displayed */}
             <AnimatedStates />
           </div>
         </div>

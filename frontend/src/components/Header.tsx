@@ -61,10 +61,13 @@ export default function Header() {
         paddingRight: '0px' 
       }}>
         <style>{`
-          /* Custom underline width for nav links */
+          /* Custom underline width for nav links - matches text width exactly */
           .nav-link-underline {
             width: 0;
             transition: width 0.3s ease-in-out;
+            left: 0 !important;
+            transform: none !important;
+            bottom: -2px !important;
           }
           
           .group:hover .nav-link-underline {
@@ -219,9 +222,7 @@ export default function Header() {
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative group transition-all duration-500 overflow-visible whitespace-nowrap ${
-                  link.active ? '' : 'hover:text-orange-500'
-                }`}
+                className="relative group transition-all duration-500 overflow-visible whitespace-nowrap"
                 style={{ 
                   zIndex: 1, 
                   display: 'inline-flex',
@@ -243,25 +244,17 @@ export default function Header() {
                   justifyContent: 'center',
                   transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
-                onMouseEnter={(e) => {
-                  if (!link.active) {
-                    e.currentTarget.style.color = '#F97C04';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!link.active) {
-                    e.currentTarget.style.color = '#000000';
-                  }
-                }}
               >
                 {link.label}
-                {/* Hover underline effect */}
+                {/* Hover underline effect - matches text width exactly */}
                 <span 
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-orange-500 nav-link-underline"
+                  className="absolute bottom-0 h-0.5 bg-orange-500 nav-link-underline"
                   style={{
                     backgroundColor: '#F97C04',
                     height: '2px',
                     width: '0%',
+                    left: '0px',
+                    bottom: '-2px',
                     transition: 'width 0.3s ease-in-out'
                   }}
                 />
