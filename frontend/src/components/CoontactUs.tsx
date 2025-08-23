@@ -72,14 +72,21 @@ export default function Footer() {
 
             <div className="hidden sm:block w-px h-5 bg-[#F9FAFB]"></div>
 
-            <div className="flex items-center gap-2 border border-[#F1F1F1] rounded px-4 py-2 cursor-pointer">
-              <Globe size={16} />
+            <div className="inline-flex items-center gap-4 px-4 py-2 rounded-[8px] border border-[#F1F1F1] cursor-pointer">
+              {/* Globe icon */}
+              <Globe size={20} className="text-[#F1F1F1]" />
+
+              {/* Language select */}
               <select
-                className="bg-[#0A0A0A] text-sm outline-none font-DMsans"
+                className="bg-transparent text-[#F1F1F1] text-[14px] font-DMsans font-bold leading-6 outline-none cursor-pointer"
                 defaultValue="English"
               >
-                <option value="English">English</option>
-                <option value="Hindi">हिन्दी</option>
+                <option value="English" className="text-black">
+                  English
+                </option>
+                <option value="Hindi" className="text-black">
+                  हिन्दी
+                </option>
               </select>
             </div>
           </div>
@@ -126,4 +133,3 @@ export default function Footer() {
     </footer>
   );
 }
-

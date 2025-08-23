@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google";
 import { DM_Sans } from "next/font/google";
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -11,6 +12,7 @@ const montserrat = Montserrat({
 });
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
+// CountUp (unchanged)
 const CountUpDisplay = ({ end }: { end: number }) => {
   const [startCount, setStartCount] = useState(false);
   const { ref, inView } = useInView({
@@ -36,8 +38,13 @@ const useCountUp = (end: number, duration: number = 2000) => {
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      const currentCount = Math.floor(easeOutQuart * end);
+
+      const easeInOutCubic =
+        progress < 0.5
+          ? 4 * Math.pow(progress, 3)
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      const currentCount = Math.floor(easeInOutCubic * end);
       setCount(currentCount);
       if (progress < 1) animationFrame = requestAnimationFrame(animate);
     };
@@ -49,12 +56,22 @@ const useCountUp = (end: number, duration: number = 2000) => {
   return count;
 };
 
+// Animation Variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut", delay },
+  }),
+};
+
 const ImpactMatrix: NextPage = () => {
   return (
     <main
       className={`${montserrat.className} relative w-full bg-gradient-to-l from-[#001414] to-[#007a77] text-white overflow-hidden`}
     >
-      {/* Background India Vector - Desktop */}
+      {/* Backgrounds */}
       <div className="pointer-events-none select-none absolute top-0 left-1/2 -translate-x-1/2 hidden md:block max-w-[1440px] w-full z-0">
         <Image
           src="/images/indiaVector.png"
@@ -65,8 +82,6 @@ const ImpactMatrix: NextPage = () => {
           priority
         />
       </div>
-
-      {/* Background India Vector - Mobile */}
       <div className="pointer-events-none select-none absolute top-0 left-1/2 -translate-x-1/2 block md:hidden w-full z-0">
         <Image
           src="/images/indiaVectorSmall.png"
@@ -82,7 +97,12 @@ const ImpactMatrix: NextPage = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-16 py-10 md:py-13 flex flex-col items-center gap-12 mb-4 sm:mb-4">
         {/* Heading */}
-        <div className="flex flex-col items-center mt-0 sm:mt-[32px] text-center gap-4 max-w-[600px] w-full px-2">
+        <motion.div
+          className="flex flex-col items-center text-center gap-4 max-w-[600px] w-full px-2"
+          initial="hidden"
+          animate="show"
+          variants={fadeUp}
+        >
           <h2 className="text-[18px] sm:text-[32px] font-extrabold leading-[24px] sm:leading-[38px] text-[#F9FAFB]">
             Building Bharat Till Date
           </h2>
@@ -91,32 +111,36 @@ const ImpactMatrix: NextPage = () => {
           >
             Our journey in shaping India&apos;s political and policy landscape
           </p>
-        </div>
+        </motion.div>
 
         {/* Stats */}
-<div className="w-full max-w-[1312px] flex flex-wrap justify-center gap-x-6 sm:gap-x-[124px] gap-y-6 mt-2">
-  {[
-    { end: 1000, label: "Students Trained" },
-    { end: 200, label: "Successful Placements" },
-    { end: 50, label: "Partner Organizations" },
-    { end: 15, label: "Specialized Courses" },
-  ].map(({ end, label }, i) => (
-    <div
-      key={i}
-      className="flex flex-col items-center justify-start w-[140px] sm:w-[200px] text-center"
-    >
-      <span className="font-bold text-[20px] sm:text-[24px] leading-none text-[#F9FAFB]">
-        <CountUpDisplay end={end} />+
-      </span>
-      <span
-        className={`${dmSans.className} text-[12px] sm:text-[14px] text-[#F1F1F1] mt-1 leading-tight min-h-[36px] sm:min-h-[40px]`}
-      >
-        {label}
-      </span>
-    </div>
-  ))}
-</div>
-
+        <div className="w-full max-w-[1312px] flex flex-wrap justify-center gap-x-6 sm:gap-x-[124px] gap-y-6 mt-2">
+          {[
+            { end: 1000, label: "Students Trained" },
+            { end: 200, label: "Successful Placements" },
+            { end: 50, label: "Partner Organizations" },
+            { end: 15, label: "Specialized Courses" },
+          ].map(({ end, label }, i) => (
+            <motion.div
+              key={i}
+              className="flex flex-col items-center justify-start w-[140px] sm:w-[200px] text-center"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              custom={0.3 + i * 0.2} // stagger effect
+              variants={fadeUp}
+            >
+              <span className="font-bold text-[20px] sm:text-[24px] leading-none text-[#F9FAFB]">
+                <CountUpDisplay end={end} />+
+              </span>
+              <span
+                className={`${dmSans.className} text-[12px] sm:text-[14px] text-[#F1F1F1] mt-1 leading-tight min-h-[36px] sm:min-h-[40px]`}
+              >
+                {label}
+              </span>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Cards */}
         <div className="w-full max-w-[1312px] flex flex-col sm:flex-row flex-wrap justify-center items-center gap-6 sm:gap-8 px-2 sm:px-6">
@@ -137,21 +161,18 @@ const ImpactMatrix: NextPage = () => {
               text: "Our alumni are driving change in Parliament, state governments, and top policy consulting roles nationwide.",
             },
           ].map((card, i) => (
-            <div
+            <motion.div
               key={i}
               className="relative flex flex-col items-center w-full max-w-[360px]"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              custom={0.6 + i * 0.3} // delayed after stats
+              variants={fadeUp}
             >
-              {/* Icon */}
               <div className="absolute -top-0 sm:-top-1 w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] p-2 bg-[#F1F1F1] rounded-full flex items-center justify-center z-10 cursor-pointer">
-                <Image
-                  src={card.icon}
-                  alt={card.title}
-                  width={29}
-                  height={24}
-                />
+                <Image src={card.icon} alt={card.title} width={29} height={24} />
               </div>
-
-              {/* Card */}
               <div
                 className={`mt-10 flex flex-col items-center text-center pt-6 pb-6 px-4 sm:px-6 gap-3 w-full max-w-[360px] min-h-[200px] border border-[#F1F1F1] rounded-[16px] bg-transparent ${dmSans.className}`}
               >
@@ -162,7 +183,7 @@ const ImpactMatrix: NextPage = () => {
                   {card.text}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -171,3 +192,4 @@ const ImpactMatrix: NextPage = () => {
 };
 
 export default ImpactMatrix;
+
