@@ -16,17 +16,17 @@ export default function StoriesThatInspire() {
     },
     {
       id: 2,
-      name: "Sarah Johnson",
+      name: "Michael Chen",
       quote: "This learning experience has been transformative for my career. The practical approach and expert guidance helped me achieve goals I never thought possible. Highly recommend to anyone looking to grow professionally.",
       image: "/images/image 3.png",
-      alt: "Sarah Johnson"
+      alt: "Michael Chen"
     },
     {
       id: 3,
-      name: "Michael Chen",
+      name: "Sarah Johnson",
       quote: "The supportive community and comprehensive curriculum made all the difference in my learning journey. I gained not just knowledge, but confidence to tackle new challenges in my field.",
       image: "/images/image 4.png",
-      alt: "Michael Chen"
+      alt: "Sarah Johnson"
     }
   ];
 
@@ -150,7 +150,7 @@ export default function StoriesThatInspire() {
           
           {/* Left Profile Picture */}
           <div 
-            className={`w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-gray-300 cursor-pointer transform profile-image ${
+            className={`w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-gray-300 cursor-pointer transform profile-image side-image ${
               isTransitioning && direction === 'prev' ? 'animate-slide-left-to-center' : 
               isTransitioning && direction === 'next' ? 'animate-background-move-right' : ''
             }`}
@@ -169,7 +169,7 @@ export default function StoriesThatInspire() {
 
           {/* Center Profile Picture (Larger) */}
           <div 
-            className={`w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 shadow-lg transform profile-image ${
+            className={`w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 shadow-lg transform profile-image center-image ${
               isTransitioning && direction === 'prev' ? 'animate-slide-center-to-right' : 
               isTransitioning && direction === 'next' ? 'animate-slide-center-to-left' : ''
             }`}
@@ -188,7 +188,7 @@ export default function StoriesThatInspire() {
 
           {/* Right Profile Picture */}
           <div 
-            className={`w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-gray-300 cursor-pointer transform profile-image ${
+            className={`w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-gray-300 cursor-pointer transform profile-image side-image ${
               isTransitioning && direction === 'next' ? 'animate-slide-right-to-center' : 
               isTransitioning && direction === 'prev' ? 'animate-background-move-left' : ''
             }`}
@@ -280,13 +280,13 @@ export default function StoriesThatInspire() {
 
           {/* Social Media Icons */}
           <div className="flex items-center justify-center gap-4 sm:gap-6 mb-8">
-            {/* Twitter/X Icon */}
+            {/* College Icon */}
             <div 
               className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-gray-600" 
               style={{ background: '#544E4E' }}
             >
               <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
               </svg>
             </div>
 
@@ -593,9 +593,21 @@ export default function StoriesThatInspire() {
           backface-visibility: hidden;
         }
         
-        .profile-image:hover:not([class*="animate-"]) {
-          transform: scale(1.05);
+        /* Center image - permanently bright, no hover effect */
+        .center-image {
           filter: brightness(1.1);
+          box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        /* Side images - dull by default, glow on hover */
+        .side-image {
+          filter: brightness(0.8);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .side-image:hover:not([class*="animate-"]) {
+          filter: brightness(1.1);
+          transform: scale(1.05);
           box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
         
