@@ -54,7 +54,7 @@ export default function CompanyLogosSection() {
       <div
         className="
             grid 
-     grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7
+     grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-7
      gap-4 px-2 sm:px-4
    
         "
@@ -66,7 +66,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "500ms" }}
         >
-          <span className="text-blue-600 font-semibold text-sm flex justify-center items-center mt-0 sm:mt-[14px] ">
+          <span className="text-blue-600 font-semibold text-sm flex justify-center  items-center mt-0 sm:mt-[14px] ">
             <Image
               src="/images/3c.png"
               alt="Icon"
@@ -237,7 +237,7 @@ export default function CompanyLogosSection() {
     bg-white
     hover:shadow-xl hover:scale-110 transition-all duration-500 
     ${isVisible ? "opacity-100 translate-y-0 rotate-0" : "opacity-0 translate-y-12 rotate-12"}
-    col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 xl:col-span-6 2xl:col-span-1
+    col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 xl:col-span-1 2xl:col-span-1
   `}
   style={{ transitionDelay: "1500ms" }}
 >
