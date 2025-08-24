@@ -54,7 +54,7 @@ export default function CompanyLogosSection() {
       <div
         className="
             grid 
-     grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-7
+     grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-7 2xl:grid-cols-7
      gap-4 px-2 sm:px-4
    
         "
@@ -198,7 +198,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 block md:hidden lg:block transition-all duration-300 ${
+          className={`h-20  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "1300ms" }}
@@ -237,7 +237,7 @@ export default function CompanyLogosSection() {
     bg-white
     hover:shadow-xl hover:scale-110 transition-all duration-500 
     ${isVisible ? "opacity-100 translate-y-0 rotate-0" : "opacity-0 translate-y-12 rotate-12"}
-    col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 xl:col-span-1 2xl:col-span-1
+    col-span-2 sm:col-span-1 md:col-span-2 lg:col-span-1 xl:col-span-1 2xl:col-span-1
   `}
   style={{ transitionDelay: "1500ms" }}
 >
@@ -516,7 +516,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-24  border border-[#9EA2AE] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex hidden xl:flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "3100ms" }}
