@@ -177,9 +177,9 @@ export default function Header() {
 
           /* Desktop/laptop presets */
           @media (min-width: 1024px) {
-            .header-container { height: 56px !important; justify-content: space-between !important; }
+            .header-container { height: 74px !important; justify-content: space-between !important; }
             /* While in hero: centered with margins */
-            .header-desktop-inHero { width: calc(100vw - 128px) !important; max-width: none !important; padding: 8px 16px !important; border-radius: 8px !important; margin: 16px 64px 32px 64px !important; }
+            .header-desktop-inHero { width: calc(100vw - 128px) !important; max-width: none !important; padding: 8px 16px !important; border-radius: 8px !important; margin: 16px 64px 8px 64px !important; }
             /* After hero: grow to full-bleed and stick to top with no margins */
             .header-desktop-full { width: 100vw !important; max-width: none !important; padding: 8px 16px !important; border-radius: 0 !important; margin: 0 !important; }
           }
