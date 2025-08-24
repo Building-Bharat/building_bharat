@@ -132,7 +132,7 @@ export default function HaveQuestionsLetsTalk() {
                         fontSize: '13px',
                         border: '1px solid #F97C04',
                         backgroundColor: 'var(--color-grey-200, #E5E7EA)',
-                        color: '#9CA3AF'
+                        color: '#000000'
                       }}
                       onFocus={(e) => {
                         e.target.style.backgroundColor = '#FFFFFF';
@@ -159,7 +159,7 @@ export default function HaveQuestionsLetsTalk() {
                         fontSize: '13px',
                         border: '1px solid #F97C04',
                         backgroundColor: 'var(--color-grey-200, #E5E7EA)',
-                        color: '#9CA3AF'
+                        color: '#000000'
                       }}
                       onFocus={(e) => {
                         e.target.style.backgroundColor = '#FFFFFF';
@@ -186,7 +186,7 @@ export default function HaveQuestionsLetsTalk() {
                         fontSize: '13px',
                         border: '1px solid #F97C04',
                         backgroundColor: 'var(--color-grey-200, #E5E7EA)',
-                        color: '#9CA3AF'
+                        color: '#000000'
                       }}
                       onFocus={(e) => {
                         e.target.style.backgroundColor = '#FFFFFF';
@@ -212,7 +212,7 @@ export default function HaveQuestionsLetsTalk() {
                         fontSize: '13px',
                         border: '1px solid #F97C04',
                         backgroundColor: 'var(--color-grey-200, #E5E7EA)',
-                        color: '#9CA3AF'
+                        color: '#000000'
                       }}
                       onFocus={(e) => {
                         e.target.style.backgroundColor = '#FFFFFF';
