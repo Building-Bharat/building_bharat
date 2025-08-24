@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const { type } = require('os');
 
 const userSchema = new mongoose.Schema({
 	name: {
@@ -51,7 +52,16 @@ const userSchema = new mongoose.Schema({
 	passwordResetExpires: Date,
 	active: { type: Boolean, default: false },
 	isAdmin: { type: Boolean, default: false },
-	createdAt: { type: Date, default: Date.now }
+	createdAt: { type: Date, default: Date.now },
+	otp: {
+		type: String,
+		select: false
+	},
+	otpExpiresAt: Date,
+	isVerified: {
+		type: Boolean,
+		default: false
+	}
 })
 
 

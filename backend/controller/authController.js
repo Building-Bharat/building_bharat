@@ -1,9 +1,17 @@
 const User = require('../model/user.model');
-const bycrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 const catchAsync = require('./../utils/catchAsync');
 const crypto = require('crypto');
+const sendEmail = require('../service/email.service');
+
+//generate otp
+function generateOTP() {
+	// return crypto.randomInt(1000, 9999).toString(); // 4-digit OTP
+	return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
 
 //sing in token
 const signToken = (id) => {
@@ -32,6 +40,40 @@ function createSendToken(newUser, statusCode, res) {
 	});
 }
 
+async function generateOtpVerify(newUser) {
+	try {
+		const otp = generateOTP();
+		console.log('Generated OTP:', otp);  // Debug log
+
+		if (!otp) {
+			throw new Error('OTP generation failed');
+		}
+
+		const hashedOtp = await bcrypt.hash(otp, 10);
+
+
+		newUser.otp = hashedOtp;
+		newUser.otpExpiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+
+		console.log("before saving user");
+
+		await newUser.save({ validateBeforeSave: false });
+
+		console.log("Before sending email");
+		// Send OTP to user's email
+		await sendEmail({
+			to: newUser.email,
+			subject: 'Your OTP for Signup',
+			text: `Your OTP is ${otp}. It expires in 10 minutes.`
+		});
+
+	}
+	catch (err) {
+		console.error(`this is otp error ` + err.message);
+	}
+}
+
 exports.emailSignUp = catchAsync(async (req, res) => {
 	const newUser = await User.create({
 		name: req.body.name,
@@ -39,6 +81,8 @@ exports.emailSignUp = catchAsync(async (req, res) => {
 		password: req.body.password,
 		passwordConfirm: req.body.passwordConfirm
 	});
+
+	await generateOtpVerify(newUser);
 
 	createSendToken(newUser, 201, res);
 });
@@ -208,3 +252,35 @@ exports.updatePassword = async (req, res, next) => {
 };
 
 
+exports.verifyOTP = catchAsync(async (req, res) => {
+	const { email, otp } = req.body;
+
+	const user = await User.findOne({ email }).select('+otp +otpExpiresAt');
+
+
+	console.log({ user });
+	if (!user) {
+		return res.status(404).json({ message: 'User not found' });
+	}
+
+	if (user.otpExpiresAt < Date.now()) {
+		return res.status(400).json({ message: 'OTP expired' });
+	}
+	console.log(user.otp);
+
+	const isMatch = await bcrypt.compare(otp, user.otp);
+
+	if (!isMatch) {
+		return res.status(400).json({ message: 'Invalid OTP' });
+	}
+
+	user.isVerified = true;
+	user.otp = undefined;
+	user.otpExpiresAt = undefined;
+	await user.save({ validateBeforeSave: false });
+
+	res.status(200).json({
+		status: 'success',
+		message: 'Email verified successfully'
+	});
+});	
