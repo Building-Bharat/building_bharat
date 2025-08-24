@@ -215,7 +215,7 @@ export default function HeroSection() {
         </div>
 
         {/* Right Content - align to right on desktop and keep within container */}
-        <div className="w-full md:mt-6 lg:w-[560px] xl:w-[600px] flex items-center justify-center md:justify-center lg:justify-end order-first lg:order-last lg:ml-auto overflow-visible md:mt-14 lg:mt-0">
+        <div className="w-full md:mt-6 lg:w-[560px] xl:w-[600px] flex items-center justify-center md:justify-center lg:justify-end order-first lg:order-last lg:ml-auto xl:mr-auto overflow-visible md:mt-14 lg:mt-0">
           <div className="relative w-full h-full flex items-center justify-center md:justify-center lg:justify-end ipad-pro-right-content mobile-right-content desktop-right-content">
             
             {/* Animation Toggle Button - Commented out since only original animation is displayed */}
