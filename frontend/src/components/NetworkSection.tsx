@@ -61,7 +61,7 @@ export default function CompanyLogosSection() {
       >
         {/* Row 1 */}
         <div
-          className={`h-16  border border-[#9EA2AE] rounded-lg  hidden sm:block bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg  hidden sm:block bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "500ms" }}
@@ -95,7 +95,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "700ms" }}
@@ -112,7 +112,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-16  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "800ms" }}
@@ -146,7 +146,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "1000ms" }}
@@ -163,7 +163,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-16  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "1100ms" }}
@@ -181,7 +181,7 @@ export default function CompanyLogosSection() {
 
         {/* Row 2 */}
         <div
-          className={`h-23  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 hidden sm:block transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 hidden sm:block transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "1200ms" }}
@@ -198,7 +198,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "1300ms" }}
@@ -233,7 +233,7 @@ export default function CompanyLogosSection() {
 
         <div
   className={`
-    row-span-2 h-44 border border-[#9EA2AE] rounded-lg flex items-center justify-center 
+    row-span-2 h-50 border border-[#9EA2AE] rounded-lg flex items-center justify-center 
     bg-white
     hover:shadow-xl hover:scale-110 transition-all duration-500 
     ${isVisible ? "opacity-100 translate-y-0 rotate-0" : "opacity-0 translate-y-12 rotate-12"}
@@ -276,7 +276,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] rounded-lg flex items-center justify-center hidden lg:block bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center hidden lg:block bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "1700ms" }}
@@ -328,7 +328,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "2000ms" }}
@@ -379,7 +379,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-16  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "2300ms" }}
@@ -396,7 +396,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "2400ms" }}
@@ -431,7 +431,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "2600ms" }}
@@ -465,12 +465,12 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-24 lg:h-16  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24 lg:h-24  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "2800ms" }}
         >
-          <span className="text-red-600 font-bold text-lg flex justify-center items-center">
+          <span className="text-red-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[24px]">
             <Image
               src="/images/vidhi.jpg"
               alt="Icon"
@@ -499,7 +499,7 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-20  border border-[#9EA2AE] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "3000ms" }}
