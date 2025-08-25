@@ -1,12 +1,29 @@
-// components/Footer.tsx
+"use client";
+
 import Image from "next/image";
-import { Globe } from "lucide-react";
+import { Globe, ChevronDown, ChevronUp, Check } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import CookieSettings from "./CookieSettings";
 
 export default function Footer() {
   const [showCookies, setShowCookies] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [selectedLang, setSelectedLang] = useState("English");
+
+  const languages = ["English", "Hindi"];
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <footer className="bg-[#0A0A0A] text-white w-full overflow-hidden">
@@ -45,15 +62,42 @@ export default function Footer() {
 
             <div className="hidden sm:block w-px h-5 bg-[#F9FAFB]"></div>
 
-            <div className="inline-flex items-center gap-4 px-4 py-2 rounded-[8px] border border-[#F1F1F1] cursor-pointer">
-              <Globe size={20} className="text-[#F1F1F1]" />
-              <select
-                className="bg-transparent text-[#F1F1F1] text-[14px] font-DMsans font-bold outline-none cursor-pointer"
-                defaultValue="English"
+            {/* Language Dropdown */}
+            <div ref={dropdownRef} className="relative">
+              <div
+                onClick={() => setLangOpen(!langOpen)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-[8px] border border-[#F1F1F1] cursor-pointer transition-all"
               >
-                <option value="English" className="text-black">English</option>
-                <option value="Hindi" className="text-black">हिन्दी</option>
-              </select>
+                <Globe size={20} className="text-[#F1F1F1]" />
+                <span className="text-[#F1F1F1] text-[14px] font-DMsans font-bold">
+                  {selectedLang}
+                </span>
+                {langOpen ? (
+                  <ChevronUp size={18} className="text-[#F1F1F1]" />
+                ) : (
+                  <ChevronDown size={18} className="text-[#F1F1F1]" />
+                )}
+              </div>
+
+              {langOpen && (
+                <div className="absolute bottom-full left-0 mb-2 w-40 bg-[#F9FAFB] rounded-lg shadow-lg py-2 z-50">
+                  {languages.map((lang) => (
+                    <div
+                      key={lang}
+                      onClick={() => {
+                        setSelectedLang(lang);
+                        setLangOpen(false);
+                      }}
+                      className="flex items-center px-3 py-2 hover:bg-gray-200 cursor-pointer"
+                    >
+                      <div className="w-5 flex justify-center">
+                        {selectedLang === lang && <Check size={16} className="text-black" />}
+                      </div>
+                      <span className="text-black text-sm">{lang}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -88,3 +132,4 @@ export default function Footer() {
     </footer>
   );
 }
+

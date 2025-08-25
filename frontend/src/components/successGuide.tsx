@@ -17,6 +17,17 @@ const dmSans = DM_Sans({
 export default function SuccessGuide() {
   const [submitted, setSubmitted] = useState(false);
 
+   const showAutoToast = () => {
+    toast.success("This will disappear in 2s"); // closes automatically
+  };
+
+  const showManualToast = () => {
+    toast.error("This will stay until closed", {
+      autoClose: false,   // won't close automatically
+      closeButton: true,  // ✅ adds the X close button
+    });
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -126,13 +137,16 @@ export default function SuccessGuide() {
         )}
 
         {/* Toast */}
-        <ToastContainer
-          position="top-right"
-          autoClose={2000} // manual close only
-          closeOnClick={false}
-          draggable={false}
-          hideProgressBar={false}
-        />
+         <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}    // global default (auto close after 2s)
+        newestOnTop
+        closeButton         // ensures X button is shown
+        pauseOnHover        // pause only while hovering
+        pauseOnFocusLoss    // auto resumes after tab change
+      />
+    </div>
       </div>
 
       {/* Right Section */}
