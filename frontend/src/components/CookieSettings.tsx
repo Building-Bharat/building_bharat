@@ -24,8 +24,8 @@ export default function CookieSettings({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
       <div
         className="
-          w-[1100px] h-[666px] bg-[#0A0A0A] text-white rounded-[16px] shadow-lg
-          p-[64px] flex flex-col gap-[64px] overflow-y-scroll overflow-x-hidden
+          w-[1160px] h-[666px] bg-[#0A0A0A] text-white rounded-[16px] shadow-lg
+          p-[64px] flex flex-col gap-[64px] overflow-y-scroll no-scrollbar overflow-x-hidden
         "
       >
         {/* Title */}

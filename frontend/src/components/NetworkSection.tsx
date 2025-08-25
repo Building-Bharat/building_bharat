@@ -117,7 +117,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "800ms" }}
         >
-          <span className="font-semibold text-sm flex justify-center items-center">
+          <span className="font-semibold text-sm flex justify-center items-center mt-0 sm:mt-[16px]">
             <Image
               src="/images/cpr.jpg"
               alt="Icon"
@@ -521,7 +521,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "3100ms" }}
         >
-          <span className="text-red-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[24px]">
+          <span className="text-red-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[6px]">
             <Image
               src="/images/minds.png"
               alt="Icon"
