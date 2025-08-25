@@ -12,7 +12,6 @@ import HaveQuestionsLetsTalk from '@/components/HaveQuestionsLetsTalk';
 import SuccessGuide from '@/components/successGuide';
 import NetworkSection from '@/components/NetworkSection';
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 
 export default function Home() {
   return (

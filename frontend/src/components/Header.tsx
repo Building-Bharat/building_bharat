@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const [visible, setVisible] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isInHero, setIsInHero] = useState(true);
+  const pathname = usePathname();
 
   useEffect(() => {
     setVisible(true);
@@ -39,11 +42,11 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { label: 'Home', href: '#', active: true },
-    { label: 'Courses', href: '#' },
-    { label: 'Internships', href: '#' },
-    { label: 'Colleges', href: '#' },
-    { label: 'Blogs', href: '#' },
+    { label: 'Home', href: '/', active: pathname === '/' },
+    { label: 'Courses', href: '/courses', active: pathname === '/courses' },
+    { label: 'Internships', href: '#', active: false },
+    { label: 'Colleges', href: '#', active: false },
+    { label: 'Blogs', href: '#', active: false },
   ];
 
   return (
@@ -219,7 +222,7 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="relative group transition-all duration-500 overflow-visible whitespace-nowrap"
@@ -258,7 +261,7 @@ export default function Header() {
                     transition: 'width 0.3s ease-in-out'
                   }}
                 />
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -398,13 +401,13 @@ export default function Header() {
           >
             <nav className="py-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   className={`block px-6 py-3 text-base font-medium transition-all duration-300 mobile-nav-link relative group ${
                     link.active 
                       ? 'bg-orange-500 text-white' 
-                      : 'text-gray-900'
+                      : 'text-white'
                   }`}
                   style={{
                     fontSize: isInHero ? '16px' : '18px',
@@ -425,7 +428,7 @@ export default function Header() {
                       } as React.CSSProperties & { '--text-width': string }}
                     />
                   )}
-                </a>
+                </Link>
               ))}
             </nav>
             <div className="px-6 py-4 border-t border-orange-100">
