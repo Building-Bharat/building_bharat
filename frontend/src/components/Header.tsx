@@ -40,7 +40,7 @@ export default function Header() {
 
   const navLinks = [
     { label: 'Home', href: '#', active: true },
-    { label: 'Courses', href: '#' },
+    { label: 'Courses', href: '/courses' },
     { label: 'Internships', href: '#' },
     { label: 'Colleges', href: '#' },
     { label: 'Blogs', href: '#' },
