@@ -2,6 +2,7 @@
 
 import Header from '@/components/Header';
 import PremiumAccess from '@/components/PremiumAccess';
+import MeetYourMentors from '@/components/MeetYourMentors';
 import StoriesThatInspire from '@/components/StoriesThatInspire';
 import HaveQuestionsLetsTalk from '@/components/HaveQuestionsLetsTalk';
 import SuccessGuide from '@/components/successGuide';
@@ -13,6 +14,7 @@ export default function Courses() {
     <div className="min-h-screen overflow-x-hidden" style={{ background: '#E5E7EA' }}>
       <Header />
       <PremiumAccess/>
+      <MeetYourMentors/>
       <StoriesThatInspire/>
       <HaveQuestionsLetsTalk/>
       <SuccessGuide/>

@@ -207,7 +207,7 @@ export default function Header() {
           }}
         >
           <Image
-            src="/icons/logo.png"
+            src="/images/bb1.png"
             alt="Building Bharat Logo"
             width={isInHero ? 40 : 48}
             height={isInHero ? 40 : 48}
