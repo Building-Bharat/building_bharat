@@ -20,94 +20,139 @@ export default function CookieSettings({ onClose }: { onClose: () => void }) {
     onClose();
   };
 
+  const items = [
+    {
+      key: "essential",
+      title: "ESSENTIAL",
+      desc: "These items are necessary for the website to work.",
+    },
+    {
+      key: "marketing",
+      title: "MARKETING",
+      desc: "These items help deliver advertising that’s more relevant to you. They may also be used to limit the number of times you see an ad and measure the effectiveness of ad campaigns. These are third party cookies provided by our advertising partners.",
+    },
+    {
+      key: "personalization",
+      title: "Personalization",
+      desc: "These items let the website remember choices you make (like user name, language, or region) and personalize features for you. For example, we may show you different content depending on which of our sites you’ve visited and content you’ve read.",
+    },
+    {
+      key: "analytics",
+      title: "Analytics",
+      desc: "These items help us understand visitor interactions, measure website performance, and spot potential technical issues. These don’t include essential cookies that provide incidental analytics while making the website work.",
+    },
+  ];
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div
-        className="
-          w-[1160px] h-[666px] bg-[#0A0A0A] text-white rounded-[16px] shadow-lg
-          p-[64px] flex flex-col gap-[64px] overflow-y-scroll no-scrollbar overflow-x-hidden
-        "
-      >
-        {/* Title */}
-        <h2 className="w-[1024px] h-[38px] font-Montserrat font-extrabold text-[32px] leading-[38px] text-white">
-          Cookie Preferences
-        </h2>
-
-        {/* Description */}
-        <p className="w-[1024px] h-[112px] font-Montserrat font-bold text-[20px] leading-[28px] text-white">
-          This website uses cookies, pixel tags, and local storage for
-          performance and marketing purposes. We use our own cookies and some
-          from third parties. If you opted to accept any non-essential cookies,
-          you can change or customize your selection at any time by changing the
-          boxes checked below. To learn more about our privacy practices, please
-          see our Privacy Policy.
-        </p>
-
-        {/* Settings List */}
+      <div className="w-[1200px] bg-[#0A0A0A] h-auto rounded-2xl p-16 flex flex-col gap-16">
+        {/* Header */}
         <div className="flex flex-col gap-8">
-          {[
-            {
-              key: "essential",
-              title: "ESSENTIAL",
-              desc: "These items are necessary for the website to work.",
-            },
-            {
-              key: "marketing",
-              title: "MARKETING",
-              desc: "These items help deliver advertising more relevant to you.",
-            },
-            {
-              key: "personalization",
-              title: "PERSONALIZATION",
-              desc: "These items remember choices like username, language, region.",
-            },
-            {
-              key: "analytics",
-              title: "ANALYTICS",
-              desc: "These items help us understand visitor interactions.",
-            },
-          ].map(({ key, title, desc }) => (
-            <div
-              key={key}
-              className="w-[1024px] h-[64px] flex items-center gap-6 px-[16px]"
-            >
-              {/* Toggle on LEFT */}
-              <button
-                onClick={() => toggleSetting(key as keyof typeof settings)}
-                className={`w-[64px] h-[32px] rounded-[16px] p-[2px] flex items-center transition ${
-                  settings[key as keyof typeof settings]
-                    ? "bg-[#394050] justify-end"
-                    : "bg-gray-600 justify-start"
-                }`}
-              >
-                <span className="w-[28px] h-[28px] bg-white rounded-full"></span>
-              </button>
-
-              {/* Text on RIGHT */}
-              <div className="flex flex-col">
-                <h3 className="font-Montserrat font-extrabold text-[16px] leading-[24px]">
-                  {title}
-                </h3>
-                <p className="font-Montserrat font-medium text-[14px] leading-[20px] text-gray-300">
-                  {desc}
-                </p>
-              </div>
-            </div>
-          ))}
+          <h2 className="text-white font-Montserrat font-bold text-[20px] leading-[28px]">
+            Cookie Preferences
+          </h2>
+          <p className="text-white font-dmSans text-[16px] leading-[20px]">
+            This website uses cookies, pixel tags, and local storage for
+            performance and marketing purposes. We use our own cookies and some
+            from third parties. If you opted to accept any non-essential
+            cookies, you can change or customize your selection at any time by
+            changing the boxes checked below. To learn more about our privacy
+            practices, please see our Privacy Policy.
+          </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="w-auto flex justify-center mt-1">
+        {/* Settings Grid */}
+        <div className="flex gap-32">
+          {/* Left Column */}
+          <div className="flex flex-col gap-20 flex-1">
+            {items.slice(0, 2).map(({ key, title, desc }) => (
+              <div key={key} className="flex items-start gap-8 px-4">
+                {/* Toggle */}
+                <button
+  disabled={key === "essential"} // essential cannot be changed
+  onClick={() => toggleSetting(key as keyof typeof settings)}
+  className={`relative w-[64px] h-[32px] rounded-full flex-shrink-0 transition
+    ${
+      settings[key as keyof typeof settings]
+        ? "bg-[#394050]"
+        : "border border-[#9EA2AE] bg-transparent"
+    }
+    ${key === "essential" ? "cursor-not-allowed opacity-70" : ""}
+  `}
+>
+  <span
+    className={`absolute top-0.5 left-0.5 w-[28px] h-[28px] rounded-full transition-transform
+      ${
+        settings[key as keyof typeof settings]
+          ? "bg-[#0A0A0A] translate-x-[32px]"
+          : "bg-[#1a1a1a] border border-[#9EA2AE] translate-x-0"
+      }
+    `}
+  ></span>
+</button>
+
+
+                {/* Text */}
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-white font-Montserrat font-bold text-[20px] leading-[28px]">
+                    {title}
+                  </h3>
+                  <p className="text-white font-dmSans text-[16px] leading-[20px]">
+                    {desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Column */}
+          <div className="flex flex-col  gap-8 flex-1">
+            {items.slice(2).map(({ key, title, desc }) => (
+              <div key={key} className="flex items-start gap-8 px-1">
+                
+                
+{/* Right section toggle */}
+<button
+  onClick={() => toggleSetting(key as keyof typeof settings)}
+  className={`relative w-[64px] h-[32px] rounded-full flex-shrink-0 transition-all duration-300
+    ${
+      settings[key as keyof typeof settings]
+        ? "bg-[#394050]" // active track
+        : "border border-[#9EA2AE] bg-transparent" // inactive track
+    }`}
+>
+  <span
+    className={`absolute top-0.5 left-0.5 w-[28px] h-[28px] rounded-full transition-transform duration-300
+      ${
+        settings[key as keyof typeof settings]
+          ? "bg-[#0A0A0A] translate-x-[32px]" // knob slides to right
+          : "border border-[#9EA2AE] bg-transparent translate-x-0" // knob stays left
+      }
+    `}
+  ></span>
+</button>
+
+
+
+                {/* Text */}
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-white font-Montserrat font-bold text-[20px] leading-[28px]">
+                    {title}
+                  </h3>
+                  <p className="text-white font-dmSans text-[16px] leading-[20px]">
+                    {desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Save Button */}
+        <div className="flex justify-center">
           <button
             onClick={savePreferences}
-            className="
-              px-8 py-3 
-              bg-[#E5E7EA] 
-              rounded-lg 
-              flex items-center justify-center 
-              text-[#0A0A0A] text-[16px] leading-[24px] 
-              font-dmSans font-bold
-            "
+            className="px-8 py-3 bg-[#E5E7EA] rounded-lg text-[#0A0A0A] text-[16px] font-dmSans font-bold"
           >
             Save Preferences
           </button>
@@ -116,5 +161,3 @@ export default function CookieSettings({ onClose }: { onClose: () => void }) {
     </div>
   );
 }
-
-
