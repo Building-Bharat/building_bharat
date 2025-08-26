@@ -54,7 +54,7 @@ export default function CompanyLogosSection() {
       <div
         className="
             grid 
-     grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-7 2xl:grid-cols-7
+     grid-cols-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-7 2xl:grid-cols-7
      gap-4 px-2 sm:px-4
    
         "
@@ -66,7 +66,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "500ms" }}
         >
-          <span className="text-blue-600 font-semibold text-sm flex justify-center  items-center mt-0 sm:mt-[14px] ">
+          <span className="text-blue-600 font-semibold text-sm flex justify-center  items-center mt-0 sm:mt-[28px] ">
             <Image
               src="/images/3c.png"
               alt="Icon"
@@ -100,7 +100,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "700ms" }}
         >
-          <span className="text-blue-600 font-semibold text-sm flex justify-center items-center">
+          <span className="text-blue-600 font-semibold text-sm flex justify-center items-center mt-0 sm:mt-[10px]">
             <Image
               src="/images/book.webp"
               alt="Icon"
@@ -117,7 +117,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "800ms" }}
         >
-          <span className="font-semibold text-sm flex justify-center items-center mt-0 sm:mt-[16px]">
+          <span className="font-semibold text-sm flex justify-center items-center mt-0 sm:mt-[18px]">
             <Image
               src="/images/cpr.jpg"
               alt="Icon"
@@ -134,7 +134,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "900ms" }}
         >
-          <span className=" font-semibold text-sm flex justify-center items-center sm:mt-[16px] mt-0">
+          <span className=" font-semibold text-sm flex justify-center items-center sm:mt-[19px] mt-0">
             <Image
               src="/images/cvoter.png"
               alt="Icon"
@@ -174,7 +174,7 @@ export default function CompanyLogosSection() {
               alt="Icon"
               width={120}
               height={40}
-              className="max-w-full h-auto object-contain"
+              className="max-w-full sm:w-[120px] w-[90px] h-auto object-contain"
             />
           </span>
         </div>
@@ -186,7 +186,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "1200ms" }}
         >
-          <span className="text-blue-600 font-bold text-sm flex justify-center items-center">
+          <span className="text-blue-600 font-bold text-sm flex justify-center items-center mt-0 sm:mt-[19px]">
             <Image
               src="/images/gandhi.jpeg"
               alt="Icon"
@@ -203,7 +203,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "1300ms" }}
         >
-          <span className="text-blue-600 font-bold text-sm flex justify-center items-center sm:mt-[8px] mt-0">
+          <span className="text-blue-600 font-bold text-sm flex justify-center items-center sm:mt-[3px] mt-0">
             <Image
               src="/images/ppgf.png"
               alt="Icon"
@@ -233,26 +233,28 @@ export default function CompanyLogosSection() {
 
         <div
   className={`
-    row-span-2 h-50 border border-[#9EA2AE] rounded-lg flex items-center justify-center 
+    row-span-2 border border-[#9EA2AE] rounded-lg flex items-center justify-center 
     bg-white
-    hover:shadow-xl hover:scale-110 transition-all duration-500 
+    hover:shadow-xl hover:scale-110 transition-all duration-500
     ${isVisible ? "opacity-100 translate-y-0 rotate-0" : "opacity-0 translate-y-12 rotate-12"}
-    col-span-2 sm:col-span-1 md:col-span-2 lg:col-span-1 xl:col-span-1 2xl:col-span-1
+    col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-1 xl:col-span-1 2xl:col-span-1
   `}
   style={{ transitionDelay: "1500ms" }}
 >
-  <div className="text-center">
-    <div className="w-48 h-48 rounded-full mx-auto mb-2 flex items-center justify-center transition-all duration-300">
+  <div className="text-center w-[200px] sm:w-[250px] md:w-full">
+    <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 rounded-full mx-auto mb-2 flex items-center justify-center transition-all duration-300">
       <Image
         src="/images/bharat.png"
         alt="Icon"
         width={200}
         height={200}
-        className="max-w-full h-auto object-contain"
+        className="object-contain w-full h-full"
       />
     </div>
   </div>
-  </div>
+</div>
+
+
   
   
 
@@ -281,7 +283,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "1700ms" }}
         >
-          <span className="text-blue-600 font-bold text-lg flex justify-center items-center">
+          <span className="text-blue-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[13px]">
             <Image
               src="/images/jarvis.jpeg"
               alt="Icon"
@@ -333,7 +335,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "2000ms" }}
         >
-          <span className="text-orange-500 font-bold text-sm flex justify-center items-center">
+          <span className="text-orange-500 font-bold text-sm flex justify-center items-center mt-0 sm:mt-[15px]">
             <Image
               src="/images/orf.jpg"
               alt="Icon"
@@ -407,14 +409,14 @@ export default function CompanyLogosSection() {
               alt="Icon"
               width={150}
               height={40}
-              className="max-w-full h-auto object-contain"
+              className="max-w-full h-auto sm:w-[150px] w-[100px] object-contain"
             />
           </span>
         </div>
 
         {/* Row 4 */}
         <div
-          className={`h-24  border border-[#9EA2AE] hidden sm:block rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE]  rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "2500ms" }}
@@ -431,12 +433,12 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-24  border border-[#9EA2AE] rounded-lg flex hidden sm:block items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "2600ms" }}
         >
-          <span className="font-bold text-lg flex justify-center items-center mt-0 sm:mt-[12px]">
+          <span className="font-bold text-lg flex justify-center items-center mb-0 sm:mb-[4px]">
             <Image
               src="/images/varahe.png"
               alt="Icon"
@@ -470,7 +472,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "2800ms" }}
         >
-          <span className="text-red-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[24px]">
+          <span className="text-red-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[21px]">
             <Image
               src="/images/vidhi.jpg"
               alt="Icon"
@@ -504,7 +506,7 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "3000ms" }}
         >
-          <span className="text-blue-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[24px]">
+          <span className="text-blue-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[32px]">
             <Image
               src="/images/democracy.png"
               alt="Icon"
@@ -521,11 +523,11 @@ export default function CompanyLogosSection() {
           }`}
           style={{ transitionDelay: "3100ms" }}
         >
-          <span className="text-red-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[6px]">
+          <span className="text-red-600 font-bold text-lg flex justify-center items-center mt-0 sm:mt-[2px]">
             <Image
               src="/images/minds.png"
               alt="Icon"
-              width={190}
+              width={200}
               height={90}
               className="max-w-full h-auto object-contain"
             />
