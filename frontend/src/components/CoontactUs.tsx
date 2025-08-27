@@ -31,7 +31,7 @@ export default function Footer() {
         
         {/* Building Bharat */}
         <div className="flex flex-col gap-4 p-2 sm:p-4">
-          <h3 className="font-bold text-[16px] sm:text-[20px] font-Montserrat mb-4">
+          <h3 className="font-bold text-[16px] sm:text-[20px] font-Montserrat mb-4 hover:underline cursor-pointer">
             Building Bharat
           </h3>
 
@@ -55,7 +55,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-6">
             <button
               onClick={() => setShowCookies(true)}
-              className="text-sm underline font-DMsans"
+              className="text-sm underline hover:no-underline font-DMsans"
             >
               Cookie settings
             </button>
@@ -104,7 +104,7 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div className="flex flex-col gap-4 p-2 sm:p-4">
-          <h4 className="font-bold text-[16px] sm:text-[20px] font-Montserrat text-[#F1F1F1]">
+          <h4 className="font-bold text-[16px] sm:text-[20px] font-Montserrat text-[#F1F1F1] cursor-pointer hover:underline">
             Quick Links
           </h4>
           {["About Us", "Workshops", "Blogs", "Privacy Policy", "Terms & Conditions"].map((item, i) => (
@@ -116,7 +116,7 @@ export default function Footer() {
 
         {/* Courses */}
         <div className="flex flex-col gap-4 p-2 sm:p-4">
-          <h4 className="font-bold text-[16px] sm:text-[20px] font-Montserrat text-[#F1F1F1]">
+          <h4 className="font-bold text-[16px] sm:text-[20px] font-Montserrat text-[#F1F1F1] hover:underline cursor-pointer">
             Courses
           </h4>
           {["Course 1", "Course 2", "Course 3"].map((item, i) => (

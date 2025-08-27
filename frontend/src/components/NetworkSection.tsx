@@ -129,12 +129,12 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-24  border border-[#9EA2AE] hidden sm:block  rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE]   rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "900ms" }}
         >
-          <span className=" font-semibold text-sm flex justify-center items-center sm:mt-[19px] mt-0">
+          <span className=" font-semibold text-sm flex justify-center items-center ">
             <Image
               src="/images/cvoter.png"
               alt="Icon"
@@ -146,16 +146,16 @@ export default function CompanyLogosSection() {
         </div>
 
         <div
-          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
+          className={`h-24  border border-[#9EA2AE] rounded-lg flex items-center hidden sm:block justify-center bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
           style={{ transitionDelay: "1000ms" }}
         >
-          <span className="font-semibold text-sm">
+          <span className="font-semibold text-sm  flex justify-center items-center sm:mt-[13px] mt-0 ">
             <Image
               src="/images/dex.png"
               alt="Icon"
-              width={150}
+              width={110}
               height={40}
               className="max-w-full h-auto object-contain"
             />

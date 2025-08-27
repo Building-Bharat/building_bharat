@@ -34,7 +34,7 @@ export default function CookieSettings({ onClose }: { onClose: () => void }) {
     {
       key: "personalization",
       title: "Personalization",
-      desc: "These items let the website remember choices you make (like user name, language, or region) and personalize features for you. For example, we may show you different content depending on which of our sites you’ve visited and content you’ve read.",
+      desc: "These cookies help tailor content and recommendations based on your preferences, making your experience more relevant and personalized.",
     },
     {
       key: "analytics",
@@ -45,7 +45,7 @@ export default function CookieSettings({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="w-[1200px] bg-[#0A0A0A] h-auto rounded-2xl p-16 flex flex-col gap-16">
+      <div className="w-[1200px] bg-[#0A0A0A] h-[700px] rounded-2xl p-14 flex flex-col gap-16">
         {/* Header */}
         <div className="flex flex-col gap-8">
           <h2 className="text-white font-Montserrat font-bold text-[20px] leading-[28px]">
@@ -81,7 +81,7 @@ export default function CookieSettings({ onClose }: { onClose: () => void }) {
   `}
 >
   <span
-    className={`absolute top-0.5 left-0.5 w-[28px] h-[28px] rounded-full transition-transform
+    className={`absolute top-0.5 left-0.5 w-[28px] h-[27px] rounded-full transition-transform
       ${
         settings[key as keyof typeof settings]
           ? "bg-[#0A0A0A] translate-x-[32px]"
@@ -106,7 +106,7 @@ export default function CookieSettings({ onClose }: { onClose: () => void }) {
           </div>
 
           {/* Right Column */}
-          <div className="flex flex-col  gap-8 flex-1">
+          <div className="flex flex-col  gap-10 flex-1">
             {items.slice(2).map(({ key, title, desc }) => (
               <div key={key} className="flex items-start gap-8 px-1">
                 
@@ -122,7 +122,7 @@ export default function CookieSettings({ onClose }: { onClose: () => void }) {
     }`}
 >
   <span
-    className={`absolute top-0.5 left-0.5 w-[28px] h-[28px] rounded-full transition-transform duration-300
+    className={`absolute top-0.5 left-0.5 w-[28px] h-[27px] rounded-full transition-transform duration-300
       ${
         settings[key as keyof typeof settings]
           ? "bg-[#0A0A0A] translate-x-[32px]" // knob slides to right

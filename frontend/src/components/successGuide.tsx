@@ -23,8 +23,9 @@ export default function SuccessGuide() {
 
   const showManualToast = () => {
     toast.error("This will stay until closed", {
-      autoClose: false,   // won't close automatically
-      closeButton: true,  // ✅ adds the X close button
+      autoClose: false,
+      closeButton: undefined,   // won't close automatically
+    
     });
   };
 
@@ -100,7 +101,7 @@ export default function SuccessGuide() {
              rounded-lg 
              font-[DM Sans] font-bold text-[16px] leading-6
              transition-all duration-300 ease-in-out
-             transform hover:scale-x-105 hover:translate-x-1"
+             transform hover:scale-x-105 hover:translate-x-1 ml-0 sm:ml-[16px]"
               >
                 {/* Arrow (slides in on hover) */}
                 <svg
@@ -139,13 +140,14 @@ export default function SuccessGuide() {
         {/* Toast */}
          <div>
       <ToastContainer
-        position="top-right"
-        autoClose={2000}    // global default (auto close after 2s)
-        newestOnTop
-        closeButton         // ensures X button is shown
-        pauseOnHover        // pause only while hovering
-        pauseOnFocusLoss    // auto resumes after tab change
-      />
+    position="top-right"
+    autoClose={2000}
+    closeOnClick={true}
+    newestOnTop={true}
+    pauseOnHover={true}
+    pauseOnFocusLoss={true}
+    draggable={true}
+  />
     </div>
       </div>
 
