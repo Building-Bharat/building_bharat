@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import CTAButton from './CTAButton'
+import Link from 'next/link'
 
 const ChooseYourCareerPaths = () => {
 
@@ -48,7 +49,8 @@ const CareerPathCard = () =>{
                               mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.
                               </p>
                         </div>
-                  <CTAButton label=' View Course Details'
+                 <Link href="/courses/political-field-operations-mastery">
+                 <CTAButton label=' View Course Details'
                              height={48}
                              width={"100%"}
                              borderRadius={8}
@@ -57,7 +59,8 @@ const CareerPathCard = () =>{
                              fontSize={16}
                              keepFixedSizeOnHover={true}
                              arrowColor='text-black'
-                  ></CTAButton>
+                 ></CTAButton>
+                 </Link>
          </div>
 
 
