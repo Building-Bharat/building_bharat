@@ -17,7 +17,7 @@ type CTAButtonProps = {
 	fontSize?: string | number;
 	fontWeight?: string | number;
 	fontFamily?: string;
-	leftRightMargin?: string | number;
+	leftRightMargin?: string | number;	
 	bottomMargin?: string | number;
 	arrowColor?: string;
 	textPaddingX?: string | number;
