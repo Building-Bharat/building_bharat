@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const [visible, setVisible] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isInHero, setIsInHero] = useState(true);
+  const pathname = usePathname();
 
   useEffect(() => {
     setVisible(true);
@@ -39,11 +42,11 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { label: 'Home', href: '#', active: true },
-    { label: 'Courses', href: '/courses' },
-    { label: 'Internships', href: '#' },
-    { label: 'Colleges', href: '#' },
-    { label: 'Blogs', href: '#' },
+    { label: 'Home', href: '/', active: pathname === '/' },
+    { label: 'Courses', href: '/courses', active: pathname === '/courses' },
+    { label: 'Internships', href: '#', active: false },
+    { label: 'Colleges', href: '#', active: false },
+    { label: 'Blogs', href: '#', active: false },
   ];
 
   return (
@@ -177,9 +180,9 @@ export default function Header() {
 
           /* Desktop/laptop presets */
           @media (min-width: 1024px) {
-            .header-container { height: 56px !important; justify-content: space-between !important; }
+            .header-container { height: 74px !important; justify-content: space-between !important; }
             /* While in hero: centered with margins */
-            .header-desktop-inHero { width: calc(100vw - 128px) !important; max-width: none !important; padding: 8px 16px !important; border-radius: 8px !important; margin: 16px 64px 32px 64px !important; }
+            .header-desktop-inHero { width: calc(100vw - 128px) !important; max-width: none !important; padding: 8px 16px !important; border-radius: 8px !important; margin: 16px 64px 8px 64px !important; }
             /* After hero: grow to full-bleed and stick to top with no margins */
             .header-desktop-full { width: 100vw !important; max-width: none !important; padding: 8px 16px !important; border-radius: 0 !important; margin: 0 !important; }
           }
@@ -204,7 +207,7 @@ export default function Header() {
           }}
         >
           <Image
-            src="/icons/logo.png"
+            src="/images/bb1.png"
             alt="Building Bharat Logo"
             width={isInHero ? 40 : 48}
             height={isInHero ? 40 : 48}
@@ -219,7 +222,7 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="relative group transition-all duration-500 overflow-visible whitespace-nowrap"
@@ -258,7 +261,7 @@ export default function Header() {
                     transition: 'width 0.3s ease-in-out'
                   }}
                 />
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -398,13 +401,13 @@ export default function Header() {
           >
             <nav className="py-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   className={`block px-6 py-3 text-base font-medium transition-all duration-300 mobile-nav-link relative group ${
                     link.active 
                       ? 'bg-orange-500 text-white' 
-                      : 'text-gray-900'
+                      : 'text-white'
                   }`}
                   style={{
                     fontSize: isInHero ? '16px' : '18px',
@@ -425,7 +428,7 @@ export default function Header() {
                       } as React.CSSProperties & { '--text-width': string }}
                     />
                   )}
-                </a>
+                </Link>
               ))}
             </nav>
             <div className="px-6 py-4 border-t border-orange-100">

@@ -1,19 +1,28 @@
-import ChooseYourCareerPath from '@/components/ChooseYourCareerPath'
-import Header from '@/components/Header'
-import WeeklyTopCourses from '@/components/WeeklyTopCourses'
-import React from 'react'
+"use client";
 
-const page = () => {
+import Header from '@/components/Header';
+import PremiumAccess from '@/components/PremiumAccess';
+import MeetYourMentors from '@/components/MeetYourMentors';
+import StoriesThatInspire from '@/components/StoriesThatInspire';
+import HaveQuestionsLetsTalk from '@/components/HaveQuestionsLetsTalk';
+import SuccessGuide from '@/components/successGuide';
+import Footer from '@/components/CoontactUs';
+import WeeklyTopCourses from '@/components/WeeklyTopCourses';
+import ChooseYourCareerPath from '@/components/ChooseYourCareerPath';
 
+
+export default function Courses() {
   return (
-     <section id='courses' className='w-full bg-[#E5E7EA] min-h-screen'>
-          <Header/>
-          <WeeklyTopCourses/>
-          <ChooseYourCareerPath/>
-        
-
-     </section>
-  )
+    <div className="min-h-screen overflow-x-hidden" style={{ background: '#E5E7EA' }}>
+      <Header />
+      <WeeklyTopCourses/>
+      <ChooseYourCareerPath/>
+      <PremiumAccess/>
+      <MeetYourMentors/>
+      <StoriesThatInspire/>
+      <HaveQuestionsLetsTalk/>
+      <SuccessGuide/>
+      <Footer/>
+    </div>
+  );
 }
-
-export default page

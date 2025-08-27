@@ -1,4 +1,5 @@
 import React from 'react'
+import CTAButton from './CTAButton';
 
 const WeeklyTopCourses = () => {
 
@@ -43,11 +44,7 @@ const WeeklyTopCoursesItem = () => {
           mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.
         </p>
       </div>
-
-      {/* Button */}
-      <button className="h-12 w-full text-base font-bold text-center bg-orange-500 rounded-lg mt-auto">
-        View Course Details
-      </button>
+        <CTAButton label='View Course Details'></CTAButton>
     </div>
   );
 };

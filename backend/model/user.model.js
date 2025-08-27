@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+const { type } = require('os');
 
 const userSchema = new mongoose.Schema({
 	name: {
@@ -8,17 +11,17 @@ const userSchema = new mongoose.Schema({
 	},
 	description: {
 		type: String,
-		required: [true, 'Description is required']
+		// required: [true, 'Description is required']
 	},
 
 	collageName: {
 		type: String,
-		required: [true, 'Collage name is required']
+		// required: [true, 'Collage name is required']
 	},
 	profilePhoto: String,
 	collagePassout: {
 		type: Number,
-		required: [true, 'Collage passout year is required']
+		// required: [true, 'Collage passout year is required']
 	},
 	email: {
 		type: String,
@@ -31,6 +34,7 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'Password is required'],
 		minLength: [6, 'Password must be at least 6 character long'],
+		select: false
 	},
 
 	passwordConfirm: {
@@ -48,13 +52,22 @@ const userSchema = new mongoose.Schema({
 	passwordResetExpires: Date,
 	active: { type: Boolean, default: false },
 	isAdmin: { type: Boolean, default: false },
-	createdAt: { type: Date, default: Date.now }
+	createdAt: { type: Date, default: Date.now },
+	otp: {
+		type: String,
+		select: false
+	},
+	otpExpiresAt: Date,
+	isVerified: {
+		type: Boolean,
+		default: false
+	}
 })
 
 
 
 userSchema.pre('save', async function (next) {
-	if (!this.isModified('password') || this.isNew) {
+	if (!this.isModified('password')) {
 		return next();
 	}
 
@@ -66,7 +79,7 @@ userSchema.pre('save', async function (next) {
 
 
 userSchema.pre('save', async function (next) {
-	if (!this.isModified('password') || this.isNew) {
+	if (!this.isModified('password')) {
 		return next();
 	}
 
@@ -78,7 +91,7 @@ userSchema.pre('save', async function (next) {
 
 
 userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
-	return bcrypt.compare(candidatePassword, userPassword);
+	return await bcrypt.compare(candidatePassword, userPassword);
 };
 
 
@@ -97,6 +110,7 @@ userSchema.methods.createPasswordResetToken = function () {
 	const resetToken = crypto.randomBytes(32).toString('hex');
 
 	this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
 	this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
 
 	return resetToken;

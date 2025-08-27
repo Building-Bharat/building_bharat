@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect, useRef } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,6 +12,15 @@ export default function HaveQuestionsLetsTalk() {
     phone: '',
     message: ''
   });
+
+  // Animation states
+  const [isVisible, setIsVisible] = useState(false);
+  const [leftSideAnimated, setLeftSideAnimated] = useState(false);
+  const [headingAnimated, setHeadingAnimated] = useState(false);
+  const [descriptionAnimated, setDescriptionAnimated] = useState(false);
+  const [formAnimated, setFormAnimated] = useState(false);
+  
+  const sectionRef = useRef<HTMLElement>(null);
 
 
 
@@ -58,13 +67,44 @@ export default function HaveQuestionsLetsTalk() {
     }, 1500);
   };
 
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            // Start sequential animations
+            setTimeout(() => setLeftSideAnimated(true), 200);
+            setTimeout(() => setHeadingAnimated(true), 400);
+            setTimeout(() => setDescriptionAnimated(true), 600);
+            setTimeout(() => setFormAnimated(true), 800);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="px-4 sm:px-6 md:px-8 lg:px-20" style={{ background: '#E5E7EA' }}>
+    <section 
+      ref={sectionRef}
+      className="px-4 sm:px-6 md:px-8 lg:px-20" 
+      style={{ background: '#E5E7EA' }}
+    >
       <div className="container mx-auto py-16 lg:py-20">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
           
           {/* Left Side - Black Placeholder */}
-          <div className="w-full lg:w-1/2">
+          <div className={`w-full lg:w-1/2 transition-all duration-1000 ease-out ${
+            leftSideAnimated ? 'animate-left-slide-in' : 'animate-left-slide-out'
+          }`}>
             <div 
               className="w-full h-80 lg:h-[500px] rounded-lg"
               style={{ background: '#000000' }}
@@ -78,6 +118,9 @@ export default function HaveQuestionsLetsTalk() {
             <div className="max-w-lg mx-auto lg:mx-0">
                              {/* Heading */}
                <h2 
+                 className={`transition-all duration-1000 ease-out ${
+                   headingAnimated ? 'animate-right-float-in' : 'animate-right-float-out'
+                 }`}
                  style={{
                    fontFamily: 'Montserrat, sans-serif',
                    fontWeight: 700,
@@ -98,6 +141,9 @@ export default function HaveQuestionsLetsTalk() {
 
                {/* Description */}
                <p 
+                 className={`transition-all duration-1000 ease-out ${
+                   descriptionAnimated ? 'animate-right-float-in' : 'animate-right-float-out'
+                 }`}
                  style={{
                    fontFamily: 'DM Sans, sans-serif',
                    fontWeight: 400,
@@ -117,8 +163,11 @@ export default function HaveQuestionsLetsTalk() {
                </p>
 
               {/* Contact Form */}
-              {!submitted ? (
-                <form onSubmit={handleSubmit} className="space-y-8">
+              <div className={`transition-all duration-1000 ease-out ${
+                formAnimated ? 'animate-right-float-in' : 'animate-right-float-out'
+              }`}>
+                {!submitted ? (
+                  <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Full Name */}
                   <div>
                     <input
@@ -132,7 +181,7 @@ export default function HaveQuestionsLetsTalk() {
                         fontSize: '13px',
                         border: '1px solid #F97C04',
                         backgroundColor: 'var(--color-grey-200, #E5E7EA)',
-                        color: '#9CA3AF'
+                        color: '#000000'
                       }}
                       onFocus={(e) => {
                         e.target.style.backgroundColor = '#FFFFFF';
@@ -159,7 +208,7 @@ export default function HaveQuestionsLetsTalk() {
                         fontSize: '13px',
                         border: '1px solid #F97C04',
                         backgroundColor: 'var(--color-grey-200, #E5E7EA)',
-                        color: '#9CA3AF'
+                        color: '#000000'
                       }}
                       onFocus={(e) => {
                         e.target.style.backgroundColor = '#FFFFFF';
@@ -186,7 +235,7 @@ export default function HaveQuestionsLetsTalk() {
                         fontSize: '13px',
                         border: '1px solid #F97C04',
                         backgroundColor: 'var(--color-grey-200, #E5E7EA)',
-                        color: '#9CA3AF'
+                        color: '#000000'
                       }}
                       onFocus={(e) => {
                         e.target.style.backgroundColor = '#FFFFFF';
@@ -212,7 +261,7 @@ export default function HaveQuestionsLetsTalk() {
                         fontSize: '13px',
                         border: '1px solid #F97C04',
                         backgroundColor: 'var(--color-grey-200, #E5E7EA)',
-                        color: '#9CA3AF'
+                        color: '#000000'
                       }}
                       onFocus={(e) => {
                         e.target.style.backgroundColor = '#FFFFFF';
@@ -299,7 +348,7 @@ export default function HaveQuestionsLetsTalk() {
                     </button>
                   </div>
                 </form>
-              ) : (
+                              ) : (
                 <div className="text-center py-8">
                   <div className="text-green-600 font-semibold text-lg mb-4">
                     Thank you for your message!
@@ -308,7 +357,8 @@ export default function HaveQuestionsLetsTalk() {
                     We've received your inquiry and will get back to you soon.
                   </p>
                 </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -322,6 +372,71 @@ export default function HaveQuestionsLetsTalk() {
         draggable={false}
         hideProgressBar={false}
       />
+
+      <style jsx>{`
+        /* Left side slide animations */
+        @keyframes leftSlideIn {
+          0% {
+            transform: translateX(-100px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes leftSlideOut {
+          0% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(-100px);
+            opacity: 0;
+          }
+        }
+        
+        /* Right side float animations */
+        @keyframes rightFloatIn {
+          0% {
+            transform: translateY(50px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes rightFloatOut {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(50px);
+            opacity: 0;
+          }
+        }
+        
+        /* Animation Classes */
+        .animate-left-slide-in {
+          animation: leftSlideIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-left-slide-out {
+          animation: leftSlideOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-right-float-in {
+          animation: rightFloatIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-right-float-out {
+          animation: rightFloatOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+      `}</style>
     </section>
   );
 }
