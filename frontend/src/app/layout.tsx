@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { DM_Sans } from "next/font/google";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
+import LoaderWrapper from "./Loadwrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,7 +11,7 @@ const geistSans = Geist({
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "700"], // choose the weights you need
+  weight: ["400", "500", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -22,7 +21,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Building Bharat",
-  description: "Building Bharat is a youth-led political and governance consulting firm using AI, data intelligence, and automation to modernize Indian politics.We’re building India’s next generation of ethical, skilled, and impact-focused political leaders.",
+  description:
+    "Building Bharat is a youth-led political and governance consulting firm using AI, data intelligence, and automation to modernize Indian politics.We’re building India’s next generation of ethical, skilled, and impact-focused political leaders.",
 };
 
 export default function RootLayout({
@@ -35,9 +35,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dmSans.className} antialiased`}
       >
-        {children}
-        
+        <LoaderWrapper>{children}</LoaderWrapper>
       </body>
     </html>
   );
 }
+
