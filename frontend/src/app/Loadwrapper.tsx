@@ -16,7 +16,7 @@ export default function LoaderWrapper({ children }: { children: React.ReactNode 
     return (
       <div className="flex items-center justify-center h-screen w-screen bg-white relative overflow-hidden">
         {/* Waves (ripple effect) */}
-        <div className="absolute w-[300px] h-[300px] flex items-center justify-center">
+        <div className="absolute w-[200px] h-[200px] flex items-center justify-center">
           <span className="ripple absolute"></span>
           <span className="ripple absolute delay-200"></span>
           <span className="ripple absolute delay-400"></span>
@@ -26,8 +26,8 @@ export default function LoaderWrapper({ children }: { children: React.ReactNode 
         <Image
           src="/images/bharat.png"
           alt="Loading..."
-          width={300}
-          height={300}
+          width={200}
+          height={200}
           unoptimized
           className="relative z-10"
         />

@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Building Bharat",
   description:
-    "Building Bharat is a youth-led political and governance consulting firm using AI, data intelligence, and automation to modernize Indian politics.We’re building India’s next generation of ethical, skilled, and impact-focused political leaders.",
+    "Building Bharat is a premier political consulting firm dedicated to shaping the leaders of tomorrow. Alongside offering expert consulting services, we provide specialized courses and hands-on internships that equip students and young professionals with the skills to thrive in political strategy, governance, and public policy. Our programs are designed to offer practical guidance on entering the world of consulting and politics, while also mentoring individuals on how to successfully secure and crack competitive internships in the field.",
 };
 
 export default function RootLayout({
