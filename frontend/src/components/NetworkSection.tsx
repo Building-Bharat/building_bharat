@@ -31,7 +31,7 @@ export default function CompanyLogosSection() {
     <section className="py-8" ref={sectionRef}>
       {/* Header */}
       {/* Header */}
-      <div className="text-center mb-12 px-4">
+      <div className="text-center mb-12 px-4 sm:mt-[32px] mt-[16px] ">
         <h1
           className={`text-[16px] sm:text-[32px] leading-[24px] sm:leading-[38px] font-Montserrat font-weight:800 font-extrabold text-[#005451] mb-4 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"

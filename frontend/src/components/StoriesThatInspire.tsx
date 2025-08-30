@@ -20,21 +20,21 @@ export default function StoriesThatInspire() {
     {
       id: 1,
       name: "Rahul Shetty",
-      quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tells",
+      quote: "“ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tells ”",
       image: "/images/image 2.png",
       alt: "Rahul Shetty"
     },
     {
       id: 2,
       name: "Michael Chen",
-      quote: "This learning experience has been transformative for my career. The practical approach and expert guidance helped me achieve goals I never thought possible. Highly recommend to anyone looking to grow professionally.",
+      quote: "“ This learning experience has been transformative for my career. The practical approach and expert guidance helped me achieve goals I never thought possible. Highly recommend to anyone looking to grow professionally. ”",
       image: "/images/image 3.png",
       alt: "Michael Chen"
     },
     {
       id: 3,
       name: "Sarah Johnson",
-      quote: "The supportive community and comprehensive curriculum made all the difference in my learning journey. I gained not just knowledge, but confidence to tackle new challenges in my field.",
+      quote: "“ The supportive community and comprehensive curriculum made all the difference in my learning journey. I gained not just knowledge, but confidence to tackle new challenges in my field. ”",
       image: "/images/image 4.png",
       alt: "Sarah Johnson"
     }
@@ -283,7 +283,7 @@ export default function StoriesThatInspire() {
           }}
         >
           <blockquote 
-            className={`italic text-black px-4 sm:px-6 md:px-0 w-full max-w-[90vw] sm:max-w-[80vw] md:max-w-[600px] lg:max-w-[800px] xl:max-w-none ${
+            className={` text-black px-4 sm:px-6 md:px-0 w-full max-w-[90vw] sm:max-w-[80vw] md:max-w-[600px] lg:max-w-[800px] xl:max-w-none ${
               textDirection === 'prev' 
                 ? 'animate-text-slide-out-right' 
                 : textDirection === 'next'

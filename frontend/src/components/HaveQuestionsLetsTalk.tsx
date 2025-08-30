@@ -141,7 +141,7 @@ export default function HaveQuestionsLetsTalk() {
 
                {/* Description */}
                <p 
-                 className={`transition-all duration-1000 ease-out ${
+                 className={` transition-all duration-1000 ease-out ${
                    descriptionAnimated ? 'animate-right-float-in' : 'animate-right-float-out'
                  }`}
                  style={{
@@ -175,7 +175,7 @@ export default function HaveQuestionsLetsTalk() {
                       placeholder="Full Name*"
                       value={formData.fullName}
                       onChange={(e) => handleInputChange('fullName', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300 -mt-[8px]"
                       style={{
                         fontFamily: 'DM Sans, sans-serif',
                         fontSize: '13px',
@@ -229,7 +229,7 @@ export default function HaveQuestionsLetsTalk() {
                       placeholder="Phone Number (optional — We&apos;ll only call if needed)"
                       value={formData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300 "
                       style={{
                         fontFamily: 'DM Sans, sans-serif',
                         fontSize: '13px',
@@ -255,7 +255,7 @@ export default function HaveQuestionsLetsTalk() {
                       rows={4}
                       value={formData.message}
                       onChange={(e) => handleInputChange('message', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300 resize-none"
+                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300 resize-none -mt-[8px]"
                       style={{
                         fontFamily: 'DM Sans, sans-serif',
                         fontSize: '13px',
@@ -278,7 +278,7 @@ export default function HaveQuestionsLetsTalk() {
                   <div>
                     <button
                       type="submit"
-                      className="flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105"
+                      className="flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-105 -mt-[18px]"
                       style={{
                         width: '119.5px',
                         height: '48px',
