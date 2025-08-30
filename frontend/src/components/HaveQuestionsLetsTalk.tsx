@@ -365,13 +365,6 @@ export default function HaveQuestionsLetsTalk() {
       </div>
       
       {/* Toast Container for notifications */}
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        closeOnClick={false}
-        draggable={false}
-        hideProgressBar={false}
-      />
 
       <style jsx>{`
         /* Left side slide animations */
