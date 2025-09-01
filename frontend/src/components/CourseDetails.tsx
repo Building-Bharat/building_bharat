@@ -36,10 +36,6 @@ export default function CourseDetails({ title = "Course Title", duration = "8 Ho
 					</div>
 				</div>
 			</section>
-
-			{/* Mentor Section - Now below the main content */}
-			<MeetYourCourseMentor />
-			<MeetYourCourseMentor />
 		</div>
 	);
 }

@@ -3,190 +3,69 @@
 import React from "react";
 import CTAButton from "./CTAButton";
 
-export default function MeetYourMentors() {
-	return (
-		<section
-			className="w-full flex justify-center px-4 sm:px-6 md:px-8"
-			style={{ background: "var(--Surface-Color-surface-grey, #E5E7EA)" }}
-		>
-			<div
-				className="bg-[#E5E7EA] w-full max-w-[1280px] rounded-[16px]"
-				style={{
-					minHeight: "786px",
-					paddingTop: "64px",
-					gap: "64px",
-					opacity: 1,
-				}}
-			>
-				{/* Heading */}
-				<div
-					className="flex flex-col items-center text-center gap-8 mx-auto"
-					style={{
-						width: "1152px",
-						height: "122px",
-						paddingTop: "16px",
-						paddingRight: "16px",
-						paddingBottom: "16px",
-						paddingLeft: "16px",
-						gap: "2rem",
-						opacity: 1,
-					}}
-				>
-					<h2
-						className="font-extrabold font-Montserrat"
-						style={{
-							width: "1120px",
-							height: "38px",
-							opacity: 1,
-							fontFamily: "Montserrat, sans-serif",
-							fontWeight: 800,
-							fontSize: "32px",
-							lineHeight: "38px",
-							letterSpacing: 0,
-							textAlign: "center",
-							color: "var(--Text-Color-text-green, #005451)",
-							marginTop: "16px",
-							marginRight: "16px",
-							marginLeft: "16px",
-						}}
-					>
-						Meet Your Mentors
-					</h2>
-					<p
-						className="font-DMsans"
-						style={{
-							width: "1120px",
-							height: "20px",
-							opacity: 1,
-							fontFamily: "DM Sans, sans-serif",
-							fontWeight: 400,
-							fontSize: "16px",
-							lineHeight: "20px",
-							letterSpacing: 0,
-							textAlign: "center",
-							color: "var(--color-text-textPrimary, #0A0A0A)",
-						}}
-					>
-						Your journey is backed by mentors who bring deep experience from the
-						corridors of power and the frontlines of political strategy.
-					</p>
-				</div>
+interface MentorCardProps {
+	title: string;
+	description: string;
+}
 
-				{/* Cards */}
-				<div
-					className="mx-auto mt-12"
-					style={{
-						width: "1152px",
-						height: "472px",
-						opacity: 1,
-						paddingTop: "16px",
-						paddingRight: "16px",
-						paddingBottom: "16px",  
-						paddingLeft: "16px",
-						gap: "64px",
-					}}
-				>
-					<div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: "64px" }}>
-						{Array.from({ length: 3 }).map((_, index) => (
-							<div
-								key={index}
-								className="overflow-hidden rounded-[8px]"
-								style={{
-									width: "330.6666564941406px",
-									height: "440px",
-									gap: "32px",
-									padding: 0,
-									background: "var(--Surface-Color-surface-white, #F1F1F1)",
-									border: "1px solid var(--Border-Color-border-grey, #9EA2AE)",
-									boxShadow: "0px 4px 4px 0px #9696964D",
-									opacity: 1,
-								}}
-							>
-								<div
-									style={{
-										width: "330.6666564941406px",
-										height: "196px",
-										opacity: 1,
-										borderRadius: 0,
-										background: "var(--Surface-Color-surface-grey-dark, #394050)",
-									}}
-								/>
-								<div className="flex flex-col items-center text-center" style={{ 
-									width: "298.66668701171875px", 
-									height: "100px", 
-									paddingTop: 0, 
-									paddingRight: "3px", 
-									paddingBottom: 0, 
-									paddingLeft: "32px", 
-									gap: "32px", 
-									marginTop: "32px",
-									opacity: 1 
-								}}>
-									<h3
-										className="font-Montserrat"
-										style={{
-											width: "266.66668701171875px",
-											height: "28px",
-											opacity: 1,
-											fontFamily: "Montserrat, sans-serif",
-											fontWeight: 700,
-											fontSize: "20px",
-											lineHeight: "28px",
-											letterSpacing: 0,
-											textAlign: "center",
-											color: "var(--color-text-textPrimary, #0A0A0A)",
-											marginTop: 0,
-											marginRight: "16px",
-											marginLeft: "16px",
-										}}
-									>
-										Mentor
-									</h3>
-									<p
-										className="font-DMsans"
-										style={{
-											width: "266.66668701171875px",
-											height: "40px",
-											opacity: 1,
-											fontFamily: "DM Sans, sans-serif",
-											fontWeight: 400,
-											fontSize: "16px",
-											lineHeight: "20px",
-											letterSpacing: 0,
-											textAlign: "center",
-											color: "var(--color-text-textPrimary, #0A0A0A)",
-										}}
-									>
-										Short body text about the mentor, a brief description.
-									</p>
-									<CTAButton
-										label="View on LinkedIn"
-										width={"298.66668701171875px"}
-										height={"48px"}
-										paddingTop={"12px"}
-										paddingRight={"32px"}
-										paddingBottom={"12px"}
-										paddingLeft={"32px"}
-										borderRadius={"8px"}
-										background={"var(--color-Primary-primary-500, #F97C04)"}
-										textColor="#0A0A0A"
-										fontSize={14}
-										fontWeight={600}
-										fontFamily="DM Sans"
-										leftRightMargin={"16px"}
-										bottomMargin={"16px"}
-										arrowColor="#000000"
-										textPaddingX={"8px"}
-										keepFixedSizeOnHover={true}
-										onClick={() => window.open("https://www.linkedin.com", "_blank")}
-									/>
-								</div>
-							</div>
-						))}
+const MentorCard: React.FC<MentorCardProps> = ({ title, description }) => {
+	return (
+		<div className="bg-[#f1f1f1] rounded-lg border border-[#9ea2ae] flex flex-col gap-4 md:gap-8 items-center justify-start md:flex-1 h-[440px] relative shadow-[0px_4px_4px_0px_rgba(150,150,150,0.3)] my-6 md:m-0 w-full md:w-auto">
+			<div className="bg-[#394050] w-full h-[232px] md:py-[51px] md:px-[92px] md:self-stretch md:flex-1 relative" />
+			<div className="p-4 flex flex-col gap-4 md:gap-8 items-start justify-start self-stretch flex-shrink-0 relative">
+				<div className="px-4 py-0 flex flex-col gap-8 items-center justify-center self-stretch flex-shrink-0 relative">
+					<div className="text-[#0a0a0a] text-center font-Montserrat text-[16px] md:text-[20px] leading-[24px] md:leading-[28px] font-bold relative self-stretch">
+						{title}
+					</div>
+					<div className="text-[#0a0a0a] text-center font-DmSans text-[16px] leading-[20px] font-normal relative self-stretch">
+						{description}
 					</div>
 				</div>
+				<CTAButton
+					label="View on LinkedIn"
+					onClick={() => window.open("https://www.linkedin.com", "_blank")}
+					width="100%"
+					height={48}
+					paddingTop={12}
+					paddingRight={32}
+					paddingBottom={12}
+					paddingLeft={32}
+					borderRadius={8}
+					background="#f1f1f1"
+					textColor="#f97c04"
+					fontSize={16}
+					fontWeight={700}
+					fontFamily="DmSans-Bold, sans-serif"
+					arrowColor="#f97c04"
+					keepFixedSizeOnHover={true}
+					border="1px solid #f97c04"
+					disableBorderRadiusChange={true}
+				/>
 			</div>
-		</section>
+		</div>
+	);
+};
+
+export default function MeetYourMentors() {
+	return (
+		<div className="px-2 md:px-16 py-0 flex flex-col gap-8 md:gap-4 items-center justify-center flex-shrink-0 relative overflow-hidden">
+			{/* Header Section */}
+			<div className="p-2 md:p-4 flex flex-col gap-4 md:gap-8 items-center justify-center self-stretch flex-shrink-0 relative">
+				<div className="text-[#005451] text-center font-Montserrat text-[18px] md:text-[32px] leading-[24px] md:leading-[38px] font-extrabold relative self-stretch">
+					Meet Your Mentors
+				</div>
+				<div className="text-[#0a0a0a] text-center font-DmSans text-[14px] md:text-[16px] leading-[20px] font-normal relative self-stretch">
+					Your journey is backed by mentors who bring deep experience from the corridors of power and the frontlines of political strategy.
+				</div>
+			</div>
+
+			{/* Mentor Cards */}
+			<div className="px-4 pb-8 md:p-4 flex flex-col md:flex-row gap-8 md:gap-16 items-start md:items-center justify-start md:justify-center self-stretch flex-shrink-0 relative">
+				<MentorCard title="Mentor" description="Short body text about the mentor, a brief description." />
+				<MentorCard title="Mentor" description="Short body text about the mentor, a brief description." />
+				<MentorCard title="Mentor" description="Short body text about the mentor, a brief description." />
+			</div>
+		</div>
 	);
 }
 
