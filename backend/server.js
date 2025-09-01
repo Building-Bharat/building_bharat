@@ -25,6 +25,7 @@ connectDB();
 //api middleware
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/internship', internshipRoutes);
 // app.use('api/v1/course', courseRoutes);
 // app.use('api/v1/internship', internshipRoutes);
 

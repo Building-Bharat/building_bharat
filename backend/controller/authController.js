@@ -75,11 +75,14 @@ async function generateOtpVerify(newUser) {
 }
 
 exports.emailSignUp = catchAsync(async (req, res) => {
+	const role = req.body.adminCode === process.env.ADMIN_SECRET ? 'admin' : 'user';
+
 	const newUser = await User.create({
 		name: req.body.name,
 		email: req.body.email,
 		password: req.body.password,
-		passwordConfirm: req.body.passwordConfirm
+		passwordConfirm: req.body.passwordConfirm,
+		role: role
 	});
 
 	await generateOtpVerify(newUser);
