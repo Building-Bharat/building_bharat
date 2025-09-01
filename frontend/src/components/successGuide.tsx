@@ -137,18 +137,6 @@ export default function SuccessGuide() {
           </motion.div>
         )}
 
-        {/* Toast */}
-         <div>
-      <ToastContainer
-    position="top-right"
-    autoClose={2000}
-    closeOnClick={true}
-    newestOnTop={true}
-    pauseOnHover={true}
-    pauseOnFocusLoss={true}
-    draggable={true}
-  />
-    </div>
       </div>
 
       {/* Right Section */}
