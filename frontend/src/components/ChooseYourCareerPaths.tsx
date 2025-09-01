@@ -12,7 +12,7 @@ const ChooseYourCareerPaths = () => {
                         <h1 className="text-lg  pb-8 sm:pb-0 w-full text-[#005451] lg:text-[32px] leading-[38px] text-center font-extrabold">
                               Choose Your Career Path
                         </h1>
-                        <p className='text-sm pb-4 sm:pb-0 text-[#0A0A0A] text-center'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.</p>
+                        <p className='text-base pb-4 sm:pb-0 text-[#0A0A0A] text-center'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.</p>
 
                         {/* Grid container */}
                         <div className="min-h-[440px] w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center ">

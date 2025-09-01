@@ -4,6 +4,16 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { type } = require('os');
 
+const appliedInternshipSchema = new mongoose.Schema({
+	internshipId: { type: mongoose.Schema.Types.ObjectId, ref: 'Internship', required: true },
+	resume: { type: String, required: true },
+	status: {
+		type: String,
+		enum: ['applied', 'interview', 'rejected'],
+		default: 'pending'
+	}
+});
+
 const userSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -51,7 +61,7 @@ const userSchema = new mongoose.Schema({
 	passwordResetToken: String,
 	passwordResetExpires: Date,
 	active: { type: Boolean, default: false },
-	isAdmin: { type: Boolean, default: false },
+	role: { type: String, enum: ['user', 'admin'], default: 'user' },
 	createdAt: { type: Date, default: Date.now },
 	otp: {
 		type: String,
@@ -61,7 +71,9 @@ const userSchema = new mongoose.Schema({
 	isVerified: {
 		type: Boolean,
 		default: false
-	}
+	},
+
+	appliedInternship: [appliedInternshipSchema]
 })
 
 

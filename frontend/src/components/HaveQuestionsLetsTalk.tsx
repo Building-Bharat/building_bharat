@@ -31,41 +31,46 @@ export default function HaveQuestionsLetsTalk() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-    // Validate required fields
-    if (!formData.fullName.trim() || !formData.email.trim()) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    // Validate email format
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
+  if (!formData.fullName.trim() || !formData.email.trim()) {
+    toast.error("Please fill in all required fields");
+    return;
+  }
 
-    // Here you would typically send the data to your backend/database
-    // For now, we'll just show success message
-    console.log('Form submitted with data:', formData);
-    
-    setSubmitted(true);
-    toast.success("Form submitted successfully! We'll be in touch soon.");
-    
-    // Reset form after successful submission
-    setFormData({
-      fullName: '',
-      email: '',
-      phone: '',
-      message: ''
+  if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    toast.error("Please enter a valid email address");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
     });
 
-    // Auto-return to form after 1.5 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 1500);
-  };
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success("✅ Your query has been registered. Check your email!");
+      setSubmitted(true);
+
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } else {
+      toast.error("❌ Failed to send. Please try again.");
+    }
+  } catch (err) {
+    toast.error("⚠️ Server error. Try again later.");
+  }
+};
+
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -365,13 +370,6 @@ export default function HaveQuestionsLetsTalk() {
       </div>
       
       {/* Toast Container for notifications */}
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        closeOnClick={false}
-        draggable={false}
-        hideProgressBar={false}
-      />
 
       <style jsx>{`
         /* Left side slide animations */
