@@ -22,6 +22,8 @@ type CTAButtonProps = {
 	arrowColor?: string;
 	textPaddingX?: string | number;
 	keepFixedSizeOnHover?: boolean;
+	border?: string;
+	disableBorderRadiusChange?: boolean;
 };
 
 export default function CTAButton({
@@ -44,6 +46,8 @@ export default function CTAButton({
 	arrowColor = "#FFFFFF",
 	textPaddingX = 0,
 	keepFixedSizeOnHover = false,
+	border,
+	disableBorderRadiusChange = false,
 }: CTAButtonProps) {
 	return (
 		<button
@@ -57,7 +61,7 @@ export default function CTAButton({
 				paddingLeft,
 				borderRadius,
 				background,
-				border: "none",
+				border: border || "none",
 				cursor: "pointer",
 				display: "flex",
 				alignItems: "center",
@@ -71,7 +75,9 @@ export default function CTAButton({
 				marginBottom: bottomMargin,
 			}}
 			onMouseEnter={(e) => {
-				e.currentTarget.style.borderRadius = "0px";
+				if (!disableBorderRadiusChange) {
+					e.currentTarget.style.borderRadius = "0px";
+				}
 				const svg = e.currentTarget.querySelector("svg");
 				const span = e.currentTarget.querySelector("span");
 				if (svg) {
@@ -83,7 +89,9 @@ export default function CTAButton({
 				}
 			}}
 			onMouseLeave={(e) => {
-				e.currentTarget.style.borderRadius = `${borderRadius}`;
+				if (!disableBorderRadiusChange) {
+					e.currentTarget.style.borderRadius = `${borderRadius}`;
+				}
 				const svg = e.currentTarget.querySelector("svg");
 				const span = e.currentTarget.querySelector("span");
 				if (svg) {
