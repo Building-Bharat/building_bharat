@@ -12,7 +12,7 @@ const WeeklyTopCourses = () => {
         <h1 className="text-lg w-full text-[#005451] pb-8 sm:pb-0 lg:text-[32px] leading-[38px] text-center font-extrabold">
           Weekly Top Courses
         </h1>
-        <p className='text-sm pb-4 sm:pb-0 text-center font-normal text-[#0A0A0A]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa ai. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.</p>
+        <p className='text-base pb-4 sm:pb-0 text-center font-normal text-[#0A0A0A]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa ai. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.</p>
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 justify-items-center">
             <WeeklyTopCoursesItem />
             <WeeklyTopCoursesItem />
