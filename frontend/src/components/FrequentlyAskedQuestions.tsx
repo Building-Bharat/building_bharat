@@ -60,20 +60,20 @@ export default function FrequentlyAskedQuestions() {
 			</div>
 
 			{/* FAQ Items */}
-			<div className="w-full flex flex-col gap-0 items-start justify-start self-stretch flex-shrink-0 relative">
+			<div className="w-full flex flex-col gap-4 md:gap-4 items-start justify-start self-stretch flex-shrink-0 relative">
 				{faqData.map((item) => (
 					<div
 						key={item.id}
-						className="w-full border border-[#9ea2ae] p-2 md:p-4 flex flex-col gap-4 md:gap-8 items-center justify-center self-stretch flex-shrink-0 relative"
+						className="w-full border border-[#9ea2ae] p-2 md:p-4 md:rounded-[16px] flex flex-col gap-4 md:gap-8 items-center md:justify-center justify-center self-stretch flex-shrink-0 relative"
 					>
 						<button
 							onClick={() => toggleItem(item.id)}
-							className="w-full flex flex-row gap-4 md:gap-8 items-center justify-start self-stretch flex-shrink-0 relative cursor-pointer hover:bg-[#E5E7EA] transition-colors duration-200 rounded p-2 -m-2"
+							className="w-full flex flex-row gap-4 md:gap-8 items-center justify-start self-stretch flex-shrink-0 relative cursor-pointer md:hover:bg-[#E5E7EA] transition-colors duration-200 md:rounded-[12px] p-0"
 						>
 							<div className="text-[#0a0a0a] text-left font-DmSans text-[14px] md:text-[16px] leading-[20px] font-normal relative flex-1">
 								{item.question}
 							</div>
-							<div className="flex-shrink-0 w-10 h-10 relative overflow-visible aspect-square transition-transform duration-200">
+							<div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 relative overflow-visible aspect-square transition-transform duration-200">
 								<img
 									className={`w-full h-full transition-transform duration-200 ${
 										expandedItems.includes(item.id) ? 'rotate-180' : ''
@@ -86,7 +86,7 @@ export default function FrequentlyAskedQuestions() {
 						
 						{/* Answer - Expandable */}
 						{expandedItems.includes(item.id) && (
-							<div className="w-full text-[#0a0a0a] text-left font-DmSans text-[14px] md:text-[16px] leading-[20px] font-normal opacity-80 px-4 transition-all duration-700 ease-in-out">
+							<div className="w-full text-black text-left font-DmSans text-[14px] md:text-[16px] leading-[20px] font-normal px-0 transition-all duration-700 ease-in-out">
 								{item.answer}
 							</div>
 						)}
