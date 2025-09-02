@@ -58,7 +58,7 @@ const CourseVideo = () => {
 
     return (
 
-        <section className='flex flex-col md:flex-row gap-4 md:gap-8'>
+        <section className='flex flex-col md:flex-row gap-4 md:gap-8 mb-4'>
             <div className='flex-1 py-4  '>
                 <div id='video' className='w-full mb-4 bg-black min-h-[400px] rounded-lg flex items-center justify-center'>
                     {/* video  */}
@@ -66,10 +66,10 @@ const CourseVideo = () => {
                 <div className='grid w-full grid-cols-1 space-y-8'>
                     <div className='space-y-4 md:space-y-8 '>
                         <p className='text-sm md:text-base text-black'>Master the art of field operations for political campaigns. Learn how to build and manage ground teams, volunteer coordination, canvassing strategies, and voter outreach programs.</p>
-                        <h1 className='text-base md:text-xl font-bold text-teal-800'>What you will learn</h1>
+                        <h1 className='text-base md:text-xl font-bold text-[#008C85]'>What you will learn</h1>
 
-                        <div id='dynamic' className='border sticky top-[500px] left-4 right-4 px-4 bg-white border-gray-300 py-2 md:py-4 rounded-lg flex items-center justify-between'>
-                            <p className='text-base md:text-xl font-bold text-[#0A0A0A]'>&#8377;6,999</p>
+                        <div id='dynamic' className='border fixed left-4 md:left-16 mx-auto top-[550px] right-4 md:right-[300px]  z-10  px-4 bg-white border-gray-300 py-2 md:py-4 rounded-lg flex items-center justify-between'>
+                            <p className='text-base md:text-xl font-bold text-[#0A0A0A] font-Montserrat ' >&#8377;6,999</p>
                             <CTAButton label='Enroll Now'
                                 textColor='#0A0A0A'
                                 width='min-w-4'
@@ -128,7 +128,7 @@ const CourseVideo = () => {
                                                     openIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                                                 }`}
                                                 >
-                                                <p className="mt-3 text-[#0A0A0A] overflow-hidden">
+                                                <p className="mt-3 text-[#0A0A0A] pl-14 overflow-hidden">
                                                     {module.answer}
                                                 </p>
                                              </div>
