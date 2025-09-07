@@ -12,7 +12,7 @@ import HaveQuestionsLetsTalk from '@/components/HaveQuestionsLetsTalk';
 import SuccessGuide from '@/components/successGuide';
 import NetworkSection from '@/components/NetworkSection';
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer } from 'react-toastify';
 
 export default function Home() {
   return (
@@ -28,6 +28,14 @@ export default function Home() {
       <HaveQuestionsLetsTalk/>
       <SuccessGuide/>
       <Footer/>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        closeOnClick
+        draggable
+        pauseOnHover={false}
+        pauseOnFocusLoss={false}
+      />
     </div>
   );
 }

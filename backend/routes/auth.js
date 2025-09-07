@@ -4,15 +4,19 @@ const authController = require('../controller/authController');
 
 //auth endpoint
 
-router.post('/signUp/email', authController.emailSignUp);
+router.post('/signup/email', authController.emailSignUp);
 
 router.post('/login/email', authController.loginEmail);
 
 router.post('/forget-password', authController.forgotPassword);
 
-router.post('/reset-password/token', authController.resetPassword);
+router.post('/reset-password/:token', authController.resetPassword);
 
-router.patch('/updateMyPassword', authController.protect, authController.updatePassword);
+router.post('/verify-otp', authController.verifyOTP);
+
+router.use(authController.protect);
+
+router.patch('/updateMyPassword', authController.updatePassword);
 
 
 //need to implement

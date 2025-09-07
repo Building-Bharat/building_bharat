@@ -17,6 +17,18 @@ const dmSans = DM_Sans({
 export default function SuccessGuide() {
   const [submitted, setSubmitted] = useState(false);
 
+   const showAutoToast = () => {
+    toast.success("This will disappear in 2s"); // closes automatically
+  };
+
+  const showManualToast = () => {
+    toast.error("This will stay until closed", {
+      autoClose: false,
+      closeButton: undefined,   // won't close automatically
+    
+    });
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -89,7 +101,7 @@ export default function SuccessGuide() {
              rounded-lg 
              font-[DM Sans] font-bold text-[16px] leading-6
              transition-all duration-300 ease-in-out
-             transform hover:scale-x-105 hover:translate-x-1"
+             transform hover:scale-x-105 hover:translate-x-1 ml-0 sm:ml-[16px]"
               >
                 {/* Arrow (slides in on hover) */}
                 <svg
@@ -125,14 +137,6 @@ export default function SuccessGuide() {
           </motion.div>
         )}
 
-        {/* Toast */}
-        <ToastContainer
-          position="top-right"
-          autoClose={2000} // manual close only
-          closeOnClick={false}
-          draggable={false}
-          hideProgressBar={false}
-        />
       </div>
 
       {/* Right Section */}

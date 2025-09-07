@@ -95,8 +95,14 @@ export default function AnimatedStates() {
     const angleInRadians = ((index * 60) + 30) * (Math.PI / 180); // Added 30-degree offset
     
     // Calculate x and y coordinates
-    const x = Math.cos(angleInRadians) * radius;
+    let x = Math.cos(angleInRadians) * radius;
     const y = Math.sin(angleInRadians) * radius;
+    
+    // Apply left shift to index 1 (top position) before rotation
+    // This ensures the shift is applied to the static position, not the rotated position
+    if (index === 1) {
+      x -= 16; // 16px left adjustment for the top position
+    }
     
     return {
       position: 'absolute' as const,
@@ -120,8 +126,14 @@ export default function AnimatedStates() {
       const radius = 200;
       const angleInRadians = ((index * 60) + 30) * (Math.PI / 180);
       
-      const x = Math.cos(angleInRadians) * radius;
+      let x = Math.cos(angleInRadians) * radius;
       const y = Math.sin(angleInRadians) * radius;
+      
+      // For SSR, we can't use rotation state, so we'll apply the shift to index 1
+      // This will be corrected on the client side
+      if (index === 1) {
+        x -= 16;
+      }
       
       return {
         position: 'absolute' as const,
@@ -142,8 +154,14 @@ export default function AnimatedStates() {
       (window.innerWidth >= 1366 ? 280 : 200) : 200;
     const angleInRadians = ((index * 60) + 30) * (Math.PI / 180);
     
-    const x = Math.cos(angleInRadians) * radius;
+    let x = Math.cos(angleInRadians) * radius;
     const y = Math.sin(angleInRadians) * radius;
+    
+    // Apply left shift to index 1 (top position) before rotation
+    // This ensures the shift is applied to the static position, not the rotated position
+    if (index === 1) {
+      x -= 16; // 16px left adjustment for the top position
+    }
     
     return {
       position: 'absolute' as const,
@@ -166,11 +184,11 @@ export default function AnimatedStates() {
     <div className="relative w-full h-full flex items-center justify-center min-h-[400px] sm:min-h-[500px] md:min-h-[600px] overflow-visible py-[60px] px-0 lg:pl-[160px]">
       {/* Central "Building Bharat" text */}
       <div className="text-center z-10 relative">
-        <div className="font-normal leading-tight" style={{ color: '#004644', width: '88px', height: '28px', fontSize: '24px' }}>
+        <div className="font-bold leading-tight" style={{ color: '#004644', width: '88px', height: '28px', fontSize: '24px' }}>
           Building
         </div>
-        <div className="font-bold leading-tight" style={{ color: '#F97C04', width: '70px', height: '28px', fontSize: '24px' }}>
-          BHARAT
+        <div className="font-bold leading-tight" style={{ color: '#F97C04', width: '70px', height: '28px', fontSize: '24px' ,paddingLeft:'8px'}}>
+          Bharat
         </div>
         
         {/* Optional: Add a subtle indicator of current highlighted icon */}

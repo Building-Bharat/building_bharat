@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function StoriesThatInspire() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [direction, setDirection] = useState('');
   const [textDirection, setTextDirection] = useState('');
+  
+  // Animation states
+  const [isVisible, setIsVisible] = useState(false);
+  const [titleAnimated, setTitleAnimated] = useState(false);
+  const [descriptionAnimated, setDescriptionAnimated] = useState(false);
+  const [imagesAnimated, setImagesAnimated] = useState(false);
+  const [quoteAnimated, setQuoteAnimated] = useState(false);
+  const [iconsAnimated, setIconsAnimated] = useState(false);
+  
+  const sectionRef = useRef<HTMLElement>(null);
 
   const testimonials = [
     {
       id: 1,
       name: "Rahul Shetty",
-      quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tells",
+      quote: "“ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tells ”",
       image: "/images/image 2.png",
       alt: "Rahul Shetty"
     },
     {
       id: 2,
       name: "Michael Chen",
-      quote: "This learning experience has been transformative for my career. The practical approach and expert guidance helped me achieve goals I never thought possible. Highly recommend to anyone looking to grow professionally.",
+      quote: "“ This learning experience has been transformative for my career. The practical approach and expert guidance helped me achieve goals I never thought possible. Highly recommend to anyone looking to grow professionally. ”",
       image: "/images/image 3.png",
       alt: "Michael Chen"
     },
     {
       id: 3,
       name: "Sarah Johnson",
-      quote: "The supportive community and comprehensive curriculum made all the difference in my learning journey. I gained not just knowledge, but confidence to tackle new challenges in my field.",
+      quote: "“ The supportive community and comprehensive curriculum made all the difference in my learning journey. I gained not just knowledge, but confidence to tackle new challenges in my field. ”",
       image: "/images/image 4.png",
       alt: "Sarah Johnson"
     }
@@ -96,8 +106,35 @@ export default function StoriesThatInspire() {
   const centerIndex = getTestimonialIndex(0);
   const rightIndex = getTestimonialIndex(1);
 
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            // Start sequential animations
+            setTimeout(() => setTitleAnimated(true), 200);
+            setTimeout(() => setDescriptionAnimated(true), 600);
+            setTimeout(() => setImagesAnimated(true), 1000);
+            setTimeout(() => setQuoteAnimated(true), 1400);
+            setTimeout(() => setIconsAnimated(true), 1800);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section 
+      ref={sectionRef}
       className="px-4 sm:px-6 md:px-8" 
       style={{ 
         background: '#E5E7EA', 
@@ -113,7 +150,9 @@ export default function StoriesThatInspire() {
       >
         {/* Title */}
         <h2 
-          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8"
+          className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 transition-all duration-1000 ease-out ${
+            titleAnimated ? 'animate-title-float-in' : 'animate-title-float-out'
+          }`}
           style={{
             color: '#005451',
             fontFamily: 'Montserrat, sans-serif',
@@ -130,7 +169,9 @@ export default function StoriesThatInspire() {
 
         {/* Description */}
         <p 
-          className="text-base sm:text-lg mb-6 sm:mb-8 text-black px-2 sm:px-4 md:px-6 lg:px-8 mx-auto whitespace-normal md:whitespace-normal lg:whitespace-nowrap"
+          className={`text-base sm:text-lg mb-6 sm:mb-8 text-black px-2 sm:px-4 md:px-6 lg:px-8 mx-auto whitespace-normal md:whitespace-normal lg:whitespace-nowrap transition-all duration-1000 ease-out ${
+            descriptionAnimated ? 'animate-description-float-in' : 'animate-description-float-out'
+          }`}
           style={{
             fontFamily: 'DM Sans, sans-serif',
             fontWeight: 400,
@@ -146,7 +187,9 @@ export default function StoriesThatInspire() {
         </p>
 
         {/* Profile Pictures Container with 3D Perspective */}
-        <div className="relative flex items-center justify-center gap-6 sm:gap-8 md:gap-12 mb-8 sm:mb-12 h-32 md:h-40 testimonial-3d-container">
+        <div className={`relative flex items-center justify-center gap-6 sm:gap-8 md:gap-12 mb-8 sm:mb-12 h-32 md:h-40 testimonial-3d-container transition-all duration-1000 ease-out ${
+          imagesAnimated ? 'animate-images-float-in' : 'animate-images-float-out'
+        }`}>
           
           {/* Left Profile Picture */}
           <div 
@@ -221,7 +264,9 @@ export default function StoriesThatInspire() {
 
         {/* Testimonial Quote */}
         <div 
-          className="w-full sm:w-4/5 md:w-auto overflow-hidden"
+          className={`w-full sm:w-4/5 md:w-auto overflow-hidden transition-all duration-1000 ease-out ${
+            quoteAnimated ? 'animate-quote-float-in' : 'animate-quote-float-out'
+          }`}
           style={{
             width: '100%',
             maxWidth: '1152px',
@@ -238,7 +283,7 @@ export default function StoriesThatInspire() {
           }}
         >
           <blockquote 
-            className={`italic text-black px-4 sm:px-6 md:px-0 w-full max-w-[90vw] sm:max-w-[80vw] md:max-w-[600px] lg:max-w-[800px] xl:max-w-none ${
+            className={` text-black px-4 sm:px-6 md:px-0 w-full max-w-[90vw] sm:max-w-[80vw] md:max-w-[600px] lg:max-w-[800px] xl:max-w-none ${
               textDirection === 'prev' 
                 ? 'animate-text-slide-out-right' 
                 : textDirection === 'next'
@@ -259,7 +304,9 @@ export default function StoriesThatInspire() {
         </div>
 
         {/* Attribution */}
-        <div className="mb-6 mt-6 sm:mt-8 overflow-hidden">
+        <div className={`mb-6 mt-6 sm:mt-8 overflow-hidden transition-all duration-1000 ease-out ${
+          quoteAnimated ? 'animate-name-float-in' : 'animate-name-float-out'
+        }`}>
           <p 
             className={`text-base sm:text-lg font-bold text-black mb-4 sm:mb-6 ${
               textDirection === 'prev' 
@@ -279,31 +326,248 @@ export default function StoriesThatInspire() {
           </p>
 
           {/* Social Media Icons */}
-          <div className="flex items-center justify-center gap-4 sm:gap-6 mb-8">
+          <div className={`flex items-center justify-center gap-4 sm:gap-6 mb-8 transition-all duration-1000 ease-out ${
+            iconsAnimated ? 'animate-icons-float-in' : 'animate-icons-float-out'
+          }`}>
             {/* College Icon */}
-            <div 
-              className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-gray-600" 
-              style={{ background: '#544E4E' }}
-            >
-              <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
-              </svg>
+            <div className="flex flex-col items-center gap-2">
+              <div 
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-gray-600" 
+                style={{ background: '#544E4E' }}
+              >
+                <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                </svg>
+              </div>
+              <span 
+                className="text-xs text-gray-600 font-medium"
+                style={{
+                  fontFamily: 'DM Sans, sans-serif',
+                  fontSize: '12px',
+                  lineHeight: '16px',
+                  textAlign: 'center'
+                }}
+              >
+                College
+              </span>
             </div>
 
-            {/* Instagram Icon */}
-            <div 
-              className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-gray-600" 
-              style={{ background: '#544E4E' }}
-            >
-              <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
+            {/* LinkedIn Icon */}
+            <div className="flex flex-col items-center gap-2">
+              <div 
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-gray-600" 
+                style={{ background: '#544E4E' }}
+              >
+                <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </div>
+              <span 
+                className="text-xs text-gray-600 font-medium"
+                style={{
+                  fontFamily: 'DM Sans, sans-serif',
+                  fontSize: '12px',
+                  lineHeight: '16px',
+                  textAlign: 'center'
+                }}
+              >
+                LinkedIn
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       <style jsx>{`
+        /* Scroll-triggered Float Animations */
+        
+        /* Title float animations */
+        @keyframes titleFloatIn {
+          0% {
+            transform: translateY(50px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes titleFloatOut {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(50px);
+            opacity: 0;
+          }
+        }
+        
+        /* Description float animations */
+        @keyframes descriptionFloatIn {
+          0% {
+            transform: translateY(40px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes descriptionFloatOut {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(40px);
+            opacity: 0;
+          }
+        }
+        
+        /* Images float animations */
+        @keyframes imagesFloatIn {
+          0% {
+            transform: translateY(60px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes imagesFloatOut {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(60px);
+            opacity: 0;
+          }
+        }
+        
+                /* Quote float animations */
+        @keyframes quoteFloatIn {
+          0% {
+            transform: translateY(40px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes quoteFloatOut {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+           }
+           100% {
+             transform: translateY(40px);
+             opacity: 0;
+           }
+         }
+         
+         /* Name float animations */
+         @keyframes nameFloatIn {
+           0% {
+             transform: translateY(40px);
+             opacity: 0;
+           }
+           100% {
+             transform: translateY(0);
+             opacity: 1;
+           }
+         }
+         
+         @keyframes nameFloatOut {
+           0% {
+             transform: translateY(0);
+             opacity: 1;
+           }
+           100% {
+             transform: translateY(40px);
+             opacity: 0;
+           }
+         }
+        
+        /* Icons float animations */
+        @keyframes iconsFloatIn {
+          0% {
+            transform: translateY(50px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes iconsFloatOut {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(50px);
+            opacity: 0;
+          }
+        }
+        
+        /* Animation Classes for Scroll-triggered animations */
+        .animate-title-float-in {
+          animation: titleFloatIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-title-float-out {
+          animation: titleFloatOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-description-float-in {
+          animation: descriptionFloatIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-description-float-out {
+          animation: descriptionFloatOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-images-float-in {
+          animation: imagesFloatIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-images-float-out {
+          animation: imagesFloatOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-quote-float-in {
+          animation: quoteFloatIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-quote-float-out {
+          animation: quoteFloatOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-name-float-in {
+          animation: nameFloatIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-name-float-out {
+          animation: nameFloatOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-icons-float-in {
+          animation: iconsFloatIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .animate-icons-float-out {
+          animation: iconsFloatOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
         /* Text Sliding Animations */
         
         /* Text slides out to the left when going to next */
