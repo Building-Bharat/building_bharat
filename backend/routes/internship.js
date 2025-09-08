@@ -20,7 +20,7 @@ router.get('/admin/:id', authController.protect, authController.restrictTo('admi
 //user routes
 router.get('/', internshipController.getAllInternships);
 router.post('/apply/:id', authController.protect, upload.single('resume'), internshipController.applyInternshipById);
-router.get('/applied', authController.protect, internshipController.getAllAppliedInternships);
+router.get('/applied/:id', authController.protect, internshipController.getAllAppliedInternships);
 
 module.exports = router;
 

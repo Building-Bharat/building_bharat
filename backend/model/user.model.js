@@ -9,7 +9,7 @@ const appliedInternshipSchema = new mongoose.Schema({
 	resume: { type: String, required: true },
 	status: {
 		type: String,
-		enum: ['applied', 'interview', 'rejected'],
+		enum: ['applied', 'pending', 'rejected'],
 		default: 'pending'
 	}
 });
@@ -50,6 +50,9 @@ const userSchema = new mongoose.Schema({
 	passwordConfirm: {
 		type: String,
 		required: [true, 'Password confirmation is required'],
+		required: function () {
+			return this.isNew; // Required only when creating a new document
+		},
 		validate: {
 			validator: function (value) {
 				return value === this.password

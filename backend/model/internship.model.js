@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const internshipSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -37,4 +38,4 @@ const internshipSchema = new mongoose.Schema({
 	}]
 });
 
-exports.default = mongoose.model('Internship', internshipSchema);
+module.exports = mongoose.model('Internship', internshipSchema);

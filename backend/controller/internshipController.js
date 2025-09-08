@@ -1,7 +1,7 @@
 const { default: mongoose } = require('mongoose');
 const Internship = require('../model/internship.model');
 const { body, validationResult } = require('express-validator');
-
+const User = require('../model/user.model')
 
 exports.createInternship = async (req, res) => {
 	// const checkValidate = validationResult(req);
@@ -97,7 +97,7 @@ exports.getApplicantsForInternship = async (req, res) => {
 	}
 
 	try {
-		const internship = await Internship.findById(id).populate('application.user');
+		const internship = await Internship.findById(id).populate('applications.User');
 
 		if (!internship) {
 			return res.status(404).json({
@@ -117,7 +117,7 @@ exports.getApplicantsForInternship = async (req, res) => {
 	} catch (err) {
 		return res.status(500).json({
 			status: 'error',
-			message: 'Error fetching internship'
+			message: err.message
 		});
 	}
 };
@@ -146,7 +146,10 @@ exports.getAllInternships = async (req, res) => {
 
 exports.applyInternshipById = async (req, res) => {
 	try {
-		const { name, email, resume } = req.body;
+		const { name, email } = req.body;
+		const resume = req.file ? req.file.location : null;
+		if (resume === null) throw new Error('Resume is required');
+
 		const internshipId = req.params.id;
 
 		const user = await User.findOne({ email });
@@ -157,22 +160,22 @@ exports.applyInternshipById = async (req, res) => {
 			throw new Error('User or Internship not found');
 		};
 
-		if (new Date() < internship.applyBy) {
+		if (new Date() > internship.applyBy) {
 			throw new Error('The last date to apply for this internship has passed');
 		};
 
-		if (user.applyInternshipById.includes(internship)) {
-			throw new Error('You have already applied for this internship');
-		};
+		if (user.appliedInternship.some(app => app.internshipId.toString() === internshipId)) {
+			return res.status(400).json({ status: 'error', message: 'You have already applied for this internship' });
+		}
 
-		user.applyInternshipById.push({
-			internship,
+		user.appliedInternship.push({
+			internshipId: internship._id,
 			resume
 		});
 
 
-		if (!internship.application.includes(user._id)) {
-			internship.application.push(user._id);
+		if (!internship.applications.includes(user._id)) {
+			internship.applications.push(user._id);
 		};
 
 		await user.save();
@@ -188,14 +191,14 @@ exports.applyInternshipById = async (req, res) => {
 	catch (err) {
 		return res.status(500).json({
 			status: 'error',
-			message: 'Error applying for internship'
+			message: err.message
 		});
 	}
 };
 
 exports.getAllAppliedInternships = async (req, res) => {
 	try {
-		const user = await User.findById(req.user.id).populate('appliedInternship.internship');
+		const user = await User.findById(req.user.id).populate('appliedInternship.internshipId');
 		res.status(200).json({
 			status: 'success',
 			data: {
@@ -205,7 +208,7 @@ exports.getAllAppliedInternships = async (req, res) => {
 	} catch (err) {
 		return res.status(500).json({
 			status: 'error',
-			message: 'Error fetching applied internships'
+			message: err.message
 		});
 	}
 };
