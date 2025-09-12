@@ -64,11 +64,11 @@ export default function FrequentlyAskedQuestions() {
 				{faqData.map((item) => (
 					<div
 						key={item.id}
-						className="w-full border border-[#9ea2ae] p-2 md:p-4 md:rounded-[16px] flex flex-col gap-4 md:gap-8 items-center md:justify-center justify-center self-stretch flex-shrink-0 relative"
+						className="w-full border border-[#9ea2ae] bg-[#F1F1F1] p-2 md:p-4 rounded-[16px] flex flex-col gap-4 md:gap-8 items-center md:justify-center justify-center self-stretch flex-shrink-0 relative"
 					>
 						<button
 							onClick={() => toggleItem(item.id)}
-							className="w-full flex flex-row gap-4 md:gap-8 items-center justify-start self-stretch flex-shrink-0 relative cursor-pointer md:hover:bg-[#E5E7EA] transition-colors duration-200 md:rounded-[12px] p-0"
+							className="w-full flex flex-row gap-4 md:gap-8 items-center justify-start self-stretch flex-shrink-0 relative cursor-pointer transition-colors duration-200 md:rounded-[12px] p-0"
 						>
 							<div className="text-[#0a0a0a] text-left font-DmSans text-[14px] md:text-[16px] leading-[20px] font-normal relative flex-1">
 								{item.question}

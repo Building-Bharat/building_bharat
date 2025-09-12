@@ -12,6 +12,10 @@ router.post("/", async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
+
+      secure: true,
+      host: "smtp.gmail.com",
+      port: 465,
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
@@ -42,7 +46,7 @@ router.post("/", async (req, res) => {
       <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
 
         <!-- Header with Logo -->
-        <div style="text-align:center; padding:25px; background:#F97C04;">
+        <div style="text-align:center; padding:25px; background:#ffffff;">
           <img src="https://i.postimg.cc/XvG5Szdx/bb1.png" alt="Company Logo" style="max-width:120px; border-radius:6px;" />
         </div>
 
