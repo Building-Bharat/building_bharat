@@ -18,16 +18,16 @@ export default function MeetYourCourseMentor({
 		<>
 			{/* Mobile View - Only shows on mobile devices */}
 			<div className="md:hidden">
-				<div className="flex flex-col gap-4 items-start justify-center self-stretch flex-shrink-0 relative overflow-hidden m-2">
+				<div className="flex flex-col gap-4 items-start justify-center self-stretch flex-shrink-0 relative overflow-hidden m-4">
 					{/* Meet Your Mentor Title - Mobile */}
 					<div className="text-[#005451] text-left font-['Montserrat-ExtraBold',sans-serif] text-[18px] leading-[24px] font-extrabold relative self-stretch">
 						Meet Your Mentor
 					</div>
 					
 					{/* Main Container - Mobile */}
-					<div className="bg-[#f1f1f1] rounded-lg border border-[#9ea2ae] flex flex-col gap-4 items-start justify-center self-stretch flex-shrink-0 h-[440px] relative shadow-[0px_4px_4px_0px_rgba(150,150,150,0.3)]">
+					<div className="bg-[#f1f1f1] rounded-lg p-4 border border-[#9ea2ae] flex flex-col gap-4 items-start justify-center self-stretch flex-shrink-0 h-[540px] relative shadow-[0px_4px_4px_0px_rgba(150,150,150,0.3)]">
 						{/* Left Side - Image Placeholder - Mobile */}
-						<div className="bg-[#394050] py-[51px] px-[92px] self-stretch flex-1 relative">
+						<div className="bg-[#394050] py-[51px]  px-[92px] self-stretch flex-1 relative">
 							{/* Image placeholder - you can add an actual image here */}
 						</div>
 						
@@ -40,6 +40,12 @@ export default function MeetYourCourseMentor({
 								</div>
 								<div className="text-[#0a0a0a] text-left font-['DmSans-Regular',sans-serif] text-[14px] leading-[20px] font-normal relative self-stretch">
 									{description}
+								</div>
+								<div className="self-start space-y-4">
+									<ul className="space-y-4 list-disc list-inside">
+										<li className="text-[#0A0A0A] font-[450] text-base ">Pointer 1</li>
+										<li className="text-[#0A0A0A] font-[450] text-base ">Pointer 2</li>
+									</ul>
 								</div>
 							</div>
 							
@@ -55,10 +61,11 @@ export default function MeetYourCourseMentor({
 									paddingBottom={24}
 									paddingLeft={24}
 									borderRadius={8}
-									background="#f97c04"
-									textColor="#0a0a0a"
+									background="#f1f1f1"
+									textColor="#f97c04"
 									fontSize={16}
 									fontWeight={700}
+									border="1px solid #f97c04"
 									fontFamily="DmSans-Bold, sans-serif"
 									arrowColor="#0a0a0a"
 									keepFixedSizeOnHover={true}
@@ -79,7 +86,7 @@ export default function MeetYourCourseMentor({
 					</div>
 					
 					{/* Main Container */}
-					<div className="bg-[#f1f1f1] rounded-lg border border-[#9ea2ae] flex flex-row gap-8 items-center justify-start self-stretch flex-shrink-0 h-[440px] relative shadow-[0px_4px_4px_0px_rgba(150,150,150,0.3)]">
+					<div className="bg-[#f1f1f1] w-[713px] p-4 rounded-lg border flex flex-row gap-8 items-center justify-start self-stretch flex-shrink-0 h-[440px] relative shadow-[0px_4px_4px_0px_rgba(150,150,150,0.3)]">
 						{/* Left Side - Image Placeholder */}
 						<div className="bg-[#394050] py-[51px] px-[92px] self-stretch flex-shrink-0 w-[300px] relative">
 							{/* Image placeholder - you can add an actual image here */}
@@ -94,6 +101,12 @@ export default function MeetYourCourseMentor({
 								</div>
 								<div className="text-[#0a0a0a] text-left font-['DmSans-Regular',sans-serif] text-[16px] leading-[20px] font-normal relative self-stretch">
 									{description}
+								</div>
+								<div className="self-start space-y-4">
+									<ul className="space-y-4 list-disc list-inside">
+										<li className="text-[#0A0A0A] font-[450] text-base ">Pointer 1</li>
+										<li className="text-[#0A0A0A] font-[450] text-base ">Pointer 2</li>
+									</ul>
 								</div>
 							</div>
 							

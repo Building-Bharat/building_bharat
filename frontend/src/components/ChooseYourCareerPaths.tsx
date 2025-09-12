@@ -59,6 +59,7 @@ const CareerPathCard = () =>{
                              fontSize={16}
                              keepFixedSizeOnHover={true}
                              arrowColor='text-black'
+                             disableBorderRadiusChange={true}
                  ></CTAButton>
                  </Link>
          </div>
