@@ -11,8 +11,8 @@ export default async function CourseDetailsPage({ params }: { params: Promise<{ 
 		<div className="min-h-screen overflow-x-hidden" style={{ background: "#E5E7EA" }}>
 			<Header />
 			<CourseDetail title={slug.replace(/-/g, " ").replace(/\b\w/g, (m) => m.toUpperCase())} />
-			<MeetYourCourseMentor />
-			<FrequentlyAskedQuestions/>
+			{/* <MeetYourCourseMentor /> */}
+			{/* <FrequentlyAskedQuestions/> */}
 			<SuccessGuide/>
 			<Footer/>
 		</div>

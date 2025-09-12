@@ -59,11 +59,12 @@ const CourseVideo = () => {
 
         <section className='flex flex-col md:flex-row gap-4 md:gap-8 mb-4'>
             <div className='flex-1 py-4 '>
-                <div className='md:space-x-8 '>
-                    
-                   <div id="first" className='w-full flex md:space-x-8 flex-col md:flex-row items-start justify-center'>
-                             <div className='aspect-[16/9] w-full flex-col items-center justify-center'>     
-                                <div id='video' className='mb-4 w-full bg-black aspect-[16/9] rounded-lg flex items-center justify-center'>
+                
+                    <div className='md:space-x-8 '>
+                          
+                          <div id="first" className='w-full h-full flex md:space-x-8 flex-col md:flex-row items-start justify-center'>
+                             <div className=' w-full flex-1 flex-col h-full items-center justify-center'>     
+                                <div id='video' className='mb-4 w-full bg-black h-full rounded-lg flex items-center justify-center'>
                                     {/* video  */}
                                     <Image src="/icons/play_circle.png" width={40} height={40} alt="" />
                                         
@@ -73,8 +74,8 @@ const CourseVideo = () => {
                                 
                           
         
-                           <div id="second" className=' text-[#0A0A0A] shadow-0 md:shadow-xl p-0 sm:p-4 lg:p-8 rounded-0  md:rounded-lg w-full  md:w-[360px] lg:w-[600px] flex flex-col justify-start'>
-                                <div>
+                             <div  className=' text-[#0A0A0A] h-full shadow-0 md:shadow-xl p-0 sm:p-4 lg:p-8 rounded-0 lg:w-[369px]  md:rounded-lg flex flex-col justify-start'>
+                                <div className=''>
                                     <h3 className='whitespace-nowrap text-base md:text-xl py-4 font-bold text-[#005451] '>This course include : </h3>
                                     <ul className='py-4 grid grid-cols-2 md:grid-cols-1 gap-4 lg:gap-8 w-full list-disc list-inside '>
                                         <li className='text-[14px] sm:text-base whitespace-nowrap marker:text-teal-700'>Video Content</li>
@@ -94,12 +95,12 @@ const CourseVideo = () => {
                                     disableBorderRadiusChange={true}
                                 />
                            </div>
+                        </div>
+
+
                          </div>
+                     </div>
 
-
-                   </div>
-  
-              </div>
 
 
                 <div className='grid w-full grid-cols-1 space-y-4 mt-4'>

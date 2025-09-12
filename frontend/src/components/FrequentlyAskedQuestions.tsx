@@ -53,9 +53,9 @@ export default function FrequentlyAskedQuestions() {
 	};
 
 	return (
-		<div className="flex flex-col gap-4 md:gap-8 items-start justify-start self-stretch flex-shrink-0 relative mt-16 mx-4 md:mx-16 mb-16">
+		<div className="flex w-full flex-col gap-4 md:gap-8 items-start justify-start self-stretch flex-shrink-0 relative my-8">
 			{/* Title */}
-			<div className="text-[#005451] text-left font-Montserrat text-[16px] md:text-[20px] lg:text-[24px] leading-[24px] md:leading-[28px] lg:leading-[32px] font-bold relative self-stretch">
+			<div className="text-[#005451] text-left font-Montserrat font-bold text-[16px] md:text-[20px] lg:text-[20px] leading-[24px] md:leading-[28px] lg:leading-[32px]  relative self-stretch">
 				Frequently Asked Questions
 			</div>
 
