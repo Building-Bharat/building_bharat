@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 import AnimatedStates from './AnimatedStates';
 // import LottieAnimation from './LottieAnimation'; // Commented out but kept for future use
 
@@ -142,6 +143,7 @@ export default function HeroSection() {
             </button>
 
             {/* Start Learning For Free Button */}
+            <Link href="/signup" prefetch={false}>
             <button 
               className="w-full sm:w-auto transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
               style={{
@@ -211,6 +213,7 @@ export default function HeroSection() {
                 Start Learning For Free
               </span>
             </button>
+            </Link>
           </div>
         </div>
 

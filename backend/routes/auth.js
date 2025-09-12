@@ -14,9 +14,18 @@ router.post('/reset-password/:token', authController.resetPassword);
 
 router.post('/verify-otp', authController.verifyOTP);
 
-router.use(authController.protect);
+// Public Google auth endpoint
+router.post('/google', authController.googleAuth);
 
-router.patch('/updateMyPassword', authController.updatePassword);
+// Extra OTP flows (kept compatible with original schema)
+router.post('/send-otp', authController.sendOtpForReset);
+router.post('/verify-otp-for-reset', authController.verifyOtpForReset);
+router.post('/reset-password', authController.resetPasswordSimple);
+router.post('/send-login-otp', authController.sendLoginOtp);
+router.post('/verify-login-otp', authController.verifyLoginOtp);
+
+// Protect only specific routes explicitly to avoid accidental 401s on public endpoints
+router.patch('/updateMyPassword', authController.protect, authController.updatePassword);
 
 
 //need to implement
