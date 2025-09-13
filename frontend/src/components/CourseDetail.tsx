@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import CourseVideo from "./CourseVideo";
 import CourseView from "./CourseView";
 
 export type CourseDetailsProps = {
@@ -18,7 +17,6 @@ export default function CourseDetail({ title = "Course Title", duration = "8 Hou
                     <h1 className="text-[#005451] text-[18px] md:text-[32px] font-extrabold">Political Field Operations Mastery</h1>
                     <p className="text-[#0A0A0A] text-[13px] md:text-[16px] font-bold">Duration {duration} </p>
                 </div>            
-               {/* <CourseVideo /> */}
                <CourseView/>
         </section>
     );

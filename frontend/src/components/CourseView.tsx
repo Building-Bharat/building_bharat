@@ -40,7 +40,7 @@ const CourseView = () => {
                                    <div className='w-full'>
                                       {/* video section  */}
                                        <div className='flex-col items-center justify-center'>     
-                                            <div id='video' className='mb-4 w-full h-[340px] md:h-[400px] lg:h-[580px] bg-black  rounded-lg flex items-center justify-center'>
+                                            <div id='video' className='mb-4 w-full h-[340px] md:h-[400px] lg:h-[530px] bg-black  rounded-lg flex items-center justify-center'>
                                                 {/* video  */}
                                                 <Image src="/icons/play_circle.png" width={40} height={40} alt="" />
                                             </div>
@@ -91,7 +91,7 @@ const CourseView = () => {
 
 
                              {/* second column   */}
-                            <div id='second' className='hidden sm:block h-[400px] lg:h-[580px]'> 
+                            <div id='second' className='hidden sm:block h-[400px] lg:h-[530px]'> 
                                 <CourseResources/>
                             </div>
                    </div>
