@@ -15,7 +15,10 @@ const blogRoutes = require('./routes/blogRouter')
 const app = express();
 
 //middleware
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:3001"],  // adminpanel and frontend at same time cors issue fix
+  credentials: true
+}));
 app.use(express.json());
 
 
@@ -34,7 +37,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/v1/admin', adminAuthRoutes);
 app.use("/api/blogs", blogRoutes);
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 app.listen(PORT, () => {

@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 
 interface Blog {
   _id: string;
-  title: string;
+  name: string;         // ✅ backend uses "name"
   description: string;
-  thumbnail?: string; // optional
+  thumbnail?: string;
 }
 
 export default function BlogsPage() {
@@ -18,20 +18,18 @@ export default function BlogsPage() {
   async function fetchBlogs() {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/login"); // 🚀 redirect if not logged in
+      router.push("/login");
       return;
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/blogs", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const res = await fetch("http://localhost:5000/api/blogs/", {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!res.ok) throw new Error("Failed to fetch blogs");
       const data = await res.json();
-      setBlogs(data.blogs || []);
+      setBlogs(data.blogs || data);
     } catch (err) {
       console.error(err);
       alert("Failed to fetch blogs");
@@ -43,7 +41,7 @@ export default function BlogsPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/login"); // 🚀 block page load
+      router.push("/login");
     } else {
       fetchBlogs();
     }
@@ -65,7 +63,7 @@ export default function BlogsPage() {
       });
       if (!res.ok) throw new Error("Failed to delete blog");
       alert("Blog deleted successfully");
-      fetchBlogs(); // refresh list
+      fetchBlogs();
     } catch (err) {
       console.error(err);
       alert("Failed to delete blog");
@@ -100,7 +98,6 @@ export default function BlogsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {blogs.map((blog) => (
             <div key={blog._id} className="bg-white rounded-lg shadow p-4">
-              {/* Safe Image */}
               <img
                 src={
                   blog.thumbnail
@@ -109,25 +106,27 @@ export default function BlogsPage() {
                       : `http://localhost:5000/${blog.thumbnail}`
                     : "/placeholder.png"
                 }
-                alt={blog.title}
+                alt={blog.name}
                 className="w-full h-40 object-cover rounded-md mb-3"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "/placeholder.png";
                 }}
               />
 
-              <h2 className="text-lg font-bold">{blog.title}</h2>
-              <p className="text-gray-600 mt-1">{blog.description}</p>
+              {/* ✅ use blog.name instead of title */}
+              <h2 className="text-lg font-bold">{blog.name}</h2>
+              <p className="text-gray-600 mt-1 line-clamp-3">{blog.description}</p>
+
               <div className="mt-3 flex gap-2">
                 <button
                   onClick={() => router.push(`/blogs/edit/${blog._id}`)}
-                  className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer"
+                  className="flex-1 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer"
                 >
                   Update
                 </button>
                 <button
                   onClick={() => handleDelete(blog._id)}
-                  className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition cursor-pointer"
+                  className="flex-1 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition cursor-pointer"
                 >
                   Delete
                 </button>
@@ -139,4 +138,5 @@ export default function BlogsPage() {
     </div>
   );
 }
+
 
