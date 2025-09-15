@@ -76,7 +76,11 @@ const userSchema = new mongoose.Schema({
 		default: false
 	},
 
-	appliedInternship: [appliedInternshipSchema]
+	appliedInternship: [appliedInternshipSchema],
+	coursePurchased: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Course'
+	}]
 })
 
 

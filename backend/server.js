@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require("path");
 require('dotenv').config();
 const connectDB = require('./service/mongodb.service');
 //Route file
@@ -9,7 +10,8 @@ const userRoutes = require('./routes/user');
 const courseRoutes = require('./routes/course');
 const internshipRoutes = require('./routes/internship');
 const contactRoutes = require('./routes/contact')
-
+const adminAuthRoutes = require('./routes/adminAuth')
+const blogRoutes = require('./routes/blog')
 const app = express();
 
 //middleware
@@ -27,9 +29,12 @@ connectDB();
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/internship', internshipRoutes);
-// app.use('api/v1/course', courseRoutes);
-// app.use('api/v1/internship', internshipRoutes);
+app.use('api/v1/course', courseRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/v1/admin', adminAuthRoutes);
+app.use("/api/v1/blogs", blogRoutes);
+app.use("/uploads", express.static("uploads"));
+
 
 app.listen(PORT, () => {
   console.log(`🔥 Server is running on http://localhost:${PORT}`);

@@ -1,7 +1,7 @@
 const { default: mongoose } = require('mongoose');
 const Internship = require('../model/internship.model');
-const { body, validationResult } = require('express-validator');
-const User = require('../model/user.model')
+const User = require('../model/user.model');
+const { extractFileUrlOrKey } = require('../utils/fileHeloer');
 
 exports.createInternship = async (req, res) => {
 	// const checkValidate = validationResult(req);
@@ -147,7 +147,8 @@ exports.getAllInternships = async (req, res) => {
 exports.applyInternshipById = async (req, res) => {
 	try {
 		const { name, email } = req.body;
-		const resume = req.file ? req.file.location : null;
+
+		const resume = extractFileUrlOrKey(req);
 		if (resume === null) throw new Error('Resume is required');
 
 		const internshipId = req.params.id;

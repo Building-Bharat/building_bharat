@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controller/authController.js');
 const upload = require('../middleware/resume.middleware');
-// const internshipValidatationRules = require('../utils/internshipValidator.js');
+const internshipValidatationRules = require('../utils/internshipValidator.js');
 
 
 
@@ -19,7 +19,7 @@ router.get('/admin/:id', authController.protect, authController.restrictTo('admi
 
 //user routes
 router.get('/', internshipController.getAllInternships);
-router.post('/apply/:id', authController.protect, upload.single('resume'), internshipController.applyInternshipById);
+router.post('/apply/:id', authController.protect, upload.single('file'), internshipController.applyInternshipById);
 router.get('/applied/:id', authController.protect, internshipController.getAllAppliedInternships);
 
 module.exports = router;
