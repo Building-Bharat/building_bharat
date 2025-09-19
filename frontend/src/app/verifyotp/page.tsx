@@ -88,7 +88,7 @@ export default function VerifyOTP() {
         otp: otp.join(""),
       });
       localStorage.removeItem("pendingEmail");
-      router.push("/#home");
+      router.push("/courses");
     } catch (err: any) {
       setError(err.response?.data?.msg || err.message || "Verification failed");
     } finally {
