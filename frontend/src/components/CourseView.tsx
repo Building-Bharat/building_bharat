@@ -31,16 +31,16 @@ const CourseView = () => {
 
   return (
     
-    <section className='flex flex-col md:flex-row gap-4 md:gap-8 mb-4 '>
-           <div className=''>
-                   <div className='w-full flex flex-col md:flex-row items-start justify-center gap-8'>
+    <section className='flex flex-col h-full md:flex-row gap-4 md:gap-8 mb-4 '>
+           <div className='h-full'>
+                   <div className='w-full h-full flex flex-col md:flex-row items-start justify-center gap-8'>
                              {/* column -1  */}
                             <div id='first' className='flex flex-col items-center justify-center '>
                                      
                                    <div className='w-full'>
                                       {/* video section  */}
                                        <div className='flex-col items-center justify-center'>     
-                                            <div id='video' className='mb-4 w-full h-[340px] md:h-[400px] lg:h-[530px] bg-black  rounded-lg flex items-center justify-center'>
+                                            <div id='video' className='mb-4 w-full h-[240px] md:h-[400px] lg:h-[530px] bg-black  rounded-lg flex items-center justify-center'>
                                                 {/* video  */}
                                                 <Image src="/icons/play_circle.png" width={40} height={40} alt="" />
                                             </div>
@@ -91,7 +91,7 @@ const CourseView = () => {
 
 
                              {/* second column   */}
-                            <div id='second' className='hidden sm:block h-[400px] lg:h-[530px]'> 
+                            <div id='second' className='hidden sm:block h-[400px] lg:h-[530px] sticky top-0 ' > 
                                 <CourseResources/>
                             </div>
                    </div>
