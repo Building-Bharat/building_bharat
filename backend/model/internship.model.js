@@ -37,4 +37,4 @@ const internshipSchema = new mongoose.Schema({
 	}]
 });
 
-exports.default = mongoose.model('Internship', internshipSchema);
+module.exports = mongoose.model('Internship', internshipSchema);

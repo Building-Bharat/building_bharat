@@ -49,10 +49,10 @@ class AdminAuthController {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
-
+     console.log(email)
       const admin = await Admin.findOne({ email }).select("+password");
       if (!admin) return res.status(400).json({ message: "Invalid credentials" });
-
+     
       const isMatch = await bcrypt.compare(password, admin.password);
       if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
