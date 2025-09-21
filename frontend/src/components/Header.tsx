@@ -44,7 +44,7 @@ export default function Header() {
   const navLinks = [
     { label: 'Home', href: '/', active: pathname === '/' },
     { label: 'Courses', href: '/courses', active: pathname === '/courses' },
-    { label: 'Internships', href: '#', active: false },
+    { label: 'Internships', href: '/internship', active: false },
     { label: 'Colleges', href: '#', active: false },
     { label: 'Blogs', href: '/blogs', active: pathname === '/blogs' },
   ];

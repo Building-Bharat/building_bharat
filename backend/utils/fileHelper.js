@@ -1,17 +1,16 @@
-exports.extractFileUrlOrKey(req) = function () {
-	if (!req.file) throw new Error("File upload failed");
+export function extractFileUrlOrKey(req) {
+  if (!req.file) throw new Error("File upload failed");
 
-	const { type } = req.body;
+  const { type } = req.body;
 
-	if (["instructorPicture", "blogPicture", "courseThumbnail"].includes(type)) {
-		return req.file.location;
-	}
+  if (["instructorPicture", "blogPicture", "courseThumbnail"].includes(type)) {
+    return req.file.location;
+  }
 
-	if (["assignmentDoc", "resumes"].includes(type)) {
-		return req.file.key;
-	}
+  if (["assignmentDoc", "resumes"].includes(type)) {
+    return req.file.key;
+  }
 
-	throw new Error("Invalid file type");
+  throw new Error("Invalid file type");
 }
-
 

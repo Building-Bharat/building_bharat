@@ -10,11 +10,11 @@ export default function CourseOverview() {
     const modules = ["Module 1", "Module 2", "Module 3"];
 
   return (
-    <div className="flex w-[800px] ml-[70px] h-[700px] -mt-[10px] rounded-[8px] bg-[#005451] overflow-y-scroll overflow-x-hidden no-scrollbar">
+    <div className="flex w-[840px] ml-[70px] h-[700px] -mt-[10px] rounded-[8px] bg-[#005451] overflow-y-scroll overflow-x-hidden no-scrollbar">
       {/* Main Course Content */}
 <div className="flex-1 flex flex-col bg-white w-[400px] overflow-y-scroll overflow-x-hidden no-scrollbar ">
   {/* Video/Image Preview */}
-<div className="w-[800px] h-[450px] mb-4 overflow-hidden relative">
+<div className="w-[840px] h-[450px] mb-4 overflow-hidden relative">
   {/* Dimmed Image */}
   <img
     src="/images/course.png"
@@ -47,7 +47,7 @@ export default function CourseOverview() {
 
 
         {/* Modules/Response */}
-<div className="mt-6 w-[750px] ml-[25px] h-[90px] rounded-[8px] border border-[#9EA2AE]">
+<div className="mt-6 w-[790px] ml-[25px] h-[90px] rounded-[8px] border border-[#9EA2AE]">
   {/* Header row */}
   <div
     className="flex items-center justify-between p-4 cursor-pointer bg-gray-100 rounded-lg"

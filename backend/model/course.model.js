@@ -11,7 +11,7 @@ const courseSchema = new mongoose.Schema({
 		minLength: [30, "mininum 30 char is required"]
 	},
 	courseContain: {
-		type: [string],
+		type: [String],
 		require: true
 	},
 	instructorName: {
@@ -65,7 +65,7 @@ const courseSchema = new mongoose.Schema({
 	}],
 
 	faq: [{
-		type: mongoose.Schema.type.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'FAQ',
 		required: true
 	}]

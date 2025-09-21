@@ -24,48 +24,50 @@ router.patch("/admin/course/:id/module", adminAuth, courseController.updateCours
 router.delete("/admin/module/:id", adminAuth, courseController.deleteCourseModule);
 
 //frequantly ask question
-router.post("/admin/course/:id/faq", adminAuth, courseController.createFAQ);
-router.patch("admin/course/:id/faq/:id", adminAuth, courseController.updateFAQ);
-router.delete("admin/course/:id/faq/:id", adminAuth, courseController.deleteFAQ);
+// router.post("/admin/course/:id/faq", adminAuth, courseController.createFAQ);
+// router.patch("admin/course/:id/faq/:id", adminAuth, courseController.updateFAQ);
+// router.delete("admin/course/:id/faq/:id", adminAuth, courseController.deleteFAQ);
 
 
 // video 
-router.get("/admin/module/:id/video/upload-url", adminAuth, courseController.getVideoUploadUrl);
-router.post("/admin/module/:id/video", adminAuth, upload.single("subtitle"), courseController.createVideo);
+// router.get("/admin/module/:id/video/upload-url", adminAuth, courseController.getVideoUploadUrl);
+// router.post("/admin/module/:id/video", adminAuth, upload.single("subtitle"), courseController.createVideo);
 
 //assignment
-router.post("/admin/module/:id/assignment", adminAuth,
-	upload.single("assignmentDoc"), courseController.createAssignment);
-router.patch("/admin/module/:id/assignment", adminAuth, upload.single("assignmentDoc"), courseController.updateAssignment);
-router.delete("/admin/assignment/:id", adminAuth, courseController.deleteAssignment);
+// router.post("/admin/module/:id/assignment", adminAuth,
+// 	upload.single("assignmentDoc"), courseController.createAssignment);
+// router.patch("/admin/module/:id/assignment", adminAuth, upload.single("assignmentDoc"), courseController.updateAssignment);
+// router.delete("/admin/assignment/:id", adminAuth, courseController.deleteAssignment);
 
 
 // have to work on this
-router.get(
-	"/assignment/:id/submissions", adminAuth, courseControllergetAllSubmissionsForAssignment
-);
+// router.get(
+// 	"/assignment/:id/submissions", adminAuth, courseControllergetAllSubmissionsForAssignment
+// );
 
-router.get(
-	"/assignment/:id/submissions/:submissionId", adminAuth,
-	courseController.getSingleSubmission
-);
+// router.get(
+// 	"/assignment/:id/submissions/:submissionId", adminAuth,
+// 	courseController.getSingleSubmission
+// );
 
 // mcq
-router.post("/admin/assignment/:id/question", adminAuth, courseController.createMcqAssignment);
-router.patch("/admin/assignment/:id/question/:id", adminAuth, courseController.updateMcqAssignment);
-router.delete("/admin/assignment/:id/question/:id", adminAuth, courseController.deleteSingleMcqAssignment);
+// router.post("/admin/assignment/:id/question", adminAuth, courseController.createMcqAssignment);
+// router.patch("/admin/assignment/:id/question/:id", adminAuth, courseController.updateMcqAssignment);
+// router.delete("/admin/assignment/:id/question/:id", adminAuth, courseController.deleteSingleMcqAssignment);
 
 
-//for user route
-router.get("/:id", courseController.getCourse);
-router.get("/all", courseController.getAllCourse);
-router.get("/module/:id", courseController.getSingleModule);
+// //for user route
+// router.get("/:id", courseController.getCourse);
+// router.get("/all", courseController.getAllCourse);
+// router.get("/module/:id", courseController.getSingleModule);
 
-router.get("/assignment/:id", authController.protect, courseController.getAllMcqAssignment);
-router.post("/assignment/:id/submit", authController.protect, courseController.submitMcqByUser);
+// router.get("/assignment/:id", authController.protect, courseController.getAllMcqAssignment);
+// router.post("/assignment/:id/submit", authController.protect, courseController.submitMcqByUser);
 
-router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
-router.post("/assignment/:id/pdf/submit", authController.protect, upload.single("submissionDoc"), courseController.submitAssignmentByUser);
+// router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
+// router.post("/assignment/:id/pdf/submit", authController.protect, upload.single("submissionDoc"), courseController.submitAssignmentByUser);
 
-router.post("/:userId/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
-router.get("/:courseId/reviews", courseController.getCourseReview)
+// router.post("/:userId/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
+// router.get("/:courseId/reviews", courseController.getCourseReview)
+
+module.exports = router;

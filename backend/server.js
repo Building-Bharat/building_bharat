@@ -31,13 +31,12 @@ connectDB();
 //api middleware
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/internship', internshipRoutes);
-// app.use('/api/v1/course', courseRoutes);
-// app.use('/api/v1/internship', internshipRoutes);
+ app.use('/api/v1/internship', internshipRoutes);
+app.use('/api/v1/course', courseRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/v1/admin', adminAuthRoutes);
 app.use("/api/blogs", blogRoutes);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 
 app.listen(PORT, () => {

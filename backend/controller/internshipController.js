@@ -1,7 +1,7 @@
 const { default: mongoose } = require('mongoose');
 const Internship = require('../model/internship.model');
 const User = require('../model/user.model');
-const { extractFileUrlOrKey } = require('../utils/fileHeloer');
+const { extractFileUrlOrKey } = require('../utils/fileHelper');
 
 exports.createInternship = async (req, res) => {
 	// const checkValidate = validationResult(req);

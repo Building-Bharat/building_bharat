@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const Admin = require("../model/admin"); // ensure correct path
+const Admin = require("../model/admin.model"); // ensure correct path
 
 
 // Middleware for admin authentication

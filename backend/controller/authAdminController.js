@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const Admin = require("../model/admin");
+const Admin = require("../model/admin.model");
 
 // temporary OTP store
 const otpStore = new Map();

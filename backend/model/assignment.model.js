@@ -13,7 +13,7 @@ const assignmentSchema = new mongoose.Schema({
 	},
 
 	question: [{
-		type: mongoose.Schema.type.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: "Question",
 		required: true
 	}],
@@ -23,13 +23,13 @@ const assignmentSchema = new mongoose.Schema({
 	},
 
 	module: {
-		type: mongoose.Schema.type.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: "Module",
 		required: true
 	},
 
 	submissions: [{
-		type: mongoose.Schema.type.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: "Submission",
 	}]
 }, { timestamps: true });

@@ -9,6 +9,10 @@ const internshipSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	internshipThumbnail: {
+		type: String,
+		required: true,
+	},
 	skills: [{
 		type: [String],
 		required: true
