@@ -26,12 +26,7 @@ const adminAuth = async (req, res, next) => {
       return res.status(401).json({ success: false, message: "Admin not found" });
     }
 
-    // If you keep isAdmin flag in Admin schema
-    if (admin.isAdmin === false) {
-      return res.status(403).json({ success: false, message: "Admins only!" });
-    }
-
-    req.user = admin; // attach admin to req
+    req.user = admin;
     next();
   } catch (error) {
     console.error("Admin Auth Error:", error.message);

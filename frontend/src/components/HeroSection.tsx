@@ -145,7 +145,7 @@ export default function HeroSection() {
             {/* Start Learning For Free Button */}
             <Link href="/signup" prefetch={false}>
             <button 
-              className="w-full sm:w-auto transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
+              className="w-full sm:w-full transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
               style={{
                 width: '239px',
                 height: '48px',

@@ -24,7 +24,7 @@ const adminSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ✅ Compare password method
+// Compare password method
 adminSchema.methods.comparePassword = async function (candidatePassword, hashedPassword) {
   return await bcrypt.compare(candidatePassword, hashedPassword);
 };

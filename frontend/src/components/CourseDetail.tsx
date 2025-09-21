@@ -18,6 +18,7 @@ export default function CourseDetail({ title = "Course Title", duration = "8 Hou
                     <p className="text-[#0A0A0A] text-[13px] md:text-[16px] font-bold">Duration {duration} </p>
                 </div>            
                <CourseView/>
+               
         </section>
     );
 }

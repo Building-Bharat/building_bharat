@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { Menu } from "lucide-react";
 
 interface SubHeading {
   title: string;
@@ -17,9 +18,10 @@ interface Blog {
 }
 
 export default function BlogDetailPage() {
-  const { slug } = useParams(); // ✅ dynamic slug from URL
+  const { slug } = useParams();
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // ✅ for tablets
 
   useEffect(() => {
     if (!slug) return;
@@ -30,7 +32,7 @@ export default function BlogDetailPage() {
         if (!res.ok) throw new Error("Failed to fetch blog");
 
         const data = await res.json();
-        setBlog(data); // ⚡ Adjust if your API returns { blog: {...} }
+        setBlog(data);
       } catch (err) {
         console.error("Error fetching blog:", err);
       } finally {
@@ -41,11 +43,11 @@ export default function BlogDetailPage() {
     fetchBlog();
   }, [slug]);
 
-  // ✅ Function to scroll smoothly
   const handleScroll = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
+      setSidebarOpen(false); // ✅ close sidebar on click (for tablets/mobiles)
     }
   };
 
@@ -59,15 +61,22 @@ export default function BlogDetailPage() {
 
   return (
     <div className="flex bg-gray-50 w-full min-h-screen relative">
+      {/* Sidebar toggle (visible on md & below) */}
+      <button
+        className="sm:hidden fixed top-4 left-4 z-50 p-2 bg-white shadow-md rounded-md"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        <Menu className="w-6 h-6 text-gray-700" />
+      </button>
+
       {/* Sidebar */}
       <div
-        className="hidden sm:block fixed top-10 left-0 w-[264px] h-full bg-transparent shadow-md overflow-y-hidden"
-        style={{ padding: "16px 32px" }}
+        className={`fixed top-0 left-0 mt-[50px] h-full w-[264px] bg-white shadow-md transform transition-transform duration-300 z-40
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+        sm:translate-x-0 sm:block`}
       >
-        <div className="space-y-8 pt-20 pb-8">
-          <h2 className="font-bold text-lg text-black cursor-pointer">
-            Heading
-          </h2>
+        <div className="pt-20 pb-8 px-6 space-y-8 ml-[35px] overflow-y-auto h-full">
+          <h2 className="font-bold text-lg text-black cursor-pointer">Heading</h2>
           {blog.subHeadings?.length > 0 ? (
             blog.subHeadings.map((sh, index) => (
               <div
@@ -97,7 +106,7 @@ export default function BlogDetailPage() {
       {/* Main Content */}
       <div className="flex-1 sm:ml-[264px] overflow-y-auto p-4 md:p-8 space-y-12">
         {/* Blog Title + Description */}
-        <div className="w-full md:w-[998px] space-y-4">
+        <div className="w-full lg:w-[998px] space-y-4">
           <h1 className="text-2xl md:text-3xl font-bold text-black">
             {blog.name}
           </h1>
@@ -108,7 +117,7 @@ export default function BlogDetailPage() {
         <img
           src={`http://localhost:5000/${blog.thumbnail}`}
           alt="Thumbnail"
-          className="w-full md:w-[998px] h-auto md:h-[500px] rounded-lg object-cover"
+          className="w-full lg:w-[998px] h-auto md:h-[500px] rounded-lg object-cover"
         />
 
         {/* SubHeadings */}
@@ -116,9 +125,8 @@ export default function BlogDetailPage() {
           blog.subHeadings.map((sh, index) => (
             <div
               key={index}
-              id={`subheading-${index}`} // ✅ target for scrolling
-              className="w-full md:w-[998px] h-auto space-y-4 scroll-mt-20"
-              style={{ gap: "8px" }}
+              id={`subheading-${index}`}
+              className="w-full lg:w-[998px] space-y-4 scroll-mt-20"
             >
               <h2 className="text-lg md:text-xl font-semibold text-black">
                 {sh.title}
@@ -133,6 +141,7 @@ export default function BlogDetailPage() {
     </div>
   );
 }
+
 
 
 

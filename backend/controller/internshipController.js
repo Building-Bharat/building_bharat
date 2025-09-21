@@ -70,7 +70,7 @@ exports.deleteInternship = async (req, res) => {
 
 exports.adminGetAllInternships = async (req, res) => {
 	try {
-		const internships = await Internship.find();
+		const internships = await Internship.find({});
 		res.status(200).json({
 			status: 'success',
 			data: {
@@ -78,9 +78,10 @@ exports.adminGetAllInternships = async (req, res) => {
 			}
 		});
 	} catch (err) {
+		console.log(err)
 		return res.status(500).json({
 			status: 'error',
-			message: 'Error fetching all internships'
+			message: err.message
 		});
 	}
 }

@@ -25,7 +25,7 @@ export default function LoginPage() {
         password,
       });
       localStorage.setItem("token", res.data.token);
-      router.push("/#home");
+      router.push("/courses");
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.msg || "Login failed");
