@@ -149,6 +149,7 @@ exports.applyInternshipById = async (req, res) => {
 		const { name, email } = req.body;
 
 		const resume = extractFileUrlOrKey(req);
+
 		if (resume === null) throw new Error('Resume is required');
 
 		const internshipId = req.params.id;

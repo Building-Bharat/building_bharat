@@ -3,10 +3,18 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
+interface SubHeading {
+  title: string;
+  description: string;
+  image?: string; // backend image path
+  _id?: string;   // optional (for updates)
+}
+
 interface BlogForm {
   name: string;
   description: string;
   createdBy: string;
+  subHeadings: SubHeading[];
 }
 
 export default function EditBlog() {
@@ -18,11 +26,14 @@ export default function EditBlog() {
     name: "",
     description: "",
     createdBy: "",
+    subHeadings: [],
   });
 
   const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [subHeadingImages, setSubHeadingImages] = useState<(File | null)[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Fetch blog by ID
   useEffect(() => {
     async function fetchBlog() {
       const token = localStorage.getItem("token");
@@ -33,12 +44,17 @@ export default function EditBlog() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Failed to fetch blog");
+        
 
         setForm({
           name: data.blog?.name || "",
           description: data.blog?.description || "",
-          createdBy: data.blog?.createdBy || "",
+          createdBy: data.blog?.createdBy?.name || "",
+          subHeadings: data.blog?.subHeadings || [],
         });
+
+        // Initialize subheading images with null
+        setSubHeadingImages((data.blog?.subHeadings || []).map(() => null));
       } catch (err) {
         console.error(err);
         alert("Failed to fetch blog");
@@ -49,6 +65,45 @@ export default function EditBlog() {
     fetchBlog();
   }, [id]);
 
+  // ✅ Update subheading text
+  const updateSubHeading = (
+    index: number,
+    key: keyof SubHeading,
+    value: string
+  ) => {
+    const updated = [...form.subHeadings];
+    updated[index][key] = value;
+    setForm({ ...form, subHeadings: updated });
+  };
+
+  // ✅ Handle subheading image change
+  const handleSubHeadingImage = (index: number, file: File | null) => {
+    const updated = [...subHeadingImages];
+    updated[index] = file;
+    setSubHeadingImages(updated);
+  };
+
+  // ✅ Add new subheading
+  const addSubHeading = () => {
+    setForm({
+      ...form,
+      subHeadings: [...form.subHeadings, { title: "", description: "" }],
+    });
+    setSubHeadingImages([...subHeadingImages, null]);
+  };
+
+  // ✅ Remove subheading
+  const removeSubHeading = (index: number) => {
+    const updatedSubs = [...form.subHeadings];
+    updatedSubs.splice(index, 1);
+    setForm({ ...form, subHeadings: updatedSubs });
+
+    const updatedImages = [...subHeadingImages];
+    updatedImages.splice(index, 1);
+    setSubHeadingImages(updatedImages);
+  };
+
+  // ✅ Submit update
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -59,9 +114,20 @@ export default function EditBlog() {
       formData.append("name", form.name);
       formData.append("description", form.description);
       formData.append("createdBy", form.createdBy);
+
       if (thumbnail) {
         formData.append("thumbnail", thumbnail);
       }
+
+      // Attach subheadings (without images here)
+      formData.append("subHeadings", JSON.stringify(form.subHeadings));
+
+      // Attach subheading images with index
+      subHeadingImages.forEach((file, i) => {
+        if (file) {
+          formData.append(`subHeadingImages_${i}`, file);
+        }
+      });
 
       const res = await fetch(`http://localhost:5000/api/blogs/${id}`, {
         method: "PUT",
@@ -71,7 +137,7 @@ export default function EditBlog() {
 
       if (!res.ok) throw new Error("Failed to update blog");
       alert("✅ Blog updated successfully!");
-      router.push("/blogs"); // ✅ redirect here
+      router.push("/blogs");
     } catch (err) {
       console.error(err);
       alert("Failed to update blog");
@@ -84,10 +150,13 @@ export default function EditBlog() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow w-full max-w-md space-y-4"
+        className="bg-white p-6 rounded-lg shadow w-full max-w-2xl space-y-4"
       >
-        <h1 className="text-xl text-black text-center font-bold">Edit Blog</h1>
+        <h1 className="text-xl text-black text-center font-bold">
+          Edit Blog
+        </h1>
 
+        {/* Blog name */}
         <input
           type="text"
           value={form.name}
@@ -96,6 +165,7 @@ export default function EditBlog() {
           required
         />
 
+        {/* Description */}
         <textarea
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -103,15 +173,16 @@ export default function EditBlog() {
           required
         />
 
+        {/* Created By */}
         <input
           type="text"
-          placeholder="Admin name"
           value={form.createdBy}
           onChange={(e) => setForm({ ...form, createdBy: e.target.value })}
           className="w-full px-3 py-2 border border-black text-black rounded-md"
           required
         />
 
+        {/* Thumbnail */}
         <input
           type="file"
           accept="image/*"
@@ -119,13 +190,63 @@ export default function EditBlog() {
           className="w-full px-3 py-2 border border-black text-black rounded-md"
         />
 
+        {/* SubHeadings */}
+        <div>
+          <h2 className="text-lg font-semibold text-black mb-2">
+            Sub Headings
+          </h2>
+          {form.subHeadings.map((sub, index) => (
+            <div
+              key={index}
+              className="mb-4 p-3 border rounded-md bg-gray-50 space-y-2"
+            >
+              <input
+                type="text"
+                placeholder="Sub Heading Title"
+                value={sub.title}
+                onChange={(e) =>
+                  updateSubHeading(index, "title", e.target.value)
+                }
+                className="w-full px-3 py-2 border rounded-md text-black"
+                required
+              />
+              <textarea
+                placeholder="Sub Heading Description"
+                value={sub.description}
+                onChange={(e) =>
+                  updateSubHeading(index, "description", e.target.value)
+                }
+                className="w-full px-3 py-2 border rounded-md text-black"
+                required
+              />
+
+              <button
+                type="button"
+                onClick={() => removeSubHeading(index)}
+                className="text-red-500 text-sm mt-2"
+              >
+                Remove Sub Heading
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addSubHeading}
+            className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition"
+          >
+            + Add Sub Heading
+          </button>
+        </div>
+
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition cursor-pointer"
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition cursor-pointer"
         >
-          Update
+          Update Blog
         </button>
       </form>
     </div>
   );
 }
+
+

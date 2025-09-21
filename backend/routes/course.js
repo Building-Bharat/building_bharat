@@ -30,12 +30,25 @@ router.delete("admin/course/:id/faq/:id", adminAuth, courseController.deleteFAQ)
 
 
 // video 
-// router.post("/admin/module/:id/video", adminAuth, courseController);
+router.get("/admin/module/:id/video/upload-url", adminAuth, courseController.getVideoUploadUrl);
+router.post("/admin/module/:id/video", adminAuth, upload.single("subtitle"), courseController.createVideo);
 
 //assignment
-router.post("/admin/module/:id/assignment", adminAuth, courseController.createAssignment);
-router.patch("/admin/module/:id/assignment", adminAuth, courseController.updateAssignment);
+router.post("/admin/module/:id/assignment", adminAuth,
+	upload.single("assignmentDoc"), courseController.createAssignment);
+router.patch("/admin/module/:id/assignment", adminAuth, upload.single("assignmentDoc"), courseController.updateAssignment);
 router.delete("/admin/assignment/:id", adminAuth, courseController.deleteAssignment);
+
+
+// have to work on this
+router.get(
+	"/assignment/:id/submissions", adminAuth, courseControllergetAllSubmissionsForAssignment
+);
+
+router.get(
+	"/assignment/:id/submissions/:submissionId", adminAuth,
+	courseController.getSingleSubmission
+);
 
 // mcq
 router.post("/admin/assignment/:id/question", adminAuth, courseController.createMcqAssignment);
@@ -44,15 +57,15 @@ router.delete("/admin/assignment/:id/question/:id", adminAuth, courseController.
 
 
 //for user route
-router.get("/:id", courseController.getCourses);
+router.get("/:id", courseController.getCourse);
 router.get("/all", courseController.getAllCourse);
-router.get("/module/:id", courseController.getCourseModule);
+router.get("/module/:id", courseController.getSingleModule);
 
 router.get("/assignment/:id", authController.protect, courseController.getAllMcqAssignment);
 router.post("/assignment/:id/submit", authController.protect, courseController.submitMcqByUser);
 
 router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
-router.post("/assignment/:id/pdf/submit", authController.protect, upload.single('file'), courseController.submitAssignmentByUser);
+router.post("/assignment/:id/pdf/submit", authController.protect, upload.single("submissionDoc"), courseController.submitAssignmentByUser);
 
 router.post("/:userId/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
 router.get("/:courseId/reviews", courseController.getCourseReview)

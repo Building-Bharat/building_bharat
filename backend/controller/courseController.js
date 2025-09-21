@@ -7,7 +7,8 @@ const User = require("../model/user.model");
 const Video = require("../model/video.model");
 const Submission = require("../model/submission.model");;
 const extractFileUrlOrKey = require("../utils/fileHelper");
-
+const deleteFromS3 = require("../utils/deleteAws");
+const { generateSignedUrl, s3Client, generateUploadUrl } = require("../service/aws.service");
 ////////////////////////
 // course feature //
 ////////////////////////
@@ -36,6 +37,7 @@ exports.postNewCourse = async (req, res) => {
 		instructorDescription,
 		courseThumbnail,
 		instructorPicture,
+		createdBy: req.user._id
 	});
 	try {
 		const postedCourse = await Course.create(newCourse);
@@ -54,58 +56,81 @@ exports.postNewCourse = async (req, res) => {
 	}
 };
 
+
 exports.updateCourseDetails = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const canUpdate = ["title",
+		const canUpdate = [
+			"title",
 			"description",
 			"courseContain",
 			"instructorName",
 			"instructorDescription",
 			"instructorPicture",
-			"courseThumbnail"];
+			"courseThumbnail"
+		];
 
 		const requiredUpdate = {};
+		const course = await Course.findById(id);
 
 		const courseThumbnail = extractFileUrlOrKey(req, "courseThumbnail");
 		const instructorPicture = extractFileUrlOrKey(req, "instructorPicture");
 
-
 		if (instructorPicture) {
-			requiredUpdate['instructorPicture'] = instructorPicture;
-		}
-		if (courseThumbnail) {
-			requiredUpdate['courseThumbnail'] = courseThumbnail;
-		}
-
-		for (let fileds of canUpdate) {
-			if (req.body[fileds] !== undefined) {
-				requiredUpdate[fileds] = fileds;
+			if (course.instructorPicture) {
+				await deleteFromS3(course.instructorPicture);
 			}
-		};
+			requiredUpdate["instructorPicture"] = instructorPicture; // new one
+		}
 
-		if (Object.keys(requiredUpdate).length == 0) {
-			throw new Error("invalid fields or no valid filed provid for update");
-		};
 
-		const updatedCourse = Course.findByIdAndUpdate(id, requiredUpdate, {
+		if (courseThumbnail) {
+			if (course.courseThumbnail) {
+				await deleteFromS3(course.courseThumbnail);
+			}
+			requiredUpdate["courseThumbnail"] = courseThumbnail; // new one
+		}
+
+		// Handle text fields
+		for (let field of canUpdate) {
+			if (req.body[field] !== undefined) {
+				requiredUpdate[field] = req.body[field];
+			}
+		}
+
+		if (Object.keys(requiredUpdate).length === 0) {
+			return res.status(400).json({
+				status: "fail",
+				message: "Invalid fields or no valid field provided for update"
+			});
+		}
+
+		// Await update
+		const updatedCourse = await Course.findByIdAndUpdate(id, requiredUpdate, {
 			new: true,
 			runValidators: true
 		});
 
-		if (!updatedCourse) throw new Error("course not found");
+		if (!updatedCourse) {
+			return res.status(404).json({
+				status: "fail",
+				message: "Course not found"
+			});
+		}
 
 		return res.status(200).json({
 			status: "success",
 			data: updatedCourse
-		})
+		});
+
 	} catch (err) {
-		res.status(400).json({
+		return res.status(400).json({
 			status: "fail",
 			message: err.message
-		})
-	};
+		});
+	}
 };
+
 
 
 exports.getCourseReview = async (req, res) => {
@@ -116,43 +141,38 @@ exports.getCourseReview = async (req, res) => {
 		const skip = (page - 1) * limit;
 
 		const course = await Course.findById(courseId).select('_id name');
-		if (!course) throw new Error('course not found');
+		if (!course) {
+			return res.status(404).json({
+				status: "fail",
+				message: "Course not found"
+			});
+		}
 
 		const reviews = await Course.aggregate([
-			{
-				$match: { _id: course._id }
-			},
-			{
-				$unwind: '$ratings'
-			},
-			{
-				$sort: { 'ratings.createdAt': -1 }
-			},
+			{ $match: { _id: course._id } },
+			{ $unwind: "$ratings" },
+			{ $sort: { "ratings.createdAt": -1 } },
 			{
 				$facet: {
-					paginatedReview: [
+					paginatedReviews: [
 						{ $skip: skip },
 						{ $limit: limit },
-
 						{
 							$lookup: {
-								from: 'users',
-								localField: 'ratings.user',
-								foreignField: '_id',
-								as: 'ratings.userDetails'
+								from: "users",
+								localField: "ratings.user",
+								foreignField: "_id",
+								as: "ratings.userDetails"
 							}
 						},
-
-						{
-							$unwind: '$ratings.userDetails'
-						},
+						{ $unwind: "$ratings.userDetails" },
 						{
 							$project: {
 								_id: 0,
 								user: {
-									_id: "$ratings.user._id",
-									name: "$ratings.user.name",
-									profilePicture: "$ratings.user.profilePicture"
+									_id: "$ratings.userDetails._id",
+									name: "$ratings.userDetails.name",
+									profilePicture: "$ratings.userDetails.profilePicture"
 								},
 								rating: "$ratings.rating",
 								review: "$ratings.review",
@@ -162,8 +182,7 @@ exports.getCourseReview = async (req, res) => {
 					],
 					totalCount: [{ $count: "count" }]
 				}
-			},
-
+			}
 		]);
 
 		const totalCount = reviews[0].totalCount[0]?.count || 0;
@@ -171,7 +190,8 @@ exports.getCourseReview = async (req, res) => {
 		return res.status(200).json({
 			status: "success",
 			data: {
-				course, reviews: reviews[0].paginatedReviews,
+				course,
+				reviews: reviews[0].paginatedReviews,
 				pagination: {
 					totalReviews: totalCount,
 					currentPage: page,
@@ -184,28 +204,31 @@ exports.getCourseReview = async (req, res) => {
 		return res.status(400).json({
 			status: "fail",
 			message: err.message
-		})
+		});
 	}
-}
+};
 
 
 exports.getCourse = async (req, res) => {
 	try {
 		const { courseId } = req.params;
 
-		const course = await Course.findById(courseId).populate({
-			path: "module",
-			select: "name videos assignments",
-			populate: [
-				{ path: "videos", select: "title duration" },
-				{ path: "assignments", select: "title" }
-			]
-		}
-		)
-			.select('name description courseContain instructorName instructorPicture instructorDescription');
+		const course = await Course.findById(courseId)
+			.populate({
+				path: "module",
+				select: "name videos assignments",
+				populate: [
+					{ path: "videos", select: "title duration" },
+					{ path: "assignments", select: "title" }
+				]
+			})
+			.select("name description courseContain instructorName instructorPicture instructorDescription");
 
 		if (!course) {
-			throw new Error('course not not trying again');
+			return res.status(404).json({
+				status: "fail",
+				message: "Course not found"
+			});
 		}
 
 		let totalAssignments = 0;
@@ -220,192 +243,260 @@ exports.getCourse = async (req, res) => {
 
 		return res.status(200).json({
 			status: "success",
-			data: course
-		})
-	}
-	catch (err) {
-		res.status(400).json({
-			status: 'fail',
+			data: {
+				...course.toObject(),
+				totalAssignments,
+				totalDuration
+			}
+		});
+
+	} catch (err) {
+		res.status(500).json({
+			status: "fail",
 			message: err.message
-		})
+		});
 	}
 };
-
-
 exports.getAllCourse = async (req, res) => {
 	try {
-		const Allcourse = await Course.find().select('name courseThumbnail description averageRating totalRatings instructorName');
+		const allCourses = await Course.find().select(
+			"name courseThumbnail description averageRating totalRatings instructorName"
+		);
 
-		if (!Allcourse) {
-			throw new Error('course not found');
+		if (allCourses.length === 0) {
+			return res.status(404).json({
+				status: "fail",
+				message: "No courses found"
+			});
 		}
 
 		return res.status(200).json({
 			status: "success",
-			data: Allcourse
+			results: allCourses.length,
+			data: allCourses
 		});
 
 	} catch (err) {
-		res.status(400).json({
-			status: 'fail',
+		res.status(500).json({
+			status: "fail",
 			message: err.message
-		})
+		});
 	}
-}
-
+};
 exports.giveRatingToCourse = async (req, res) => {
 	try {
 		const { userId, courseId } = req.params;
 		const { rating, review } = req.body;
+
+		// Validate rating
 		if (!rating || rating < 1 || rating > 5) {
-			throw new Error("rating value should be between 1 to 5");
+			return res.status(400).json({
+				status: "fail",
+				message: "Rating value should be between 1 and 5"
+			});
 		}
 
-		const user = await User.findById({ userId, coursePurchased: courseId });
+		const user = await User.findOne({ _id: userId, coursePurchased: courseId });
+		if (!user) {
+			return res.status(404).json({
+				status: "fail",
+				message: "User not found or user has not purchased this course"
+			});
+		}
 
-		if (!user) throw new Error("user not found or user not purchased this course");
-
+		// Fetch course
 		const course = await Course.findById(courseId);
+		if (!course) {
+			return res.status(404).json({
+				status: "fail",
+				message: "Course not found"
+			});
+		}
 
-		if (!course) throw new Error("course not found");
-
-		const existingRatingIndex = course.ratings.findIndex(r => r.user.toString() === userId);
-
+		// Find existing rating
+		const existingRatingIndex = course.ratings.findIndex(
+			(r) => r.user.toString() === userId
+		);
 
 		if (existingRatingIndex !== -1) {
+			// Update existing rating
 			course.ratings[existingRatingIndex].rating = rating;
-			course.ratings[existingRatingIndex].review = req.body.review || course.ratings[existingRatingIndex].review;
+			course.ratings[existingRatingIndex].review =
+				review || course.ratings[existingRatingIndex].review;
 		} else {
-			if (review && review.length > 20) {
-				course.ratings.push({ user: userId, rating, review });
+
+			if (review && review.length < 10) {
+				return res.status(400).json({
+					status: "fail",
+					message: "Review must be at least 10 characters long"
+				});
 			}
+
+
+			course.ratings.push({ user: userId, rating, review });
 		}
 
+		// Update aggregate fields
+		const totalRatings = course.ratings.length;
+		const averageRating =
+			course.ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatings;
+
+		course.totalRatings = totalRatings;
+		course.averageRating = averageRating;
+
+
+		await course.save();
 
 		return res.status(200).json({
 			status: "success",
-			data: course
+			data: {
+				courseId: course._id,
+				averageRating: course.averageRating,
+				totalRatings: course.totalRatings,
+				ratings: course.ratings
+			}
 		});
-	}
-	catch (err) {
-		res.status(400).json({
+	} catch (err) {
+		return res.status(500).json({
 			status: "fail",
 			message: err.message
-		})
+		});
 	}
-}
-
+};
 ///////////////////////
 // module features///
 //////////////////////
 
 exports.createCourseModule = async (req, res) => {
 	try {
-
 		const { courseId } = req.params;
 		const { name } = req.body;
 
+		// validate input
+		if (!name || name.length < 5) {
+			throw new Error("Module name should be at least 5 characters long");
+		}
+
 		const course = await Course.findById(courseId);
+		if (!course) throw new Error("Course not found");
 
-		if (!course) throw new Error("course not found");
-
-
-		if (!name || name.length < 4) throw new Error("module name length should be minimum of 5 charater long need");
-
+		// create module
 		const module = await Module.create({ name, course: courseId });
 
 
-		await course.findOneAndUpdate({ courseId }, { $push: { module: module._id } })
+		await Course.findByIdAndUpdate(courseId, { $push: { module: module._id } });
 
-		return res.status(200).json({
-			status: 'Module created',
+		return res.status(201).json({
+			status: "success",
+			message: "Module created successfully",
 			data: module
 		});
-
 	} catch (err) {
 		res.status(400).json({
-			status: 'fail',
+			status: "fail",
 			message: err.message
 		});
 	}
 };
 
-
-
+// Update Course Module
 exports.updateCourseModule = async (req, res) => {
 	try {
 		const { courseId, moduleId } = req.params;
-		const course = Course.findById(courseId);
-
 		const { name } = req.body;
 
-		if (!course) throw new Error('course not found');
-
-		const module = Module.findByIdAndUpdate(moduleId, { name, course: courseId }, { new: true, runValidators: true });
-
-		if (!module) throw new Error('module not found'
-		)
-
-		return res.status(201).json({
-			status: 'update',
-			data: module
-		})
-	}
-	catch (err) {
-		res.status(400).json({
-			status: "fail",
-			message: err.message
-		})
-	};
-};
+		const course = await Course.findById(courseId);
+		if (!course) throw new Error("Course not found");
 
 
-exports.getCourseModule = async (req, res) => {
-	try {
-		const { id } = req.params;
+		const module = await Module.findByIdAndUpdate(
+			moduleId,
+			{ name, course: courseId },
+			{ new: true, runValidators: true }
+		);
 
-		const moduleObj = await Module.findById(id);
-		if (!moduleObj) throw new Error("module not found");
+		if (!module) throw new Error("Module not found");
 
 		return res.status(200).json({
-			data: { module: moduleObj }
+			status: "success",
+			message: "Module updated successfully",
+			data: module
 		});
-	}
-	catch (err) {
+	} catch (err) {
 		res.status(400).json({
 			status: "fail",
 			message: err.message
 		});
 	}
-}
+};
 
 
 exports.deleteCourseModule = async (req, res) => {
 	try {
 		const { moduleId, courseId } = req.params;
 
-		if (!module) {
-			throw new Error("module not found to perform delete action");
-		};
+
+		const module = await Module.findById(moduleId);
+		if (!module) throw new Error("Module not found to perform delete action");
 
 
-		if (module.videos && module.videos.length > 0) {
+		if (module.videos?.length > 0) {
 			await Video.deleteMany({ _id: { $in: module.videos } });
 		}
 
-		if (module.assignments && module.assignments.length > 0) {
-			await Assignment.deleteMany({ _id: { $in: module.assignments } });
+
+		if (module.assignments?.length > 0) {
+			await Assignment.deleteMany({ _id: { $in: module.assignment } });
 		}
+
 
 		await Module.findByIdAndDelete(moduleId);
 
-		await Course.findOneAndUpdate(courseId, { $pull: { module: moduleId } }, { new: true });
+
+		await Course.findByIdAndUpdate(
+			courseId,
+			{ $pull: { module: moduleId } },
+			{ new: true }
+		);
 
 		return res.status(200).json({
 			status: "success",
 			message: "Module and its related videos & assignments deleted successfully"
 		});
+	} catch (err) {
+		return res.status(400).json({
+			status: "fail",
+			message: err.message
+		});
+	}
+};
+////////////////////
+//  faq feature //
+///////////////////
+exports.createFAQ = async (req, res) => {
+	try {
+		const { courseId } = req.params;
+		const { name, description } = req.body;
 
+		// validate
+		if (!name || !description) {
+			throw new Error("Please provide a valid name and description");
+		}
+
+		// check course exists
+		const course = await Course.findById(courseId);
+		if (!course) throw new Error("Course not found");
+
+		// create FAQ
+		const faq = await Faq.create({ name, description, course: courseId });
+
+		// push faq reference into course
+		await Course.findByIdAndUpdate(courseId, { $push: { faq: faq._id } });
+
+		return res.status(201).json({
+			status: "success",
+			data: faq
+		});
 	} catch (err) {
 		return res.status(400).json({
 			status: "fail",
@@ -414,49 +505,16 @@ exports.deleteCourseModule = async (req, res) => {
 	}
 };
 
-////////////////////
-//  faq feature //
-///////////////////
-
-exports.createFAQ = async (req, res) => {
-
-	const { courseId } = req.params;
-
-	const course = Course.findById(courseId);
-
-	const { name, description } = req.body;
-
-	if (!course || !name || !description)
-		throw new Error('please provide the valid name and description');
-
-	try {
-		const faq = await Faq.create({ name, description, course: courseId });
-
-		course.findByIdAndUpdate(courseId, { $push: { faq: faq._id } })
-
-		return res.status(201).json({
-			status: "success",
-			data: faq
-		})
-
-	} catch (err) {
-		return res.status(400).json({
-			status: "fail",
-			message: req.message
-		})
-	}
-};
-
+// Update FAQ
 exports.updateFAQ = async (req, res) => {
 	try {
 		const { courseId, faqId } = req.params;
 		const { name, description } = req.body;
 
-
 		const course = await Course.findById(courseId);
 		if (!course) throw new Error("Course not found");
 
-		const faq = await FAQ.findOneAndUpdate(
+		const faq = await Faq.findOneAndUpdate(
 			{ _id: faqId, course: courseId },
 			{ name, description },
 			{ new: true, runValidators: true }
@@ -476,45 +534,45 @@ exports.updateFAQ = async (req, res) => {
 	}
 };
 
-
-exports.deleteFQA = async (req, res) => {
+// Delete FAQ
+exports.deleteFAQ = async (req, res) => {
 	try {
 		const { courseId, faqId } = req.params;
 
-		course = await Course.findById(courseId);
+		// find and delete
+		const faq = await Faq.findOneAndDelete({ _id: faqId, course: courseId });
+		if (!faq) throw new Error("FAQ not found for this course");
 
-		const faq = Faq.findOneAndDelete({ _id: faqId, courseId });
-
-		if (!faq) throw new Error("faq not found please select valid faq");
-
-		await Course.findByIdAndUpdate(courseId, {
-			$pull: { faqs: faqId }
-		});
+		// remove ref from course
+		await Course.findByIdAndUpdate(courseId, { $pull: { faq: faqId } });
 
 		return res.status(200).json({
 			status: "success",
+			message: "FAQ deleted successfully",
 			data: null
-		})
+		});
 	} catch (err) {
-		res.status(400).json({
-			status: 'fail',
+		return res.status(400).json({
+			status: "fail",
 			message: err.message
-		})
+		});
 	}
 };
-
 //////////////////////
 // assignment feature //
 //////////////////////
 
 exports.createAssignment = async (req, res) => {
 	try {
-		const { name, typeOfAssignment, moduleId, pdfUrl } = req.body;
+		const { name, typeOfAssignment, moduleId } = req.body;
 
 		let newAssignment;
 
 		if (typeOfAssignment === "pdf") {
-			if (!pdfUrl) throw new Error("PDF URL required for pdf assignment");
+
+			const pdfUrl = extractFileUrlOrKey(req, "assignmentDoc");
+
+			if (!pdfUrl) throw new Error("pdf url not found");
 
 			newAssignment = await Assignment.create({
 				name,
@@ -524,6 +582,9 @@ exports.createAssignment = async (req, res) => {
 			});
 		}
 		else if (typeOfAssignment === "mcq") {
+
+
+
 			newAssignment = await Assignment.create({
 				name,
 				typeOfAssignment,
@@ -550,7 +611,7 @@ exports.createAssignment = async (req, res) => {
 exports.updateAssignment = async (req, res) => {
 	try {
 		const assignmentId = req.params;
-		const { name, typeOfAssignment, pdfUrl } = req.body;
+		const { name, typeOfAssignment } = req.body;
 
 		const assignment = Assignment.findById(assignmentId);
 
@@ -562,18 +623,17 @@ exports.updateAssignment = async (req, res) => {
 			assignment.typeOfAssignment = typeOfAssignment;
 
 			if (typeOfAssignment === 'pdf') {
-				if (!pdfUrl) throw new Error("pdf url not found");
+				const pdfUrl = extractFileUrlOrKey(req, "assignmentDoc");
 
-				assignment.pdfUrl = pdfUrl;
+
+				assignment.pdfUrl = pdfUrl || assignment.pdfUrl;
 				assignment.question = [];
 			} else if (typeOfAssignment === 'mcq') {
 				pdfUrl = null;
 			}
 		};
 
-		if (assignment.typeOfAssignment === "pdf" && pdfUrl) {
-			assignment.pdfUrl = pdfUrl;
-		}
+
 
 		await assignment.save();
 
@@ -606,7 +666,15 @@ exports.deleteAssignment = async (req, res) => {
 		} else if (assignment.typeOfAssignment === 'pdf') {
 
 			if (assignment.pdfUrl) {
+				if (assignment.pdfUrl) {
 
+					await s3Client
+						.deleteObject({
+							Bucket: process.env.AWS_BUCKET_NAME,
+							Key: assignment.pdfUrl,
+						})
+						.promise();
+				}
 			}
 		} else {
 			throw new Error('Invalid assignment type');
@@ -849,9 +917,18 @@ exports.getPdfAssignment = async (req, res) => {
 			throw new Error("assignment not found or not a pdf assignment");
 		};
 
+
+		//for now anyone can access the pdf
+		// later we will implement that only enrolled user can access the pdf
+		if (!req.user) {
+			throw new Error("you are not authorized to access this pdf");
+		}
+
+		const url = generateSignedUrl(assignment.pdfUrl, 60 * 5);
+
 		return res.status(200).json({
 			status: "success",
-			data: assignment.pdfUrl
+			data: url
 		});
 	} catch (err) {
 		return res.status(400).json({
@@ -869,7 +946,7 @@ exports.submitAssignmentByUser = async (req, res) => {
 
 		if (!user) throw new Error("user not found");
 
-		const { submissionUrl } = req.body;
+		const submissionUrl = extractFileUrlOrKey(req, "submissionDoc");
 
 		if (!submissionUrl) throw new Error("pdf url is required");
 
@@ -901,5 +978,67 @@ exports.submitAssignmentByUser = async (req, res) => {
 			status: "fail",
 			message: err.message
 		})
+	}
+};
+
+
+
+
+exports.getVideoUploadUrl = async (req, res) => {
+	try {
+		const { fileName, fileType } = req.body;
+
+		if (!fileName || !fileType) {
+			throw new Error("fileName and fileType are required");
+		}
+
+		const key = `videos/raw/${Date.now()}-${fileName}`;
+
+		const uploadUrl = await generateUploadUrl(key, fileType);
+
+		return res.status(200).json({
+			status: "success",
+			uploadUrl,
+			fileKey: key,
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "fail",
+			message: err.message
+		});
+	}
+};
+
+exports.createVideo = async (req, res) => {
+	try {
+		const { name, fileKey, duration, moduleId, subtitle } = req.body;
+
+		if (!name || !fileKey || !moduleId || subtitle) {
+			throw new Error("name, fileKey, and moduleId are required");
+		}
+
+		const subtitleUrl = extractFileUrlOrKey(req);
+
+		if (!subtitleUrl) {
+			throw new Error("subtitle file is required");
+		}
+		const newVideo = await Video.create({
+			name,
+			videoURL: fileKey, // store S3 key, not signed URL
+			duration,
+			moduleId,
+			status: "processing",
+			subtitle: subtitleUrl
+		});
+
+		return res.status(201).json({
+			status: "success",
+			data: newVideo
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "fail",
+			message: err.message
+		});
 	}
 };

@@ -29,6 +29,8 @@ const upload = multer({
 			else if (type === "blogPicture") folder = "blogPicture";
 			else if (type === "courseThumbnail") folder = "courseThumbnail";
 			else if (type === "assignmentDoc") folder = "assignmentDoc";
+			else if (type === "submissionDoc") folder = "submissionDoc";
+			else if (type === "subtitle") folder = "subtitles";
 			else return cb(new Error("Invalid type"), false);
 
 			const fileName = `${folder}/${Date.now()}-${file.originalname}`;
@@ -42,9 +44,13 @@ const upload = multer({
 	fileFilter: (req, file, cb) => {
 		const type = req.body.type;
 
-		if (type === "resumes" || type === "assignmentDoc") {
+		if (type === "resumes" || type === "assignmentDoc" || type === "submissionDoc") {
 			if (file.mimetype === "application/pdf") cb(null, true);
 			else cb(new Error("Only PDF files are allowed"), false);
+		}
+		else if (type === "subtitle") {
+			if (file.mimetype === "text/vtt" || file.mimetype === "application/x-subrip") cb(null, true);
+			else cb(new Error("Only VTT or SRT subtitle files are allowed"), false);
 		}
 		else if (
 			type === "instructorPicture" ||

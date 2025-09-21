@@ -1,29 +1,19 @@
 const mongoose = require("mongoose");
 
-const blogSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Blog name is required"],
-      trim: true,
-    },
-    description: {
-      type: String,
-      required: [true, "Blog description is required"],
-    },
-    thumbnail: {
-      type: String, // path or URL
-      default: null,
-    },
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-  },
-  { timestamps: { createdAt: "createdAt", updatedAt: "lastUpdateDate" } }
-);
+const subHeadingSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  image: { type: String, default: null }, // image will be added later
+});
 
-const Blog = mongoose.model("Blog", blogSchema);
+const blogSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  thumbnail: { type: String, default: null },
+  subHeadings: [subHeadingSchema],
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+});
 
-module.exports = Blog;
+module.exports = mongoose.model("Blog", blogSchema);
+
+

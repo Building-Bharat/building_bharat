@@ -13,6 +13,9 @@
 
 
 const { S3Client } = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { PutObjectCommand } = require("@aws-sdk/client-s3");
+
 
 const s3Client = new S3Client({
 	region: process.env.AWS_REGION,
@@ -21,4 +24,22 @@ const s3Client = new S3Client({
 		secretAccessKey: process.env.AWS_SECRET
 	}
 });
-module.exports = s3Client;
+
+const generateUploadUrl = async (key, contentType, expiresIn = 300) => {
+	const command = new PutObjectCommand({
+		Bucket: process.env.AWS_BUCKET,
+		Key: key,
+		ContentType: contentType,
+	});
+
+	return await getSignedUrl(s3Client, command, { expiresIn });
+};
+
+const generateSignedUrl = (key, expiresIn = 60 * 5) => {
+	return s3.getSignedUrlPromise("getObject", {
+		Bucket: process.env.AWS_BUCKET,
+		Key: key,
+		Expires: expiresIn, // 5 min default
+	});
+};
+module.exports = { s3Client, generateSignedUrl, generateUploadUrl };

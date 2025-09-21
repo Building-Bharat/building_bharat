@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Admin = require("../model/admin"); // ensure correct path
-const TokenBlacklist = require('../model/tokenBlacklist');
+
 
 // Middleware for admin authentication
 const adminAuth = async (req, res, next) => {
@@ -15,11 +15,6 @@ const adminAuth = async (req, res, next) => {
       return res.status(401).json({ success: false, message: "Not authorized, no token" });
     }
 
-     // Check blacklist
-    const blacklisted = await TokenBlacklist.findOne({ token });
-    if (blacklisted) {
-      return res.status(401).json({ success: false, message: "Token is blacklisted, please login again" });
-    }
 
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

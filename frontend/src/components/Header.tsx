@@ -46,7 +46,7 @@ export default function Header() {
     { label: 'Courses', href: '/courses', active: pathname === '/courses' },
     { label: 'Internships', href: '#', active: false },
     { label: 'Colleges', href: '#', active: false },
-    { label: 'Blogs', href: '#', active: false },
+    { label: 'Blogs', href: '/blogs', active: pathname === '/blogs' },
   ];
 
   return (

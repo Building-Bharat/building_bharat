@@ -9,8 +9,24 @@ const videoShcema = new mongoose.Schema({
 		type: String,
 		require: true,
 	},
+	resolutions: [
+		{
+			quality: String,
+			url: String
+		}
+	],
+	status: {
+		type: String,
+		enum: ["processing", "ready"], default: "processing"
+	},
 	duration: {
 		type: Number
+	},
+	thumbnail: { type: String },
+
+	subtitle: {
+		type: String,
+		required: true
 	},
 	moduleId: {
 		type: mongoose.Schema.Types.ObjectId,
