@@ -29,7 +29,7 @@ exports.postNewCourse = async (req, res) => {
 		});
 	}
 
-	const newCourse = await Course.create({
+	const newCourse = {
 		title,
 		description,
 		courseContain,
@@ -37,10 +37,10 @@ exports.postNewCourse = async (req, res) => {
 		instructorDescription,
 		courseThumbnail,
 		instructorPicture,
-		createdBy: req.user._id
-	});
+		createdBy: req.User._id,
+	};
 	try {
-		const postedCourse = await Course.create(newCourse);
+		const postedCourse = Course.create(newCourse);
 
 		res.status(201).json({
 			status: "success",
