@@ -1,12 +1,13 @@
 const Course = require("../model/course.model");
-const Module = require("../model/questions.model");
+const Module = require("../model/module.model");
 const Faq = require("../model/faq.model");
 const Question = require("../model/questions.model");
 const Assignment = require("../model/assignment.model");
 const User = require("../model/user.model");
 const Video = require("../model/video.model");
 const Submission = require("../model/submission.model");;
-const extractFileUrlOrKey = require("../utils/fileHelper");
+const {extractFileUrlOrKey} = require("../utils/fileHelper");
+const Admin = require("../model/admin.model");
 const deleteFromS3 = require("../utils/deleteAws");
 const { generateSignedUrl, s3Client, generateUploadUrl } = require("../service/aws.service");
 ////////////////////////
@@ -15,9 +16,10 @@ const { generateSignedUrl, s3Client, generateUploadUrl } = require("../service/a
 
 exports.postNewCourse = async (req, res) => {
 	const { title, description, courseContain, instructorName, instructorDescription } = req.body;
+     console.log(req.file);
+	const courseThumbnail = extractFileUrlOrKey(req.files["courseThumbnail"][0]);
+	const instructorPicture = extractFileUrlOrKey(req.files["instructorPicture"][0]);
 
-	const courseThumbnail = extractFileUrlOrKey(req, "courseThumbnail");
-	const instructorPicture = extractFileUrlOrKey(req, "instructorPicture");
 
 	if (instructorPicture === null) throw new Error('instructor image is required');
 	if (courseThumbnail === null) throw new Error('course image is required');
@@ -37,10 +39,10 @@ exports.postNewCourse = async (req, res) => {
 		instructorDescription,
 		courseThumbnail,
 		instructorPicture,
-		createdBy: req.User._id,
+		createdBy: req.user._id,
 	};
 	try {
-		const postedCourse = Course.create(newCourse);
+		const postedCourse = await Course.create(newCourse);
 
 		res.status(201).json({
 			status: "success",
@@ -211,18 +213,21 @@ exports.getCourseReview = async (req, res) => {
 
 exports.getCourse = async (req, res) => {
 	try {
-		const { courseId } = req.params;
-
-		const course = await Course.findById(courseId)
+		const  {id}  = req.params;
+		// console.log(req);
+        // console.log(id);
+		const course = await Course.findById(id)
 			.populate({
 				path: "module",
-				select: "name videos assignments",
+				select: "name video assignment",
 				populate: [
-					{ path: "videos", select: "title duration" },
-					{ path: "assignments", select: "title" }
+					{ path: "video", select: "title duration" },
+					{ path: "assignment", select: "title" }
 				]
 			})
-			.select("name description courseContain instructorName instructorPicture instructorDescription");
+			.select("name description courseContain instructorName instructorPicture instructorDescription module video assignment");
+
+			console.log(course);
 
 		if (!course) {
 			return res.status(404).json({
@@ -259,9 +264,13 @@ exports.getCourse = async (req, res) => {
 };
 exports.getAllCourse = async (req, res) => {
 	try {
-		const allCourses = await Course.find().select(
+		 const allCourses = await Course.find().select(
 			"name courseThumbnail description averageRating totalRatings instructorName"
-		);
+		 );
+
+		console.log(allCourses);
+
+		
 
 		if (allCourses.length === 0) {
 			return res.status(404).json({
@@ -475,7 +484,7 @@ exports.deleteCourseModule = async (req, res) => {
 ///////////////////
 exports.createFAQ = async (req, res) => {
 	try {
-		const { courseId } = req.params;
+		const { id } = req.params;
 		const { name, description } = req.body;
 
 		// validate
@@ -484,14 +493,14 @@ exports.createFAQ = async (req, res) => {
 		}
 
 		// check course exists
-		const course = await Course.findById(courseId);
+		const course = await Course.findById(id);
 		if (!course) throw new Error("Course not found");
 
 		// create FAQ
-		const faq = await Faq.create({ name, description, course: courseId });
+		const faq = await Faq.create({ name, description, course: id });
 
 		// push faq reference into course
-		await Course.findByIdAndUpdate(courseId, { $push: { faq: faq._id } });
+		await Course.findByIdAndUpdate(id, { $push: { faq: faq._id } });
 
 		return res.status(201).json({
 			status: "success",
@@ -508,17 +517,19 @@ exports.createFAQ = async (req, res) => {
 // Update FAQ
 exports.updateFAQ = async (req, res) => {
 	try {
-		const { courseId, faqId } = req.params;
+		const { id, fid } = req.params;
 		const { name, description } = req.body;
 
-		const course = await Course.findById(courseId);
+		const course = await Course.findById(id);
+
+		console.log(req.params);
 		if (!course) throw new Error("Course not found");
 
 		const faq = await Faq.findOneAndUpdate(
-			{ _id: faqId, course: courseId },
-			{ name, description },
-			{ new: true, runValidators: true }
+			{ _id: fid, courseId: id },
+			{ name, description }
 		);
+		console.log(faq);
 
 		if (!faq) throw new Error("FAQ not found for this course");
 

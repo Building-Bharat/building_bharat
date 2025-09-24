@@ -46,7 +46,6 @@ const upload = multer({
 	// File filter
 	fileFilter: (req, file, cb) => {
 		const type = req.fieldname;
-		console.log("req.body:", req);
         console.log("file:", file);
 
 		if (file.fieldname === "resumes" || file.fieldname === "assignmentDoc" || file.fieldname === "submissionDoc") {

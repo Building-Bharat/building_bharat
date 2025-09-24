@@ -23,10 +23,10 @@ router.post("/admin/course/:id/module", adminAuth, courseController.createCourse
 router.patch("/admin/course/:id/module", adminAuth, courseController.updateCourseModule);
 router.delete("/admin/module/:id", adminAuth, courseController.deleteCourseModule);
 
-//frequantly ask question
-// router.post("/admin/course/:id/faq", adminAuth, courseController.createFAQ);
-// router.patch("admin/course/:id/faq/:id", adminAuth, courseController.updateFAQ);
-// router.delete("admin/course/:id/faq/:id", adminAuth, courseController.deleteFAQ);
+// frequantly ask question
+router.post("/admin/course/:id/faq", adminAuth, courseController.createFAQ);
+router.patch("/admin/course/:id/faq/:fid", adminAuth, courseController.updateFAQ);
+router.delete("/admin/course/:id/faq/:id", adminAuth, courseController.deleteFAQ);
 
 
 // video 
@@ -56,9 +56,9 @@ router.delete("/admin/module/:id", adminAuth, courseController.deleteCourseModul
 // router.delete("/admin/assignment/:id/question/:id", adminAuth, courseController.deleteSingleMcqAssignment);
 
 
-// //for user route
-// router.get("/:id", courseController.getCourse);
-// router.get("/all", courseController.getAllCourse);
+//for user route
+router.get("/:id", courseController.getCourse);
+router.get("/", courseController.getAllCourse);
 // router.get("/module/:id", courseController.getSingleModule);
 
 // router.get("/assignment/:id", authController.protect, courseController.getAllMcqAssignment);

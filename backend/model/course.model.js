@@ -3,32 +3,32 @@ const mongoose = require("mongoose");
 const courseSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		require: true
+		required: true
 	},
 	description: {
 		type: String,
-		require: true,
+		required: true,
 		minLength: [30, "mininum 30 char is required"]
 	},
 	courseContain: {
 		type: [String],
-		require: true
+		required: true
 	},
 	instructorName: {
 		type: String,
-		require: true,
+		required: true,
 	},
 	instructorDescription: {
 		type: String,
-		require: true
+		required: true
 	},
 	instructorPicture: {
 		type: String,
-		require: true
+		required: true
 	},
 	courseThumbnail: {
 		type: String,
-		require: true
+		required: true
 	},
 	ratings: [
 		{
@@ -56,6 +56,11 @@ const courseSchema = new mongoose.Schema({
 	totalRatings: {
 		type: Number,
 		default: 0
+	},
+	createdBy: {
+         type: mongoose.Schema.Types.ObjectId,
+		 ref: "Admin",
+		 required: true
 	},
 
 	module: [{
