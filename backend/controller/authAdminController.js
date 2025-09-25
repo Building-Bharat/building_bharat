@@ -9,7 +9,7 @@ const otpStore = new Map();
 
 class AdminAuthController {
 
-  // ✅ Register Admin
+  // Register Admin
   static async signUp(req, res) {
     try {
       const { name, email, password, passwordConfirm, adminKey } = req.body;
@@ -45,7 +45,7 @@ class AdminAuthController {
     }
   }
 
-  // ✅ Login
+  // Login
   static async login(req, res) {
     try {
       const { email, password } = req.body;
@@ -71,25 +71,25 @@ class AdminAuthController {
     }
   }
 
-  // ✅ Forgot Password (Requires ADMIN_KEY)
+  // Forgot Password (Requires ADMIN_KEY)
   static async forgetPassword(req, res) {
     try {
       const { email, adminKey } = req.body;
 
-      // 1️⃣ Check ADMIN_KEY
+      // Check ADMIN_KEY
       if (adminKey !== process.env.ADMIN_KEY) {
         return res.status(401).json({ message: "Invalid ADMIN_KEY" });
       }
 
-      // 2️⃣ Find admin by email
+      // Find admin by email
       const admin = await Admin.findOne({ email });
       if (!admin) return res.status(400).json({ message: "Admin not found" });
 
-      // 3️⃣ Generate OTP
+      //  Generate OTP
       const otp = crypto.randomInt(100000, 999999).toString();
       otpStore.set(email, { otp, expires: Date.now() + 5 * 60 * 1000 });
 
-      // 4️⃣ Send OTP via email
+      // Send OTP via email
       await sendEmail(email, "Password Reset OTP", `Your OTP is: ${otp}`);
 
       res.status(200).json({ message: "OTP sent to email" });
@@ -98,7 +98,7 @@ class AdminAuthController {
     }
   }
 
-  // ✅ Change Password
+  // Change Password
   static async changePassword(req, res) {
     try {
       const { email, otp, newPassword, confirmPassword } = req.body;
@@ -126,7 +126,7 @@ class AdminAuthController {
     }
   }
 
-  // ✅ Logout (simplified, no blacklist)
+  // Logout
   static async logout(req, res) {
     try {
       const token = req.headers.authorization?.split(" ")[1];
