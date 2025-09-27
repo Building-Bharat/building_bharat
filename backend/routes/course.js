@@ -64,16 +64,18 @@ router.get("/:id", courseController.getCourse);
 router.get("/", courseController.getAllCourse);
 // router.get("/module/:id", courseController.getSingleModule);
 
-//user route(get all mcq in assignments(tested))
+//user route(tested)
 router.get("/assignment/:id", authController.protect, courseController.getAllMcqAssignment);
 router.post("/assignment/:id/submit", authController.protect, courseController.submitMcqByUser);
 
-// router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
+
+//assignmentpdf(due)
+ //router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
 // router.post("/assignment/:id/pdf/submit", authController.protect, upload.single("submissionDoc"), courseController.submitAssignmentByUser);
 
 
-//Ratings courses
-// router.post("/:userId/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
-// router.get("/:courseId/reviews", courseController.getCourseReview)
+//Ratings courses(due)
+//  router.post("/:userId/course/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
+//  router.get("/:courseId/reviews", courseController.getCourseReview)
 
 module.exports = router;
