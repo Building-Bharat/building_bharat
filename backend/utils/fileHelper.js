@@ -1,7 +1,7 @@
 exports.extractFileUrlOrKey(req) = function () {
 	if (!req.file) throw new Error("File upload failed");
 
-	const { type } = req.body;
+	const { type } = req.file.fieldname;
 
 	if (["instructorPicture", "blogPicture", "courseThumbnail"].includes(type)) {
 		return req.file.location;

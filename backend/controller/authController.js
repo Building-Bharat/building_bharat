@@ -59,11 +59,9 @@ async function generateOtpVerify(newUser) {
 		newUser.otpExpiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
 
 
-		console.log("before saving user");
-
 		await newUser.save({ validateBeforeSave: false });
 
-		console.log("Before sending email");
+
 		// Send OTP to user's email
 		await sendEmail({
 			to: newUser.email,
@@ -180,13 +178,13 @@ exports.forgotPassword = async (req, res, next) => {
 		};
 
 		const resetToken = user.createPasswordResetToken();
+
 		await user.save({ validateBeforeSave: false });
 
 		const resetURL = `${req.protocol}://${req.get('host')}/api/v1/auth/reset-password/${resetToken}`;
 
 		console.log(`Password reset token for ${user.email}: ${resetToken}`);
 		console.log(`Reset URL (for Postman testing): ${resetURL}`)
-
 
 		res.status(200).json({
 			status: 'success',
@@ -289,141 +287,143 @@ exports.verifyOTP = catchAsync(async (req, res) => {
 		status: 'success',
 		message: 'Email verified successfully'
 	});
-});	
+});
 
 // Send OTP for forgot password
 exports.sendOtpForReset = catchAsync(async (req, res) => {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-        return res.status(400).json({ msg: 'User not found' });
-    }
-    const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    const hashedOtp = await bcrypt.hash(otp, 10);
-    user.otp = hashedOtp;
-    user.otpExpiresAt = Date.now() + 5 * 60 * 1000;
-    await user.save({ validateBeforeSave: false });
+	const { email } = req.body;
+	const user = await User.findOne({ email });
+	if (!user) {
+		return res.status(400).json({ msg: 'User not found' });
+	}
+	const otp = Math.floor(1000 + Math.random() * 9000).toString();
+	const hashedOtp = await bcrypt.hash(otp, 10);
+	user.otp = hashedOtp;
+	user.otpExpiresAt = Date.now() + 5 * 60 * 1000;
+	await user.save({ validateBeforeSave: false });
 
-    await sendEmail({
-        to: email,
-        subject: 'Your OTP Code',
-        text: `Your OTP is ${otp}, valid for 5 minutes.`
-    });
-    res.json({ msg: 'OTP sent to email' });
+	await sendEmail({
+		to: email,
+		subject: 'Your OTP Code',
+		text: `Your OTP is ${otp}, valid for 5 minutes.`
+	});
+	res.json({ msg: 'OTP sent to email' });
 });
 
 // Verify OTP specifically for password reset
 exports.verifyOtpForReset = catchAsync(async (req, res) => {
-    const { email, otp } = req.body;
-    if (!email || !otp) {
-        return res.status(400).json({ msg: 'Email or OTP missing' });
-    }
-    const user = await User.findOne({ email }).select('+otp +otpExpiresAt');
-    if (!user) {
-        return res.status(400).json({ msg: 'User not found' });
-    }
-    if (!user.otp || user.otpExpiresAt < Date.now()) {
-        return res.status(400).json({ msg: 'Invalid or expired OTP' });
-    }
-    const isMatch = await bcrypt.compare(otp, user.otp);
-    if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid or expired OTP' });
-    }
-    user.otp = undefined;
-    user.otpExpiresAt = undefined;
-    await user.save({ validateBeforeSave: false });
-    res.json({ msg: 'OTP verified for password reset' });
+	const { email, otp } = req.body;
+	if (!email || !otp) {
+		return res.status(400).json({ msg: 'Email or OTP missing' });
+	}
+	const user = await User.findOne({ email }).select('+otp +otpExpiresAt');
+	if (!user) {
+		return res.status(400).json({ msg: 'User not found' });
+	}
+	if (!user.otp || user.otpExpiresAt < Date.now()) {
+		return res.status(400).json({ msg: 'Invalid or expired OTP' });
+	}
+	const isMatch = await bcrypt.compare(otp, user.otp);
+	if (!isMatch) {
+		return res.status(400).json({ msg: 'Invalid or expired OTP' });
+	}
+	user.otp = undefined;
+	user.otpExpiresAt = undefined;
+	await user.save({ validateBeforeSave: false });
+	res.json({ msg: 'OTP verified for password reset' });
 });
 
 // Reset password using email + newPassword
 exports.resetPasswordSimple = catchAsync(async (req, res) => {
-    const { email, newPassword } = req.body;
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-        return res.status(400).json({ msg: 'User not found' });
-    }
-    user.password = newPassword;
-    user.passwordConfirm = newPassword;
-    await user.save();
-    res.json({ msg: 'Password reset successfully' });
+	const { email, newPassword } = req.body;
+	const user = await User.findOne({ email }).select('+password');
+	if (!user) {
+		return res.status(400).json({ msg: 'User not found' });
+	}
+	user.password = newPassword;
+	user.passwordConfirm = newPassword;
+	await user.save();
+	res.json({ msg: 'Password reset successfully' });
 });
 
 // Send OTP for login
 exports.sendLoginOtp = catchAsync(async (req, res) => {
-    const { emailOrPhone } = req.body;
-    const user = await User.findOne({
-        $or: [{ email: emailOrPhone }, { phone: emailOrPhone }]
-    });
-    if (!user) {
-        return res.status(400).json({ msg: 'User not found' });
-    }
-    const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    const hashedOtp = await bcrypt.hash(otp, 10);
-    user.otp = hashedOtp;
-    user.otpExpiresAt = Date.now() + 5 * 60 * 1000;
-    await user.save({ validateBeforeSave: false });
-    await sendEmail({
-        to: user.email,
-        subject: 'Your Login OTP',
-        text: `Your OTP is ${otp}, valid for 5 minutes.`
-    });
-    res.json({ msg: 'Login OTP sent', email: user.email });
+	const { emailOrPhone } = req.body;
+	const user = await User.findOne({
+		$or: [{ email: emailOrPhone }, { phone: emailOrPhone }]
+	});
+	if (!user) {
+		return res.status(400).json({ msg: 'User not found' });
+	}
+	const otp = Math.floor(1000 + Math.random() * 9000).toString();
+	const hashedOtp = await bcrypt.hash(otp, 10);
+	user.otp = hashedOtp;
+	user.otpExpiresAt = Date.now() + 5 * 60 * 1000;
+	await user.save({ validateBeforeSave: false });
+	await sendEmail({
+		to: user.email,
+		subject: 'Your Login OTP',
+		text: `Your OTP is ${otp}, valid for 5 minutes.`
+	});
+	res.json({ msg: 'Login OTP sent', email: user.email });
 });
 
 // Verify login OTP and issue JWT
 exports.verifyLoginOtp = catchAsync(async (req, res) => {
-    const { email, emailOrPhone, otp } = req.body;
-    const identifier = email || emailOrPhone;
-    const user = await User.findOne({
-        $or: [{ email: identifier }, { phone: identifier }]
-    }).select('+otp +otpExpiresAt');
-    if (!user) {
-        return res.status(400).json({ msg: 'User not found' });
-    }
-    if (!user.otp || user.otpExpiresAt < Date.now()) {
-        return res.status(400).json({ msg: 'Invalid or expired OTP' });
-    }
-    const isMatch = await bcrypt.compare(otp, user.otp);
-    if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid or expired OTP' });
-    }
-    user.otp = undefined;
-    user.otpExpiresAt = undefined;
-    await user.save({ validateBeforeSave: false });
-    createSendToken(user, 200, res);
+	const { email, emailOrPhone, otp } = req.body;
+	const identifier = email || emailOrPhone;
+	const user = await User.findOne({
+		$or: [{ email: identifier }, { phone: identifier }]
+	}).select('+otp +otpExpiresAt');
+	if (!user) {
+		return res.status(400).json({ msg: 'User not found' });
+	}
+	if (!user.otp || user.otpExpiresAt < Date.now()) {
+		return res.status(400).json({ msg: 'Invalid or expired OTP' });
+	}
+	const isMatch = await bcrypt.compare(otp, user.otp);
+	if (!isMatch) {
+		return res.status(400).json({ msg: 'Invalid or expired OTP' });
+	}
+	user.otp = undefined;
+	user.otpExpiresAt = undefined;
+	await user.save({ validateBeforeSave: false });
+	createSendToken(user, 200, res);
 });
+
+
 // Google signup/login using ID token from Google One Tap or OAuth
 exports.googleAuth = catchAsync(async (req, res) => {
-    const { credential } = req.body;
-    if (!credential) {
-        return res.status(400).json({ msg: 'Missing credential' });
-    }
+	const { credential } = req.body;
+	if (!credential) {
+		return res.status(400).json({ msg: 'Missing credential' });
+	}
 
-    const ticket = await googleClient.verifyIdToken({
-        idToken: credential,
-        audience: process.env.GOOGLE_CLIENT_ID
-    });
-    const payload = ticket.getPayload();
-    const email = payload && payload.email;
-    if (!email) {
-        return res.status(400).json({ msg: 'No email in Google token' });
-    }
+	const ticket = await googleClient.verifyIdToken({
+		idToken: credential,
+		audience: process.env.GOOGLE_CLIENT_ID
+	});
+	const payload = ticket.getPayload();
+	const email = payload && payload.email;
+	if (!email) {
+		return res.status(400).json({ msg: 'No email in Google token' });
+	}
 
-    let user = await User.findOne({ email });
-    if (!user) {
-        const randomPassword = Math.random().toString(36).slice(-12);
-        const hashed = await bcrypt.hash(randomPassword, 10);
-        user = await User.create({
-            email,
-            password: hashed,
-            passwordConfirm: hashed,
-            googleId: payload.sub,
-            name: payload.name || email.split('@')[0]
-        });
-    } else if (!user.googleId) {
-        user.googleId = payload.sub;
-        await user.save({ validateBeforeSave: false });
-    }
+	let user = await User.findOne({ email });
+	if (!user) {
+		const randomPassword = Math.random().toString(36).slice(-12);
+		const hashed = await bcrypt.hash(randomPassword, 10);
+		user = await User.create({
+			email,
+			password: hashed,
+			passwordConfirm: hashed,
+			googleId: payload.sub,
+			name: payload.name || email.split('@')[0]
+		});
+	} else if (!user.googleId) {
+		user.googleId = payload.sub;
+		await user.save({ validateBeforeSave: false });
+	}
 
-    createSendToken(user, 200, res);
+	createSendToken(user, 200, res);
 });

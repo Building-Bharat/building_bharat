@@ -11,16 +11,18 @@ const adminAuth = require('../middleware/adminAuth.js');
 //admin routes 
 router.post('/admin/', authController.protect, authController.restrictTo('admin'), internshipController.createInternship);
 
-
 router.delete('/admin/:id', authController.protect, authController.restrictTo('admin'), internshipController.deleteInternship);
 
 router.get('/admin/all', internshipController.adminGetAllInternships);
 
 router.get('/admin/:id', authController.protect, authController.restrictTo('admin'), internshipController.getApplicantsForInternship);
 
+router.get('/admin/applicant/:internshipId/:applicationId', authController.restrictTo('admin'), internshipController.getSingleApplicantDetails);
+
 //user routes
 router.get('/', internshipController.getAllInternships);
-// router.post('/apply/:id', authController.protect, upload.single('resume'), internshipController.applyInternshipById);
+
+router.post('/apply/:id', authController.protect, upload.single('resume'), internshipController.applyInternshipById);
 router.get('/applied', authController.protect, internshipController.getAllAppliedInternships);
 
 module.exports = router;

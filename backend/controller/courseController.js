@@ -9,6 +9,7 @@ const Submission = require("../model/submission.model");;
 const extractFileUrlOrKey = require("../utils/fileHelper");
 const deleteFromS3 = require("../utils/deleteAws");
 const { generateSignedUrl, s3Client, generateUploadUrl } = require("../service/aws.service");
+
 ////////////////////////
 // course feature //
 ////////////////////////
@@ -16,8 +17,8 @@ const { generateSignedUrl, s3Client, generateUploadUrl } = require("../service/a
 exports.postNewCourse = async (req, res) => {
 	const { title, description, courseContain, instructorName, instructorDescription } = req.body;
 
-	const courseThumbnail = extractFileUrlOrKey(req, "courseThumbnail");
-	const instructorPicture = extractFileUrlOrKey(req, "instructorPicture");
+	const courseThumbnail = extractFileUrlOrKey(req);
+	const instructorPicture = extractFileUrlOrKey(req);
 
 	if (instructorPicture === null) throw new Error('instructor image is required');
 	if (courseThumbnail === null) throw new Error('course image is required');
@@ -211,9 +212,9 @@ exports.getCourseReview = async (req, res) => {
 
 exports.getCourse = async (req, res) => {
 	try {
-		const { courseId } = req.params;
+		const { id } = req.params;
 
-		const course = await Course.findById(courseId)
+		const course = await Course.findById(id)
 			.populate({
 				path: "module",
 				select: "name videos assignments",
@@ -624,8 +625,6 @@ exports.updateAssignment = async (req, res) => {
 
 			if (typeOfAssignment === 'pdf') {
 				const pdfUrl = extractFileUrlOrKey(req, "assignmentDoc");
-
-
 				assignment.pdfUrl = pdfUrl || assignment.pdfUrl;
 				assignment.question = [];
 			} else if (typeOfAssignment === 'mcq') {
@@ -814,7 +813,7 @@ exports.getAllMcqAssignment = async (req, res) => {
 			select: "name options",
 		}).select("name question");
 
-		if (!assignment || !assignment.typeOfAssignment !== 'mcq') throw new Error("assignment not found or not an mcq assignment");
+		if (!assignment || assignment.typeOfAssignment !== 'mcq') throw new Error("assignment not found or not an mcq assignment");
 		return res.status(200).json({
 			status: "success",
 			data: assignment

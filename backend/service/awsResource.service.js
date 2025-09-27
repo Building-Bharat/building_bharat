@@ -12,7 +12,7 @@ const upload = multer({
 		acl: (req, file, cb) => {
 			const type = req.body.type;
 
-			if (["instructorPicture", "blogPicture", "courseThumbnail"].includes(type)) {
+			if (["instructorPicture", "blogPicture", "courseThumbnail", "internshipThumbnail"].includes(type)) {
 				cb(null, "public-read"); // public images
 			} else {
 				cb(null, "private"); // secure PDFs
@@ -28,6 +28,7 @@ const upload = multer({
 			else if (type === "instructorPicture") folder = "instructorPicture";
 			else if (type === "blogPicture") folder = "blogPicture";
 			else if (type === "courseThumbnail") folder = "courseThumbnail";
+			else if (type === "internshipThumbnail") folder = "internshipThumbnail";
 			else if (type === "assignmentDoc") folder = "assignmentDoc";
 			else if (type === "submissionDoc") folder = "submissionDoc";
 			else if (type === "subtitle") folder = "subtitles";
@@ -55,7 +56,8 @@ const upload = multer({
 		else if (
 			type === "instructorPicture" ||
 			type === "blogPicture" ||
-			type === "courseThumbnail"
+			type === "courseThumbnail" ||
+			type === "internshipThumbnail"
 		) {
 			if (["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(file.mimetype))
 				cb(null, true);

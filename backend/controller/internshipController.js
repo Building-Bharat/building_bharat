@@ -70,7 +70,7 @@ exports.deleteInternship = async (req, res) => {
 
 exports.adminGetAllInternships = async (req, res) => {
 	try {
-		const internships = await Internship.find({});
+		const internships = await Internship.find();
 		res.status(200).json({
 			status: 'success',
 			data: {
@@ -124,7 +124,36 @@ exports.getApplicantsForInternship = async (req, res) => {
 };
 
 
+exports.getSingleApplicantDetails = async (req, res) => {
+	const { internshipId, applicationId } = req.params;
+	try {
+		if (!mongoose.Types.ObjectId.isValid(internshipId) || !mongoose.Types.ObjectId.isValid(applicationId)) {
+			return res.status(400).json({
+				status: 'fail',
+				message: 'Invalid ID(s) provided'
+			});
+		}
 
+		const internship = await Internship.findById(internshipId);
+		const application = internship.applications.id(applicationId);
+
+		if (!internship || !application) {
+			return res.status(404).json({
+				status: 'fail',
+				message: 'Internship or application not found'
+			});
+		}
+
+
+		res.status(200).json({
+			status: 'success',
+			data: {
+				internship,
+				application
+			}
+		});
+	} catch (err) { }
+}
 //user controller 
 exports.getAllInternships = async (req, res) => {
 	try {
@@ -145,8 +174,14 @@ exports.getAllInternships = async (req, res) => {
 	}
 };
 
+
+
 exports.applyInternshipById = async (req, res) => {
 	try {
+
+		//  1)  user must have atleast course
+
+		// after validation
 		const { name, email } = req.body;
 
 		const resume = extractFileUrlOrKey(req);
