@@ -9,6 +9,10 @@ const internshipSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	internshipThumbnail: {
+		type: String,
+		required: true,
+	},
 	skills: [{
 		type: [String],
 		required: true
@@ -35,7 +39,10 @@ const internshipSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 		required: true
-	}]
-});
+	}],
+	allEligible: {
+
+	}
+}, { timestamps: true });
 
 module.exports = mongoose.model('Internship', internshipSchema);

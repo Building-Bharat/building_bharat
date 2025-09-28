@@ -1,7 +1,7 @@
 const { default: mongoose } = require('mongoose');
 const Internship = require('../model/internship.model');
 const User = require('../model/user.model');
-const { extractFileUrlOrKey } = require('../utils/fileHeloer');
+const { extractFileUrlOrKey } = require('../utils/fileHelper');
 
 exports.createInternship = async (req, res) => {
 	// const checkValidate = validationResult(req);
@@ -179,7 +179,12 @@ exports.getAllInternships = async (req, res) => {
 exports.applyInternshipById = async (req, res) => {
 	try {
 
-		//  1)  user must have atleast course
+		// 1)  user must have atleast course
+
+		// 2) user can apply to internship which dont require course
+		if (id) {
+
+		};
 
 		// after validation
 		const { name, email } = req.body;
@@ -188,11 +193,11 @@ exports.applyInternshipById = async (req, res) => {
 
 		if (resume === null) throw new Error('Resume is required');
 
-		const internshipId = req.params.id;
+		const id = req.params.id;
 
 		const user = await User.findOne({ email });
 
-		const internship = await Internship.findById(internshipId);
+		const internship = await Internship.findById(id);
 
 		if (!user || !internship) {
 			throw new Error('User or Internship not found');
@@ -202,7 +207,7 @@ exports.applyInternshipById = async (req, res) => {
 			throw new Error('The last date to apply for this internship has passed');
 		};
 
-		if (user.appliedInternship.some(app => app.internshipId.toString() === internshipId)) {
+		if (user.appliedInternship.some(app => app.internshipId.toString() === id)) {
 			return res.status(400).json({ status: 'error', message: 'You have already applied for this internship' });
 		}
 

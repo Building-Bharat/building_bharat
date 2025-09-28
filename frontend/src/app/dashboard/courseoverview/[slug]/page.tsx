@@ -26,9 +26,9 @@ export default function CourseOverviewPage({
   return (
     <div className="flex h-screen bg-[#005451] overflow-hidden">
        {/* Sidebar */}
-       <aside className="w-[250px] ml-[30px] h-full flex flex-col justify-between bg-[#005451] rounded p-2">
+       <aside className="w-[230px] ml-[20px] h-full flex flex-col justify-between bg-[#005451] rounded p-2">
       {/* Logo container */}
-      <div className="w-[232px] h-[72px] rounded rounded-[8px] mt-[5px] ml-[40px]  bg-[#F1F1F1] flex items-center justify-center">
+      <div className="w-[250px] h-[72px] rounded rounded-[8px] mt-[5px] ml-[40px]  bg-[#F1F1F1] flex items-center justify-center">
         <span className="font-bold text-lg">
           <img src="/images/bb1.png" alt="Logo Building Bharat" className="w-[40px] h-[40px] object-contain" />
         </span>
@@ -93,7 +93,7 @@ export default function CourseOverviewPage({
         <CourseOverview />
       </main>
       {/* Right Sidebar */}
-      <aside className="w-[300px] bg-[#005451] mt-[50px] mr-[40px] text-white p-6 flex flex-col">
+      <aside className="w-[280px] bg-[#005451] mt-[50px] mr-[40px] text-white p-6 flex flex-col">
         {/* Progress */}
         <div className="mb-6">
   <p className="font-bold font-DMsans text-[16px] leading-[24px] font-weight:700 ">

@@ -61,13 +61,7 @@ export default function BlogDetailPage() {
 
   return (
     <div className="flex bg-gray-50 w-full min-h-screen relative">
-      {/* Sidebar toggle (visible on md & below) */}
-      <button
-        className="sm:hidden fixed top-4 left-4 z-50 p-2 bg-white shadow-md rounded-md"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-      >
-        <Menu className="w-6 h-6 text-gray-700" />
-      </button>
+      
 
       {/* Sidebar */}
       <div

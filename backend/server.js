@@ -36,7 +36,7 @@ app.use('/api/v1/course', courseRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/v1/admin', adminAuthRoutes);
 app.use("/api/blogs", blogRoutes);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 
 app.listen(PORT, () => {
