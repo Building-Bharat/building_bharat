@@ -42,7 +42,7 @@ router.delete("/admin/assignment/:id", adminAuth, courseController.deleteAssignm
 
 // have to work on this,All Submissions
 // router.get(
-// 	"/assignment/:id/submissions", adminAuth, courseControllergetAllSubmissionsForAssignment
+// 	"/assignment/:id/submissions", adminAuth, courseController.getAllSubmissionsForAssignment
 // );
 
 //Admin submission(single)
@@ -75,7 +75,7 @@ router.post("/:userId/assignment/:assignmentId/pdf/submit", authController.prote
 
 
 //Ratings courses(tested rating,review)
- router.post("/:userId/course/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
- router.get("/:courseId/reviews", courseController.getCourseReview)
+router.post("/:userId/course/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
+router.get("/:courseId/reviews", courseController.getCourseReview)
 
 module.exports = router;

@@ -12,7 +12,7 @@
 // module.exports = s3;
 
 
-const { S3Client } = require("@aws-sdk/client-s3");
+const { S3Client, s3 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 

@@ -58,9 +58,9 @@ const courseSchema = new mongoose.Schema({
 		default: 0
 	},
 	createdBy: {
-         type: mongoose.Schema.Types.ObjectId,
-		 ref: "Admin",
-		 required: true
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Admin",
+		required: true
 	},
 
 	module: [{

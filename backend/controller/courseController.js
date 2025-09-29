@@ -6,7 +6,7 @@ const Assignment = require("../model/assignment.model");
 const User = require("../model/user.model");
 const Video = require("../model/video.model");
 const Submission = require("../model/submission.model");
-const {extractFileUrlOrKey} = require("../utils/fileHelper");
+const { extractFileUrlOrKey } = require("../utils/fileHelper");
 const Admin = require("../model/admin.model");
 const { generateSignedUrl, s3Client, generateUploadUrl, deleteFromS3, deleteFile } = require("../service/aws.service");
 const { json } = require("express");
@@ -21,7 +21,7 @@ const { json } = require("express");
 
 exports.postNewCourse = async (req, res) => {
 	const { name, description, courseContain, instructorName, instructorDescription } = req.body;
-     console.log(req.file);
+	console.log(req.file);
 	const courseThumbnail = extractFileUrlOrKey(req.files["courseThumbnail"][0]);
 	const instructorPicture = extractFileUrlOrKey(req.files["instructorPicture"][0]);
 
@@ -218,9 +218,9 @@ exports.getCourseReview = async (req, res) => {
 
 exports.getCourse = async (req, res) => {
 	try {
-		const  {id}  = req.params;
+		const { id } = req.params;
 		// console.log(req);
-        // console.log(id);
+		// console.log(id);
 		const course = await Course.findById(id)
 			.populate({
 				path: "module",
@@ -232,7 +232,7 @@ exports.getCourse = async (req, res) => {
 			})
 			.select("name description courseContain instructorName instructorPicture instructorDescription module video assignment");
 
-			console.log(course);
+		console.log(course);
 
 		if (!course) {
 			return res.status(404).json({
@@ -269,13 +269,13 @@ exports.getCourse = async (req, res) => {
 };
 exports.getAllCourse = async (req, res) => {
 	try {
-		 const allCourses = await Course.find().select(
+		const allCourses = await Course.find().select(
 			"name courseThumbnail description averageRating totalRatings instructorName module faq instructorDescription instructorPicture"
-		 );
+		);
 
 		console.log(allCourses);
 
-		
+
 
 		if (allCourses.length === 0) {
 			return res.status(404).json({
@@ -398,7 +398,7 @@ exports.createCourseModule = async (req, res) => {
 		const module = await Module.create({ name, courseId: id });
 
 
-		await Course.findByIdAndUpdate({_id:id}, { $push: { module: module._id } });
+		await Course.findByIdAndUpdate({ _id: id }, { $push: { module: module._id } });
 
 		return res.status(201).json({
 			status: "success",
@@ -420,12 +420,12 @@ exports.updateCourseModule = async (req, res) => {
 		const { name } = req.body;
 
 
-		const module = await Module.findById(	id
+		const module = await Module.findById(id
 		);
 
 		if (!module) throw new Error("Module not found");
 
-		if(name)  module.name = name;
+		if (name) module.name = name;
 
 		await module.save();
 
@@ -464,12 +464,12 @@ exports.deleteCourseModule = async (req, res) => {
 		}
 
 
-		
 
-		const {courseId} = module;
+
+		const { courseId } = module;
 
 		await Course.findByIdAndUpdate(
-			{_id:courseId},
+			{ _id: courseId },
 			{ $pull: { module: id } },
 			{ new: true }
 		);
@@ -531,7 +531,7 @@ exports.updateFAQ = async (req, res) => {
 		console.log(req.params);
 
 		const faq = await Faq.findOneAndUpdate(
-			{  _id: id },
+			{ _id: id },
 			{ name, description }
 		);
 		console.log(faq);
@@ -556,12 +556,12 @@ exports.deleteFAQ = async (req, res) => {
 		const { id } = req.params;
 
 		// find and delete
-		const faq = await Faq.findById( id );
+		const faq = await Faq.findById(id);
 		if (!faq) throw new Error("FAQ not found for this course");
 
-		const {courseId, _id } = faq;
+		const { courseId, _id } = faq;
 
-		await Course.findByIdAndUpdate({_id: courseId},{$pull:{faq: _id}});
+		await Course.findByIdAndUpdate({ _id: courseId }, { $pull: { faq: _id } });
 
 		await Faq.findByIdAndDelete(_id);
 
@@ -587,7 +587,7 @@ exports.deleteFAQ = async (req, res) => {
 exports.createAssignment = async (req, res) => {
 	try {
 		const { name, typeOfAssignment } = req.body;
-        const {id} = req.params;
+		const { id } = req.params;
 		let newAssignment;
 
 		if (typeOfAssignment === "pdf") {
@@ -632,7 +632,7 @@ exports.createAssignment = async (req, res) => {
 
 exports.updateAssignment = async (req, res) => {
 	try {
-		const {id} = req.params;
+		const { id } = req.params;
 		const { name, typeOfAssignment } = req.body;
 
 		const assignment = await Assignment.findById(id);
@@ -676,7 +676,7 @@ exports.updateAssignment = async (req, res) => {
 }
 
 exports.deleteAssignment = async (req, res) => {
-	const {id} = req.params;
+	const { id } = req.params;
 
 	try {
 		const assignment = await Assignment.findById(id);
@@ -688,16 +688,16 @@ exports.deleteAssignment = async (req, res) => {
 		} else if (assignment.typeOfAssignment === 'pdf') {
 
 			// console.log("meowww"+assignment.pdfUrl)
-            // const url = await generateSignedUrl(assignment.pdfUrl);
+			// const url = await generateSignedUrl(assignment.pdfUrl);
 			// console.log(url);
-			
-				if (assignment.pdfUrl) {
 
-					await deleteFile (
-						 assignment.pdfUrl
-					)
-				}
-			
+			if (assignment.pdfUrl) {
+
+				await deleteFromS3(
+					assignment.pdfUrl
+				)
+			}
+
 		} else {
 			throw new Error('Invalid assignment type');
 		}
@@ -741,7 +741,7 @@ exports.createMcqAssignment = async (req, res) => {
 
 		const mcqAssignment = await Question.create({ name, options, answer, assignment: id })
 
-		await assignment.findByIdAndUpdate({_id:id}, { $push: { question: mcqAssignment._id } })
+		await assignment.findByIdAndUpdate({ _id: id }, { $push: { question: mcqAssignment._id } })
 
 
 		return res.status(201).json({
@@ -803,9 +803,9 @@ exports.deleteSingleMcqAssignment = async (req, res) => {
 
 		if (!mcq) throw new Error("assignment or mcq not found");
 
-        const {assignment} = mcq ;
+		const { assignment } = mcq;
 
-		await Assignment.findByIdAndUpdate({_id:assignment}, { $pull: { question: id } }, { new: true })
+		await Assignment.findByIdAndUpdate({ _id: assignment }, { $pull: { question: id } }, { new: true })
 
 
 		await Question.findByIdAndDelete(id);
@@ -833,9 +833,9 @@ exports.getAllMcqAssignment = async (req, res) => {
 
 		}).select("name question");
 
-		const {name,options} = assignment.question;
+		const { name, options } = assignment.question;
 
-         console.log(assignment);
+		console.log(assignment);
 
 		if (!assignment) throw new Error("assignment not found or not an mcq assignment");
 		return res.status(200).json({
@@ -876,12 +876,12 @@ exports.submitMcqByUser = async (req, res) => {
 		let score = 0;
 		const detailResults = [];
 
-		const totalScore = totalQuestions*10;
+		const totalScore = totalQuestions * 10;
 
 		assignment.question.forEach((question, index) => {
 			const userAnswer = answers[index];
 			const isCorrect = question.answer === Number(userAnswer);
-			if (isCorrect) score+=10;
+			if (isCorrect) score += 10;
 
 			detailResults.push({
 				questionId: question._id,
@@ -934,11 +934,11 @@ exports.submitMcqByUser = async (req, res) => {
 
 exports.getPdfAssignment = async (req, res) => {
 	try {
-		const { id } = req.params;
+		const { assignmentId } = req.params;
 
-		if (!id) throw new Error("assignment id is required");
+		if (!assignmentId) throw new Error("assignment id is required");
 
-		const assignment = await Assignment.findById(id);
+		const assignment = await Assignment.findById(assignmentId);
 
 		if (!assignment || assignment.typeOfAssignment !== "pdf") {
 			throw new Error("assignment not found or not a pdf assignment");
@@ -951,18 +951,17 @@ exports.getPdfAssignment = async (req, res) => {
 			throw new Error("you are not authorized to access this pdf");
 		}
 
-		const {name,typeOfAssignment} = assignment;
+		const url = generateSignedUrl(assignment.pdfUrl, 60 * 5);
 
-		const url = await generateSignedUrl(assignment.pdfUrl, 60 * 5);
 		
 
 		return res.status(200).json({
 			status: "success",
 			data: {
-				 name,
-				typeOfAssignment,
-				url
-			}
+				url,
+				name,
+				typeOfAssignment
+			},
 		});
 	} catch (err) {
 		return res.status(400).json({

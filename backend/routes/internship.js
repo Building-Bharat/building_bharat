@@ -16,11 +16,12 @@ router.delete('/admin/:id', adminAuth, internshipController.deleteInternship);
 
 router.get('/admin/all', internshipController.adminGetAllInternships);
 
-router.get('/admin/:id', adminAuth , internshipController.getApplicantsForInternship);
+router.get('/admin/:id', adminAuth, internshipController.getApplicantsForInternship);
 
 //user routes
 router.get('/', internshipController.getAllInternships);
-// router.post('/apply/:id', authController.protect, upload.single('resume'), internshipController.applyInternshipById);
+
+router.post('/apply/:id', authController.protect, upload.single('resume'), internshipController.applyInternshipById);
 router.get('/applied', authController.protect, internshipController.getAllAppliedInternships);
 
 module.exports = router;
