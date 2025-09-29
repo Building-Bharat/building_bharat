@@ -5,11 +5,12 @@ const Question = require("../model/questions.model");
 const Assignment = require("../model/assignment.model");
 const User = require("../model/user.model");
 const Video = require("../model/video.model");
-const Submission = require("../model/submission.model");;
+const Submission = require("../model/submission.model");
 const { extractFileUrlOrKey } = require("../utils/fileHelper");
 const Admin = require("../model/admin.model");
-const deleteFromS3 = require("../utils/deleteAws");
-const { generateSignedUrl, s3Client, generateUploadUrl } = require("../service/aws.service");
+const { generateSignedUrl, s3Client, generateUploadUrl, deleteFromS3 } = require("../service/aws.service");
+const { json } = require("express");
+
 
 
 
@@ -19,7 +20,7 @@ const { generateSignedUrl, s3Client, generateUploadUrl } = require("../service/a
 ////////////////////////
 
 exports.postNewCourse = async (req, res) => {
-	const { title, description, courseContain, instructorName, instructorDescription } = req.body;
+	const { name, description, courseContain, instructorName, instructorDescription } = req.body;
 	console.log(req.file);
 	const courseThumbnail = extractFileUrlOrKey(req.files["courseThumbnail"][0]);
 	const instructorPicture = extractFileUrlOrKey(req.files["instructorPicture"][0]);
@@ -28,7 +29,7 @@ exports.postNewCourse = async (req, res) => {
 	if (instructorPicture === null) throw new Error('instructor image is required');
 	if (courseThumbnail === null) throw new Error('course image is required');
 
-	if (!title || !description || !instructorName || !courseContain) {
+	if (!name || !description || !instructorName || !courseContain) {
 		return res.status(400).json({
 			status: "fail",
 			message: "Title, description, and instructorName are required"
@@ -36,7 +37,7 @@ exports.postNewCourse = async (req, res) => {
 	}
 
 	const newCourse = {
-		title,
+		name,
 		description,
 		courseContain,
 		instructorName,
@@ -67,7 +68,7 @@ exports.updateCourseDetails = async (req, res) => {
 	const { id } = req.params;
 	try {
 		const canUpdate = [
-			"title",
+			"name",
 			"description",
 			"courseContain",
 			"instructorName",
@@ -269,7 +270,7 @@ exports.getCourse = async (req, res) => {
 exports.getAllCourse = async (req, res) => {
 	try {
 		const allCourses = await Course.find().select(
-			"name courseThumbnail description averageRating totalRatings instructorName"
+			"name courseThumbnail description averageRating totalRatings instructorName module faq instructorDescription instructorPicture"
 		);
 
 		console.log(allCourses);
@@ -591,7 +592,7 @@ exports.createAssignment = async (req, res) => {
 
 		if (typeOfAssignment === "pdf") {
 
-			const pdfUrl = extractFileUrlOrKey(req, "assignmentDoc");
+			const pdfUrl = extractFileUrlOrKey(req.file);
 
 			if (!pdfUrl) throw new Error("pdf url not found");
 
@@ -644,7 +645,9 @@ exports.updateAssignment = async (req, res) => {
 			assignment.typeOfAssignment = typeOfAssignment;
 
 			if (typeOfAssignment === 'pdf') {
-				const pdfUrl = extractFileUrlOrKey(req, "assignmentDoc");
+				const pdfUrl = extractFileUrlOrKey(req.file);
+
+
 				assignment.pdfUrl = pdfUrl || assignment.pdfUrl;
 				assignment.question = [];
 			} else if (typeOfAssignment === 'mcq') {
@@ -684,15 +687,17 @@ exports.deleteAssignment = async (req, res) => {
 			await Question.deleteMany({ _id: { $in: assignment.question } });
 		} else if (assignment.typeOfAssignment === 'pdf') {
 
-			if (assignment.pdfUrl) {
-				await s3Client
-					.deleteObject({
-						Bucket: process.env.AWS_BUCKET_NAME,
-						Key: assignment.pdfUrl,
-					})
-					.promise();
+			// console.log("meowww"+assignment.pdfUrl)
+			// const url = await generateSignedUrl(assignment.pdfUrl);
+			// console.log(url);
 
+			if (assignment.pdfUrl) {
+
+				await deleteFromS3(
+					assignment.pdfUrl
+				)
 			}
+
 		} else {
 			throw new Error('Invalid assignment type');
 		}
@@ -849,16 +854,16 @@ exports.getAllMcqAssignment = async (req, res) => {
 
 exports.submitMcqByUser = async (req, res) => {
 	try {
-		const { assignmentId } = req.params;
+		const { id } = req.params;
 		const { userId, answers } = req.body;
 
-		if (!assignmentId || !userId || !answers || !Array.isArray(answers)) {
+		if (!id || !userId || !answers || !Array.isArray(answers)) {
 			throw new Error("Assignment ID, User ID, or answers missing/invalid");
 		}
 
 		// Fetch assignment with questions
-		const assignment = await Assignment.findById(assignmentId).populate("question");
-		if (!assignment || assignment.typeOfAssignment !== "mcq") {
+		const assignment = await Assignment.findById(id).populate("question");
+		if (!assignment) {
 			throw new Error("Assignment not found or is not an MCQ type");
 		}
 
@@ -871,10 +876,12 @@ exports.submitMcqByUser = async (req, res) => {
 		let score = 0;
 		const detailResults = [];
 
+		const totalScore = totalQuestions * 10;
+
 		assignment.question.forEach((question, index) => {
 			const userAnswer = answers[index];
-			const isCorrect = question.answer === userAnswer;
-			if (isCorrect) score++;
+			const isCorrect = question.answer === Number(userAnswer);
+			if (isCorrect) score += 10;
 
 			detailResults.push({
 				questionId: question._id,
@@ -889,13 +896,14 @@ exports.submitMcqByUser = async (req, res) => {
 		// Save submission to DB
 		const submission = await Submission.create({
 			user: userId,
-			assignment: assignmentId,
+			assignment: id,
 			typeOfAssignment: "mcq",
 			answers: answers.map((ans, idx) => ({
 				question: assignment.question[idx]._id,
 				answer: ans,
 			})),
 			score,
+			totalScore,
 			submittedAt: new Date(),
 		});
 
@@ -905,6 +913,7 @@ exports.submitMcqByUser = async (req, res) => {
 				submissionId: submission._id,
 				score,
 				totalQuestions,
+				totalScore,
 				detailResults,
 			},
 		});
@@ -929,7 +938,7 @@ exports.getPdfAssignment = async (req, res) => {
 
 		if (!assignmentId) throw new Error("assignment id is required");
 
-		const assignment = await Assignment.findById(assignmentId).select("name pdfUrl typeOfAssignment");
+		const assignment = await Assignment.findById(assignmentId);
 
 		if (!assignment || assignment.typeOfAssignment !== "pdf") {
 			throw new Error("assignment not found or not a pdf assignment");
@@ -944,9 +953,15 @@ exports.getPdfAssignment = async (req, res) => {
 
 		const url = generateSignedUrl(assignment.pdfUrl, 60 * 5);
 
+		const { name, typeOfAssignment } = assignment
+
 		return res.status(200).json({
 			status: "success",
-			data: url
+			data: {
+				url,
+				name,
+				typeOfAssignment
+			},
 		});
 	} catch (err) {
 		return res.status(400).json({
