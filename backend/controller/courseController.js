@@ -8,7 +8,7 @@ const Video = require("../model/video.model");
 const Submission = require("../model/submission.model");
 const { extractFileUrlOrKey } = require("../utils/fileHelper");
 const Admin = require("../model/admin.model");
-const { generateSignedUrl, s3Client, generateUploadUrl, deleteFromS3 } = require("../service/aws.service");
+const { generateSignedUrl, s3Client, generateUploadUrl, deleteFromS3, deleteFile } = require("../service/aws.service");
 const { json } = require("express");
 
 

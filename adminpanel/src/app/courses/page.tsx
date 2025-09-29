@@ -1,4 +1,3 @@
-
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
@@ -63,7 +62,7 @@ export default function CoursesPage() {
         Uploaded Courses
       </h1>
       {courses.length === 0 ? (
-        <p className="text-gray-700 text-center">No courses uploaded yet.</p>
+        <p className="text-gray-700  text-center">No courses uploaded yet.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {courses.map((course) => (
@@ -79,7 +78,7 @@ export default function CoursesPage() {
                   className="w-full h-70 object-cover"
                 />
               ) : (
-                <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">
+                <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-black">
                   No Image
                 </div>
               )}
