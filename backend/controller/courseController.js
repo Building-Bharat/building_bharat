@@ -8,7 +8,7 @@ const Video = require("../model/video.model");
 const Submission = require("../model/submission.model");
 const {extractFileUrlOrKey} = require("../utils/fileHelper");
 const Admin = require("../model/admin.model");
-const { generateSignedUrl, s3Client, generateUploadUrl, deleteFromS3 } = require("../service/aws.service");
+const { generateSignedUrl, s3Client, generateUploadUrl, deleteFromS3, deleteFile } = require("../service/aws.service");
 const { json } = require("express");
 
 
@@ -693,8 +693,8 @@ exports.deleteAssignment = async (req, res) => {
 			
 				if (assignment.pdfUrl) {
 
-					await deleteFromS3 (
-						 assignment.pdfUrl,
+					await deleteFile (
+						 assignment.pdfUrl
 					)
 				}
 			
@@ -934,11 +934,11 @@ exports.submitMcqByUser = async (req, res) => {
 
 exports.getPdfAssignment = async (req, res) => {
 	try {
-		const { assignmentId } = req.params;
+		const { id } = req.params;
 
-		if (!assignmentId) throw new Error("assignment id is required");
+		if (!id) throw new Error("assignment id is required");
 
-		const assignment = await Assignment.findById(assignmentId).select("name pdfUrl typeOfAssignment");
+		const assignment = await Assignment.findById(id);
 
 		if (!assignment || assignment.typeOfAssignment !== "pdf") {
 			throw new Error("assignment not found or not a pdf assignment");
@@ -951,11 +951,20 @@ exports.getPdfAssignment = async (req, res) => {
 			throw new Error("you are not authorized to access this pdf");
 		}
 
-		const url = generateSignedUrl(assignment.pdfUrl, 60 * 5);
+		const {name,typeOfAssignment} = assignment;
+
+		const url = await generateSignedUrl(assignment.pdfUrl, 60 * 5);
+        
+		console.log(url);
+		
 
 		return res.status(200).json({
 			status: "success",
-			data: url
+			data: {
+				 name,
+				typeOfAssignment,
+				url
+			}
 		});
 	} catch (err) {
 		return res.status(400).json({

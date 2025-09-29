@@ -33,7 +33,7 @@ router.delete("/admin/faq/:id", adminAuth, courseController.deleteFAQ);
 // router.get("/admin/module/:id/video/upload-url", adminAuth, courseController.getVideoUploadUrl);
 // router.post("/admin/module/:id/video", adminAuth, upload.single("subtitle"), courseController.createVideo);
 
-//assignment(tested)
+//assignment(tested successfully)
 router.post("/admin/module/:id/assignment", adminAuth,
 	upload.single("assignmentDoc"), courseController.createAssignment);
 router.patch("/admin/assignment/:id", adminAuth, upload.single("assignmentDoc"), courseController.updateAssignment);
@@ -69,13 +69,13 @@ router.get("/assignment/:id", authController.protect, courseController.getAllMcq
 router.post("/assignment/:id/submit", authController.protect, courseController.submitMcqByUser);
 
 
-//assignmentpdf(due)
- //router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
+//assignmentpdf(1st one tested)
+ router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
 // router.post("/assignment/:id/pdf/submit", authController.protect, upload.single("submissionDoc"), courseController.submitAssignmentByUser);
 
 
-//Ratings courses(due)
-//  router.post("/:userId/course/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
-//  router.get("/:courseId/reviews", courseController.getCourseReview)
+//Ratings courses(tested rating,review)
+ router.post("/:userId/course/:courseId/rating", authController.protect, courseController.giveRatingToCourse);
+ router.get("/:courseId/reviews", courseController.getCourseReview)
 
 module.exports = router;
