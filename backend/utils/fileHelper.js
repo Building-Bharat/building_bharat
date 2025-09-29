@@ -13,7 +13,7 @@ export function extractFileUrlOrKey(file) {
     return file.location;
   }
 
-  if (["assignmentDoc", "resumes"].includes(type)) {
+  if (["assignmentDoc", "resumes", "submissionDoc"].includes(type)) {
     return file.key;
   }
 

@@ -71,7 +71,7 @@ router.post("/assignment/:id/submit", authController.protect, courseController.s
 
 //assignmentpdf(1st one tested)
  router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
-// router.post("/assignment/:id/pdf/submit", authController.protect, upload.single("submissionDoc"), courseController.submitAssignmentByUser);
+router.post("/:userId/assignment/:assignmentId/pdf/submit", authController.protect, upload.single("submissionDoc"), courseController.submitAssignmentByUser);
 
 
 //Ratings courses(tested rating,review)

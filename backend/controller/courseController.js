@@ -954,8 +954,6 @@ exports.getPdfAssignment = async (req, res) => {
 		const {name,typeOfAssignment} = assignment;
 
 		const url = await generateSignedUrl(assignment.pdfUrl, 60 * 5);
-        
-		console.log(url);
 		
 
 		return res.status(200).json({
@@ -982,7 +980,7 @@ exports.submitAssignmentByUser = async (req, res) => {
 
 		if (!user) throw new Error("user not found");
 
-		const submissionUrl = extractFileUrlOrKey(req, "submissionDoc");
+		const submissionUrl = extractFileUrlOrKey(req.file);
 
 		if (!submissionUrl) throw new Error("pdf url is required");
 
