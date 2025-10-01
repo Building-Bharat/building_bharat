@@ -9,7 +9,7 @@ const appliedInternshipSchema = new mongoose.Schema({
 	resume: { type: String, required: true },
 	status: {
 		type: String,
-		enum: ['applied', 'interview', 'rejected'],
+		enum: ['applied', 'interview', 'rejected','pending'],
 		default: 'pending'
 	}
 });

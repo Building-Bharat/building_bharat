@@ -179,7 +179,7 @@ export default function HeroSection() {
             >
               {/* Right arrow icon that appears on hover */}
               <svg 
-                className="w-5 h-5 text-white transition-all duration-300 ease-in-out"
+                className="w-5 h-5 text-white transition-all duration-300 ease-in-out "
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"

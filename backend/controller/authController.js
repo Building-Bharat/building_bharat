@@ -6,6 +6,7 @@ const catchAsync = require('./../utils/catchAsync');
 const crypto = require('crypto');
 const sendEmail = require('../service/email.service');
 const { OAuth2Client } = require('google-auth-library');
+const Admin = require('../model/admin');
 require('dotenv').config();
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -120,11 +121,11 @@ exports.loginEmail = catchAsync(async (req, res) => {
 
 exports.protect = async (req, res, next) => {
 	let token;
-
 	if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
 		token = req.headers.authorization.split(' ')[1];
 	}
 	console.log(req.headers.authorization);
+
 	if (!token) {
 		return res.status(401).json({
 			error: "You are not logged in! Please log in to get access."
@@ -133,23 +134,23 @@ exports.protect = async (req, res, next) => {
 
 	try {
 		const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
-		const currentUser = await User.findById(decoded.userId);
+		let currentUser=undefined
+		if(decoded.role=='admin')
+		    currentUser = await Admin.findById(decoded.id);
+	    else
+			currentUser = await User.findById(decoded.userId); 
 		if (!currentUser) {
 			return res.status(401).json({
 				error: "The user belonging to this token does no longer exist."
 			});
 		}
-
-
 		if (currentUser.changedPasswordAfter(decoded.iat)) {
 			return next({
 				error: "User recently changed password! Please log in again."
 			});
-		}
-
-
+		}     
 		req.user = currentUser;
+		req.user.role=decoded.role
 		next();
 	} catch (err) {
 		console.error(err);
@@ -162,6 +163,7 @@ exports.protect = async (req, res, next) => {
 exports.restrictTo = (...roles) => {
 	return (req, res, next) => {
 		if (!roles.includes(req.user.role)) {
+			console.log(req.user.role)
 			return res.status(403).json({
 				error: "You do not have permission to perform this action"
 			});

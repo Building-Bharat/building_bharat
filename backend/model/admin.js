@@ -8,6 +8,7 @@ const adminSchema = new mongoose.Schema(
       required: [true, "Name is required"],
       trim: true,
     },
+   
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -27,6 +28,16 @@ const adminSchema = new mongoose.Schema(
 // ✅ Compare password method
 adminSchema.methods.comparePassword = async function (candidatePassword, hashedPassword) {
   return await bcrypt.compare(candidatePassword, hashedPassword);
+};
+
+adminSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+	if (this.passwordChangeAt) {
+		const changedTimestamp = parseInt(this.passwordChangeAt.getTime() / 1000, 10);
+		return changedTimestamp > JWTTimestamp;
+	}
+
+	// False for users who have no passwordChangeAt
+	return false;
 };
 
 const Admin = mongoose.model("Admin", adminSchema);
