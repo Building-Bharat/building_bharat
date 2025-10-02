@@ -196,7 +196,8 @@ export default function UserDashboard() {
 </div>
 
       {/* ============== MAIN SECTION ============== */}
-      <main className="ml-0 sm:ml-4 w-full h-[800px] bg-white rounded overflow-y-scroll no-scrollbar p-4">
+      <main className={`h-[800px] bg-white rounded overflow-y-scroll no-scrollbar p-4 
+    ${mobileMenuOpen ? "w-0 hidden" : "w-full sm:ml-4"}`}>
         {activeSection === "" && (
           <div className="flex items-center justify-center h-full text-gray-400">
             Select a section to view content

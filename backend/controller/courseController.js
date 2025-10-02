@@ -1,28 +1,35 @@
 const Course = require("../model/course.model");
-const Module = require("../model/questions.model");
+const Module = require("../model/module.model");
 const Faq = require("../model/faq.model");
 const Question = require("../model/questions.model");
 const Assignment = require("../model/assignment.model");
 const User = require("../model/user.model");
 const Video = require("../model/video.model");
-const Submission = require("../model/submission.model");;
-const extractFileUrlOrKey = require("../utils/fileHelper");
-const deleteFromS3 = require("../utils/deleteAws");
-const { generateSignedUrl, s3Client, generateUploadUrl } = require("../service/aws.service");
+const Submission = require("../model/submission.model");
+const { extractFileUrlOrKey } = require("../utils/fileHelper");
+const Admin = require("../model/admin.model");
+const { generateSignedUrl, s3Client, generateUploadUrl, deleteFromS3, deleteFile } = require("../service/aws.service");
+const { json } = require("express");
+
+
+
+
+
 ////////////////////////
 // course feature //
 ////////////////////////
 
 exports.postNewCourse = async (req, res) => {
-	const { title, description, courseContain, instructorName, instructorDescription } = req.body;
+	const { name, description, courseContain, instructorName, instructorDescription } = req.body;
+	console.log(req.file);
+	const courseThumbnail = extractFileUrlOrKey(req.files["courseThumbnail"][0]);
+	const instructorPicture = extractFileUrlOrKey(req.files["instructorPicture"][0]);
 
-	const courseThumbnail = extractFileUrlOrKey(req, "courseThumbnail");
-	const instructorPicture = extractFileUrlOrKey(req, "instructorPicture");
 
 	if (instructorPicture === null) throw new Error('instructor image is required');
 	if (courseThumbnail === null) throw new Error('course image is required');
 
-	if (!title || !description || !instructorName || !courseContain) {
+	if (!name || !description || !instructorName || !courseContain) {
 		return res.status(400).json({
 			status: "fail",
 			message: "Title, description, and instructorName are required"
@@ -30,17 +37,17 @@ exports.postNewCourse = async (req, res) => {
 	}
 
 	const newCourse = {
-		title,
+		name,
 		description,
 		courseContain,
 		instructorName,
 		instructorDescription,
 		courseThumbnail,
 		instructorPicture,
-		createdBy: req.User._id,
+		createdBy: req.user._id,
 	};
 	try {
-		const postedCourse = Course.create(newCourse);
+		const postedCourse = await Course.create(newCourse);
 
 		res.status(201).json({
 			status: "success",
@@ -61,7 +68,7 @@ exports.updateCourseDetails = async (req, res) => {
 	const { id } = req.params;
 	try {
 		const canUpdate = [
-			"title",
+			"name",
 			"description",
 			"courseContain",
 			"instructorName",
@@ -211,18 +218,21 @@ exports.getCourseReview = async (req, res) => {
 
 exports.getCourse = async (req, res) => {
 	try {
-		const { courseId } = req.params;
-
-		const course = await Course.findById(courseId)
+		const { id } = req.params;
+		// console.log(req);
+		// console.log(id);
+		const course = await Course.findById(id)
 			.populate({
 				path: "module",
-				select: "name videos assignments",
+				select: "name video assignment",
 				populate: [
-					{ path: "videos", select: "title duration" },
-					{ path: "assignments", select: "title" }
+					{ path: "video", select: "title duration" },
+					{ path: "assignment", select: "title" }
 				]
 			})
-			.select("name description courseContain instructorName instructorPicture instructorDescription");
+			.select("name description courseContain instructorName instructorPicture instructorDescription module video assignment");
+
+		console.log(course);
 
 		if (!course) {
 			return res.status(404).json({
@@ -260,8 +270,12 @@ exports.getCourse = async (req, res) => {
 exports.getAllCourse = async (req, res) => {
 	try {
 		const allCourses = await Course.find().select(
-			"name courseThumbnail description averageRating totalRatings instructorName"
+			"name courseThumbnail description averageRating totalRatings instructorName module faq instructorDescription instructorPicture"
 		);
+
+		console.log(allCourses);
+
+
 
 		if (allCourses.length === 0) {
 			return res.status(404).json({
@@ -369,7 +383,7 @@ exports.giveRatingToCourse = async (req, res) => {
 
 exports.createCourseModule = async (req, res) => {
 	try {
-		const { courseId } = req.params;
+		const { id } = req.params;
 		const { name } = req.body;
 
 		// validate input
@@ -377,14 +391,14 @@ exports.createCourseModule = async (req, res) => {
 			throw new Error("Module name should be at least 5 characters long");
 		}
 
-		const course = await Course.findById(courseId);
+		const course = await Course.findById(id);
 		if (!course) throw new Error("Course not found");
 
 		// create module
-		const module = await Module.create({ name, course: courseId });
+		const module = await Module.create({ name, courseId: id });
 
 
-		await Course.findByIdAndUpdate(courseId, { $push: { module: module._id } });
+		await Course.findByIdAndUpdate({ _id: id }, { $push: { module: module._id } });
 
 		return res.status(201).json({
 			status: "success",
@@ -402,20 +416,20 @@ exports.createCourseModule = async (req, res) => {
 // Update Course Module
 exports.updateCourseModule = async (req, res) => {
 	try {
-		const { courseId, moduleId } = req.params;
+		const { id } = req.params;
 		const { name } = req.body;
 
-		const course = await Course.findById(courseId);
-		if (!course) throw new Error("Course not found");
 
-
-		const module = await Module.findByIdAndUpdate(
-			moduleId,
-			{ name, course: courseId },
-			{ new: true, runValidators: true }
+		const module = await Module.findById(id
 		);
 
 		if (!module) throw new Error("Module not found");
+
+		if (name) module.name = name;
+
+		await module.save();
+
+
 
 		return res.status(200).json({
 			status: "success",
@@ -433,31 +447,34 @@ exports.updateCourseModule = async (req, res) => {
 
 exports.deleteCourseModule = async (req, res) => {
 	try {
-		const { moduleId, courseId } = req.params;
+		const { id } = req.params;
 
 
-		const module = await Module.findById(moduleId);
+		const module = await Module.findById(id);
 		if (!module) throw new Error("Module not found to perform delete action");
 
 
-		if (module.videos?.length > 0) {
-			await Video.deleteMany({ _id: { $in: module.videos } });
+		if (module.video?.length > 0) {
+			await Video.deleteMany({ _id: { $in: module.video } });
 		}
 
 
-		if (module.assignments?.length > 0) {
+		if (module.assignment?.length > 0) {
 			await Assignment.deleteMany({ _id: { $in: module.assignment } });
 		}
 
 
-		await Module.findByIdAndDelete(moduleId);
 
+
+		const { courseId } = module;
 
 		await Course.findByIdAndUpdate(
-			courseId,
-			{ $pull: { module: moduleId } },
+			{ _id: courseId },
+			{ $pull: { module: id } },
 			{ new: true }
 		);
+
+		await Module.findByIdAndDelete(id);
 
 		return res.status(200).json({
 			status: "success",
@@ -475,7 +492,7 @@ exports.deleteCourseModule = async (req, res) => {
 ///////////////////
 exports.createFAQ = async (req, res) => {
 	try {
-		const { courseId } = req.params;
+		const { id } = req.params;
 		const { name, description } = req.body;
 
 		// validate
@@ -484,14 +501,14 @@ exports.createFAQ = async (req, res) => {
 		}
 
 		// check course exists
-		const course = await Course.findById(courseId);
+		const course = await Course.findById(id);
 		if (!course) throw new Error("Course not found");
 
 		// create FAQ
-		const faq = await Faq.create({ name, description, course: courseId });
+		const faq = await Faq.create({ name, description, courseId: id });
 
 		// push faq reference into course
-		await Course.findByIdAndUpdate(courseId, { $push: { faq: faq._id } });
+		await Course.findByIdAndUpdate(id, { $push: { faq: faq._id } });
 
 		return res.status(201).json({
 			status: "success",
@@ -508,17 +525,16 @@ exports.createFAQ = async (req, res) => {
 // Update FAQ
 exports.updateFAQ = async (req, res) => {
 	try {
-		const { courseId, faqId } = req.params;
+		const { id } = req.params;
 		const { name, description } = req.body;
 
-		const course = await Course.findById(courseId);
-		if (!course) throw new Error("Course not found");
+		console.log(req.params);
 
 		const faq = await Faq.findOneAndUpdate(
-			{ _id: faqId, course: courseId },
-			{ name, description },
-			{ new: true, runValidators: true }
+			{ _id: id },
+			{ name, description }
 		);
+		console.log(faq);
 
 		if (!faq) throw new Error("FAQ not found for this course");
 
@@ -537,14 +553,20 @@ exports.updateFAQ = async (req, res) => {
 // Delete FAQ
 exports.deleteFAQ = async (req, res) => {
 	try {
-		const { courseId, faqId } = req.params;
+		const { id } = req.params;
 
 		// find and delete
-		const faq = await Faq.findOneAndDelete({ _id: faqId, course: courseId });
+		const faq = await Faq.findById(id);
 		if (!faq) throw new Error("FAQ not found for this course");
 
-		// remove ref from course
-		await Course.findByIdAndUpdate(courseId, { $pull: { faq: faqId } });
+		const { courseId, _id } = faq;
+
+		await Course.findByIdAndUpdate({ _id: courseId }, { $pull: { faq: _id } });
+
+		await Faq.findByIdAndDelete(_id);
+
+
+		console.log(faq);
 
 		return res.status(200).json({
 			status: "success",
@@ -564,20 +586,20 @@ exports.deleteFAQ = async (req, res) => {
 
 exports.createAssignment = async (req, res) => {
 	try {
-		const { name, typeOfAssignment, moduleId } = req.body;
-
+		const { name, typeOfAssignment } = req.body;
+		const { id } = req.params;
 		let newAssignment;
 
 		if (typeOfAssignment === "pdf") {
 
-			const pdfUrl = extractFileUrlOrKey(req, "assignmentDoc");
+			const pdfUrl = extractFileUrlOrKey(req.file);
 
 			if (!pdfUrl) throw new Error("pdf url not found");
 
 			newAssignment = await Assignment.create({
 				name,
 				typeOfAssignment,
-				module: moduleId,
+				module: id,
 				pdfUrl
 			});
 		}
@@ -588,7 +610,7 @@ exports.createAssignment = async (req, res) => {
 			newAssignment = await Assignment.create({
 				name,
 				typeOfAssignment,
-				module: moduleId
+				module: id
 			});
 		}
 		else {
@@ -610,10 +632,10 @@ exports.createAssignment = async (req, res) => {
 
 exports.updateAssignment = async (req, res) => {
 	try {
-		const assignmentId = req.params;
+		const { id } = req.params;
 		const { name, typeOfAssignment } = req.body;
 
-		const assignment = Assignment.findById(assignmentId);
+		const assignment = await Assignment.findById(id);
 
 		if (!assignment) throw new Error("assignment not found");
 
@@ -623,7 +645,7 @@ exports.updateAssignment = async (req, res) => {
 			assignment.typeOfAssignment = typeOfAssignment;
 
 			if (typeOfAssignment === 'pdf') {
-				const pdfUrl = extractFileUrlOrKey(req, "assignmentDoc");
+				const pdfUrl = extractFileUrlOrKey(req.file);
 
 
 				assignment.pdfUrl = pdfUrl || assignment.pdfUrl;
@@ -654,10 +676,10 @@ exports.updateAssignment = async (req, res) => {
 }
 
 exports.deleteAssignment = async (req, res) => {
-	const { assignmentId } = req.params;
+	const { id } = req.params;
 
 	try {
-		const assignment = await Assignment.findById(assignmentId);
+		const assignment = await Assignment.findById(id);
 		if (!assignment) throw new Error('Assignment not found');
 
 		// Delete related content
@@ -665,17 +687,17 @@ exports.deleteAssignment = async (req, res) => {
 			await Question.deleteMany({ _id: { $in: assignment.question } });
 		} else if (assignment.typeOfAssignment === 'pdf') {
 
-			if (assignment.pdfUrl) {
-				if (assignment.pdfUrl) {
+			// console.log("meowww"+assignment.pdfUrl)
+			// const url = await generateSignedUrl(assignment.pdfUrl);
+			// console.log(url);
 
-					await s3Client
-						.deleteObject({
-							Bucket: process.env.AWS_BUCKET_NAME,
-							Key: assignment.pdfUrl,
-						})
-						.promise();
-				}
+			if (assignment.pdfUrl) {
+
+				await deleteFromS3(
+					assignment.pdfUrl
+				)
 			}
+
 		} else {
 			throw new Error('Invalid assignment type');
 		}
@@ -683,12 +705,12 @@ exports.deleteAssignment = async (req, res) => {
 		if (assignment.module) {
 			await Module.findByIdAndUpdate(
 				assignment.module,
-				{ $pull: { assignments: assignmentId } },
+				{ $pull: { assignments: id } },
 				{ new: true }
 			);
 		}
 
-		await Assignment.findByIdAndDelete(assignmentId);
+		await Assignment.findByIdAndDelete(id);
 
 		return res.status(200).json({
 			status: 'success',
@@ -709,17 +731,17 @@ exports.deleteAssignment = async (req, res) => {
 
 exports.createMcqAssignment = async (req, res) => {
 	try {
-		const { assignmentId } = req.params;
+		const { id } = req.params;
 
 		const { name, options, answer } = req.body;
 
-		const assignment = Assignment.findById(assignmentId);
+		const assignment = Assignment.findById(id);
 
 		if (!assignment) throw new Error('assignment not found');
 
-		const mcqAssignment = await Question.create({ name, options, answer, assignment: assignmentId })
+		const mcqAssignment = await Question.create({ name, options, answer, assignment: id })
 
-		await assignment.findByIdAndUpdate(assignmentId, { $push: { question: mcqAssignment._id } })
+		await assignment.findByIdAndUpdate({ _id: id }, { $push: { question: mcqAssignment._id } })
 
 
 		return res.status(201).json({
@@ -738,14 +760,14 @@ exports.createMcqAssignment = async (req, res) => {
 
 exports.updateMcqAssignment = async (req, res) => {
 	try {
-		const { assignmentId, mcqId } = req.params; // make sure your route includes both
+		const { id } = req.params; // make sure your route includes both
 		const { name, options, answer } = req.body;
 
-		if (!assignmentId || !mcqId) {
-			throw new Error("Assignment ID or MCQ ID missing");
+		if (!id) {
+			throw new Error("MCQ ID missing");
 		}
 
-		const mcqAssignment = await Question.findById(mcqId);
+		const mcqAssignment = await Question.findById(id);
 		if (!mcqAssignment) throw new Error("MCQ assignment not found");
 
 		// Update only provided fields
@@ -771,26 +793,22 @@ exports.updateMcqAssignment = async (req, res) => {
 
 exports.deleteSingleMcqAssignment = async (req, res) => {
 	try {
-		const { assignmentId, mcqId } = req.params;
+		const { id } = req.params;
 
-		if (!assignmentId || !mcqId) {
-			throw new Error("Assignment ID or MCQ ID missing");
+		if (!id) {
+			throw new Error(" MCQ ID missing");
 		}
 
-		const assignment = await Assignment.findById(assignmentId);
+		const mcq = await Question.findById(id);
 
-		const mcq = await Question.findById(mcqId);
+		if (!mcq) throw new Error("assignment or mcq not found");
 
-		if (!assignment || !mcq) throw new Error("assignment or mcq not found");
+		const { assignment } = mcq;
 
-		if (String(mcq.assignment) !== String(assignmentId)) {
-			throw new Error("This MCQ does not belong to the given assignment");
-		}
-
-		await Assignment.findByIdAndUpdate(assignmentId, { $pull: { question: mcqId } }, { new: true })
+		await Assignment.findByIdAndUpdate({ _id: assignment }, { $pull: { question: id } }, { new: true })
 
 
-		await Question.findByIdAndDelete(mcqId);
+		await Question.findByIdAndDelete(id);
 
 		return res.status(200).json({
 			status: "success",
@@ -807,14 +825,19 @@ exports.deleteSingleMcqAssignment = async (req, res) => {
 
 exports.getAllMcqAssignment = async (req, res) => {
 	try {
-		const { assignmentId } = req.params;
+		const { id } = req.params;
 
-		const assignment = await Assignment.findById(assignmentId).populate({
+		const assignment = await Assignment.findById(id).populate({
 			path: "question",
 			select: "name options",
+
 		}).select("name question");
 
-		if (!assignment || !assignment.typeOfAssignment !== 'mcq') throw new Error("assignment not found or not an mcq assignment");
+		const { name, options } = assignment.question;
+
+		console.log(assignment);
+
+		if (!assignment) throw new Error("assignment not found or not an mcq assignment");
 		return res.status(200).json({
 			status: "success",
 			data: assignment
@@ -831,16 +854,16 @@ exports.getAllMcqAssignment = async (req, res) => {
 
 exports.submitMcqByUser = async (req, res) => {
 	try {
-		const { assignmentId } = req.params;
+		const { id } = req.params;
 		const { userId, answers } = req.body;
 
-		if (!assignmentId || !userId || !answers || !Array.isArray(answers)) {
+		if (!id || !userId || !answers || !Array.isArray(answers)) {
 			throw new Error("Assignment ID, User ID, or answers missing/invalid");
 		}
 
 		// Fetch assignment with questions
-		const assignment = await Assignment.findById(assignmentId).populate("question");
-		if (!assignment || assignment.typeOfAssignment !== "mcq") {
+		const assignment = await Assignment.findById(id).populate("question");
+		if (!assignment) {
 			throw new Error("Assignment not found or is not an MCQ type");
 		}
 
@@ -853,10 +876,12 @@ exports.submitMcqByUser = async (req, res) => {
 		let score = 0;
 		const detailResults = [];
 
+		const totalScore = totalQuestions * 10;
+
 		assignment.question.forEach((question, index) => {
 			const userAnswer = answers[index];
-			const isCorrect = question.answer === userAnswer;
-			if (isCorrect) score++;
+			const isCorrect = question.answer === Number(userAnswer);
+			if (isCorrect) score += 10;
 
 			detailResults.push({
 				questionId: question._id,
@@ -871,13 +896,14 @@ exports.submitMcqByUser = async (req, res) => {
 		// Save submission to DB
 		const submission = await Submission.create({
 			user: userId,
-			assignment: assignmentId,
+			assignment: id,
 			typeOfAssignment: "mcq",
 			answers: answers.map((ans, idx) => ({
 				question: assignment.question[idx]._id,
 				answer: ans,
 			})),
 			score,
+			totalScore,
 			submittedAt: new Date(),
 		});
 
@@ -887,6 +913,7 @@ exports.submitMcqByUser = async (req, res) => {
 				submissionId: submission._id,
 				score,
 				totalQuestions,
+				totalScore,
 				detailResults,
 			},
 		});
@@ -911,7 +938,7 @@ exports.getPdfAssignment = async (req, res) => {
 
 		if (!assignmentId) throw new Error("assignment id is required");
 
-		const assignment = await Assignment.findById(assignmentId).select("name pdfUrl typeOfAssignment");
+		const assignment = await Assignment.findById(assignmentId);
 
 		if (!assignment || assignment.typeOfAssignment !== "pdf") {
 			throw new Error("assignment not found or not a pdf assignment");
@@ -926,9 +953,15 @@ exports.getPdfAssignment = async (req, res) => {
 
 		const url = generateSignedUrl(assignment.pdfUrl, 60 * 5);
 
+		
+
 		return res.status(200).json({
 			status: "success",
-			data: url
+			data: {
+				url,
+				name,
+				typeOfAssignment
+			},
 		});
 	} catch (err) {
 		return res.status(400).json({
@@ -946,7 +979,7 @@ exports.submitAssignmentByUser = async (req, res) => {
 
 		if (!user) throw new Error("user not found");
 
-		const submissionUrl = extractFileUrlOrKey(req, "submissionDoc");
+		const submissionUrl = extractFileUrlOrKey(req.file);
 
 		if (!submissionUrl) throw new Error("pdf url is required");
 

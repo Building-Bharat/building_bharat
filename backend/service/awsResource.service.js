@@ -1,6 +1,6 @@
 const multer = require("multer");
 const multerS3 = require("multer-s3");
-const {s3Client} = require("./aws.service");
+const { s3Client } = require("./aws.service");
 
 
 const hasBucket = !!process.env.AWS_BUCKET_NAME;
@@ -31,6 +31,7 @@ const storage = hasBucket
 			else if (type === "instructorPicture") folder = "instructorPicture";
 			else if (type === "blogPicture") folder = "blogPicture";
 			else if (type === "courseThumbnail") folder = "courseThumbnail";
+			else if (type === "internshipThumbnail") folder = "internshipThumbnail";
 			else if (type === "assignmentDoc") folder = "assignmentDoc";
 			else if (type === "submissionDoc") folder = "submissionDoc";
 			else if (type === "subtitle") folder = "subtitles";
@@ -50,8 +51,7 @@ const upload = multer({
 	// File filter
 	fileFilter: (req, file, cb) => {
 		const type = req.fieldname;
-		console.log("req.body:", req);
-        console.log("file:", file);
+		console.log("file:", file);
 
 		if (file.fieldname === "resumes" || file.fieldname === "assignmentDoc" || file.fieldname === "submissionDoc") {
 			if (file.mimetype === "application/pdf") cb(null, true);

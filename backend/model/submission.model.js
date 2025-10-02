@@ -13,6 +13,8 @@ const submissionSchema = new mongoose.Schema({
 	],
 	score: { type: Number, default: 0 },
 
+	totalScore : {type: Number, default: 0},
+
 
 	pdfAnswerUrl: { type: String },
 	submittedAt: { type: Date, default: Date.now },
