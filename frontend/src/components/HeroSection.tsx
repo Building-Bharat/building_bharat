@@ -288,6 +288,21 @@ export default function HeroSection() {
             margin: 0 auto !important;
           }
 
+          /* Make both buttons same width in mobile view only */
+          .button-container button,
+          .button-container a button {
+            width: 291px !important;
+            min-width: 291px !important;
+            max-width: 291px !important;
+          }
+
+          /* Override inline styles for mobile view */
+          .button-container a button[style*="width"] {
+            width: 291px !important;
+            min-width: 291px !important;
+            max-width: 291px !important;
+          }
+
           /* Mobile button hover effects - prevent overflow */
           .button-container button:hover {
             transform: scale(1.02) !important;

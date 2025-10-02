@@ -3,12 +3,12 @@ const multerS3 = require("multer-s3");
 const {s3Client} = require("./aws.service");
 
 
-const upload = multer({
-	storage: multerS3({
-		
-		s3: s3Client,
-		bucket: process.env.AWS_BUCKET_NAME,
-		contentType: multerS3.AUTO_CONTENT_TYPE,
+const hasBucket = !!process.env.AWS_BUCKET_NAME;
+const storage = hasBucket
+    ? multerS3({
+        s3: s3Client,
+        bucket: process.env.AWS_BUCKET_NAME,
+        contentType: multerS3.AUTO_CONTENT_TYPE,
 
 		// Set ACL dynamically
 		acl: (req, file, cb) => {
@@ -38,8 +38,12 @@ const upload = multer({
 
 			const fileName = `${folder}/${Date.now()}-${file.originalname}`;
 			cb(null, fileName);
-		},
-	}),
+        },
+    })
+    : multer.memoryStorage();
+
+const upload = multer({
+    storage,
 
 	limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max file
 

@@ -160,7 +160,7 @@ export default function UserDashboard() {
           setActiveSection("courses");
           setMobileMenuOpen(false);
         }}
-        className="hover:text-orange-400 font-Montserrat font-bold text-[16px] leading-[24px]"
+        className="text-black hover:bg-orange-500 hover:text-white font-Montserrat font-bold text-[16px] leading-[24px] px-4 py-2 rounded transition-all duration-300"
       >
         Courses
       </button>
@@ -169,7 +169,7 @@ export default function UserDashboard() {
           setActiveSection("assignments");
           setMobileMenuOpen(false);
         }}
-        className="hover:text-orange-400 font-Montserrat font-bold text-[16px] leading-[24px]"
+        className="text-black hover:bg-orange-500 hover:text-white font-Montserrat font-bold text-[16px] leading-[24px] px-4 py-2 rounded transition-all duration-300"
       >
         Assignments
       </button>
@@ -178,14 +178,14 @@ export default function UserDashboard() {
           setActiveSection("internships");
           setMobileMenuOpen(false);
         }}
-        className="hover:text-orange-400 font-Montserrat font-bold text-[16px] leading-[24px]"
+        className="text-black hover:bg-orange-500 hover:text-white font-Montserrat font-bold text-[16px] leading-[24px] px-4 py-2 rounded transition-all duration-300"
       >
         Internships
       </button>
       <div className="">
         <button
         onClick={() => setMobileMenuOpen(false)}
-        className="hover:text-orange-400 mt-[200px]"
+        className="text-black hover:bg-orange-500 hover:text-white mt-[200px] px-4 py-2 rounded transition-all duration-300"
       >
         Profile
       </button>
@@ -357,11 +357,21 @@ export default function UserDashboard() {
                       <p className="font-bold text-black text-[20px] text-center">
                         Course Title
                       </p>
-                      <Link href={`/dashboard/courseoverview/${i}`}>
-                        <button className="mt-[8px] px-[8px] text-[14px] font-bold py-[8px] bg-[#F97C04] text-black rounded-[8px] w-full">
-                          Enroll Now
-                        </button>
-                      </Link>
+                      <div className="mt-auto w-full">
+                        <Link href={`/dashboard/courseoverview/${i}`} className="block w-full">
+                          <div className="w-full sm:w-auto">
+                            <CTAButton
+                              label="Enroll Now"
+                              width="100%"
+                              textColor="#0A0A0A"
+                              arrowColor="#0A0A0A"
+                              disableBorderRadiusChange={true}
+                              keepFixedSizeOnHover={true}
+                              leftRightMargin={0}
+                            />
+                          </div>
+                        </Link>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -371,7 +381,7 @@ export default function UserDashboard() {
                   {[1, 2, 3].map((i) => (
                     <div
                       key={i}
-                      className="w-full md:w-[320px] h-[280px] bg-gray-200 rounded-2xl p-4 flex flex-col"
+                      className="w-full md:w-[500px] h-[360px] bg-gray-200 rounded-2xl p-4 flex flex-col"
                     >
                       <img
                         src="/images/course.png"
@@ -381,11 +391,23 @@ export default function UserDashboard() {
                       <p className="font-bold text-[20px] text-black text-center">
                         Course Title
                       </p>
-                      <Link href={`/dashboard/courseoverview/${i}`}>
-                        <button className="mt-auto px-4 text-[14px] font-bold py-2 bg-[#F97C04] text-black rounded-[8px] w-full">
-                          Enroll Now
-                        </button>
-                      </Link>
+                      <div className="mt-auto w-full">
+                        <Link href={`/dashboard/courseoverview/${i}`} className="block w-full">
+                          <div className="w-full sm:w-auto">
+                            <CTAButton
+                              label="Start Learning For Free"
+                              width="100%"
+                              background="#FFFFFF"
+                              textColor="#F97C04"
+                              border="2px solid #F97C04"
+                              arrowColor="#F97C04"
+                              disableBorderRadiusChange={true}
+                              keepFixedSizeOnHover={true}
+                              leftRightMargin={0}
+                            />
+                          </div>
+                        </Link>
+                      </div>
                     </div>
                   ))}
                 </div>

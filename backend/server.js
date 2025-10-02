@@ -12,6 +12,8 @@ const internshipRoutes = require('./routes/internship');
 const contactRoutes = require('./routes/contact')
 const adminAuthRoutes = require('./routes/adminAuth')
 const blogRoutes = require('./routes/blog')
+const orderRoutes = require('./routes/orders')
+const transactionRoutes = require('./routes/transactions')
 const app = express();
 
 //middleware
@@ -36,6 +38,8 @@ app.use('/api/v1/course', courseRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/v1/admin', adminAuthRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/transactions', transactionRoutes);
 
 
 
