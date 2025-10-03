@@ -407,7 +407,7 @@ export default function Header() {
                   className={`block px-6 py-3 text-base font-medium transition-all duration-300 mobile-nav-link relative group ${
                     link.active 
                       ? 'bg-orange-500 text-white' 
-                      : 'text-white'
+                      : 'text-black hover:bg-orange-500 hover:text-white'
                   }`}
                   style={{
                     fontSize: isInHero ? '16px' : '18px',
