@@ -2,6 +2,9 @@ const { default: mongoose } = require('mongoose');
 const Internship = require('../model/internship.model');
 const User = require('../model/user.model');
 const { extractFileUrlOrKey } = require('../utils/fileHelper');
+const { body, validationResult } = require('express-validator');
+const { default: application } = require('../model/application');
+
 
 exports.createInternship = async (req, res) => {
 	// const checkValidate = validationResult(req);
@@ -13,17 +16,22 @@ exports.createInternship = async (req, res) => {
 	// 	})
 	// }
 
-	const { name, description, skills, duration, stipend, applyBy } = req.body;
-
+	const { name, description, skills, duration, stipend, applyBy ,location,responsibilities,frim} = req.body;
+  
 	const newInternship = {
 		name,
 		description,
 		skills,
 		duration,
 		stipend,
-		applyBy
+		applyBy,
+		location,
+		responsibilities,
+		frim,
+		image:"random image"
 	};
-
+   
+	
 	try {
 		const createdInternship = await Internship.create(newInternship);
 		res.status(201).json({
@@ -33,6 +41,7 @@ exports.createInternship = async (req, res) => {
 			}
 		});
 	} catch (error) {
+		console.log(error)
 		res.status(400).json({
 			status: 'fail',
 			message: error.message
@@ -174,31 +183,42 @@ exports.getAllInternships = async (req, res) => {
 	}
 };
 
-
-
-exports.applyInternshipById = async (req, res) => {
-	try {
-
+exports.applyInternshipById = async (req, res) => {   
+	  try {
 		// 1)  user must have atleast course
-
 		// 2) user can apply to internship which dont require course
 		if (id) {
 
 		};
 
-		// after validation
-		const { name, email } = req.body;
-
-		const resume = extractFileUrlOrKey(req);
-
-		if (resume === null) throw new Error('Resume is required');
-
 		const id = req.params.id;
+		const {
+			fullName,
+			mobile,
+			email,
+			location,
+			resume,
+			college,
+			degree,
+			major,
+			startMonth: eduStartMonth,
+			startYear: eduStartYear,
+			endMonth: eduEndMonth,
+			endYear: eduEndYear,
+			currentlyStudyingEducation
+		} = req.body;
 
-		const user = await User.findOne({ email });
-
-		const internship = await Internship.findById(id);
-
+        resume = extractFileUrlOrKey(req);
+		const internshipId = req.params.id;
+        
+        /**
+		 * The user should be identified using their logged-in account ID, not the email they enter while applying.
+		 * This ensures that only authenticated users can apply for the internship
+		 */
+		const user = await User.findOne({ email:req.user.email });  
+		const internship = await Internship.findById(internshipId);
+        
+		
 		if (!user || !internship) {
 			throw new Error('User or Internship not found');
 		};
@@ -210,34 +230,58 @@ exports.applyInternshipById = async (req, res) => {
 		if (user.appliedInternship.some(app => app.internshipId.toString() === id)) {
 			return res.status(400).json({ status: 'error', message: 'You have already applied for this internship' });
 		}
-
 		user.appliedInternship.push({
 			internshipId: internship._id,
 			resume
 		});
 
-
-		if (!internship.applications.includes(user._id)) {
+	    if (!internship.applications.includes(user._id)) {
 			internship.applications.push(user._id);
-		};
+		}
 
-		await user.save();
-		await internship.save();
+        const applied = await application.create({
+			fullName,
+			mobile,
+			email,
+			location,
+			resume,
+			internship,
+			college,
+			degree,
+			major,
+			user:req.user,
+			startMonth: eduStartMonth,
+			startYear: eduStartYear,
+			endMonth: eduEndMonth,
+			endYear: eduEndYear,
+			currentlyStudyingEducation
+		})
+		user.appliedInternship.push({
+			internship,
+			resume
+		});
+       if (!internship.applications.includes(applied._id)) {
+		  internship.applications.push(applied._id);
+	    };
+       	
+		await user.save({ validateBeforeSave: false });
+		await internship.save({ validateBeforeSave: false });
 
 		res.status(200).json({
 			status: 'success',
 			message: 'You have successfully applied for the internship'
-		});
+	    });
 
-
-	}
-	catch (err) {
-		return res.status(500).json({
-			status: 'error',
-			message: err.message
-		});
-	}
+	 } 
+	   catch (error) {
+		   console.log(err)
+		 return res.status(500).json({
+			 status: 'error',
+	     	 message: err.message
+		   });
+	   }	
 };
+
 
 exports.getAllAppliedInternships = async (req, res) => {
 	try {
@@ -254,4 +298,73 @@ exports.getAllAppliedInternships = async (req, res) => {
 			message: err.message
 		});
 	}
+};
+
+
+// for all user to view internship details 
+exports.getInternshipById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const internship = await Internship.findById(id);
+
+    if (!internship) {
+      return res.status(404).json({
+        success: false,
+        message: "Internship not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: internship,
+    });
+  } catch (error) {
+    console.error("Error fetching internship by ID:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error, please try again later",
+    });
+  }
+};
+
+exports.updateInternship = async (req, res) => {
+  const { id } = req.params; // internship id
+  const { name, description, skills, duration, stipend, applyBy, location, responsibilities, internshipType } = req.body;
+
+  try {
+    const updatedInternship = await Internship.findByIdAndUpdate(
+      id,
+      {
+        name,
+        description,
+        skills,
+        duration,
+        stipend,
+        applyBy,
+        location,
+        responsibilities,
+        internshipType,
+      },
+      { new: true, runValidators: true } // return updated doc & validate schema
+    );
+
+    if (!updatedInternship) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Internship not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        internship: updatedInternship,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
 };

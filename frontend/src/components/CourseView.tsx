@@ -1,103 +1,149 @@
-import Image from 'next/image'
-import React from 'react'
-import CourseModules from './CourseModules'
-import MeetYourCourseMentor from './MeetYourCourseMentor'
-import FrequentlyAskedQuestions from './FrequentlyAskedQuestions'
-import CourseResources from './CourseResources'
-
-
+'use client'
+import React, { useEffect, useRef, useState } from 'react'
+import styles from "../app/courses/(component)/scrollbar-hide.module.css";
+import Header from './Header';
+import CourseResources from './CourseResources';
+import CourseModules from './CourseModules';
+import MeetYourCourseMentor from './MeetYourCourseMentor';
+import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 
 const CourseView = () => {
 
-     const listContent = [
-        {
-            text: "Build and manage high-performing volunteer teams"
-        },
-        {
-            text: "Develop targeted constituency outreach programs"
-        },
-        {
-            text: "Design and execute effective GOTV operations"
-        },
-        {
-            text: "Coordinate field activities with central campaign strategy"
-        },
-        {
-            text: "Utilize technology for field team coordination"
-        },
 
-    ]
+  const listContent = [
+    {
+      text: "Build and manage high-performing volunteer teams"
+    },
+    {
+      text: "Develop targeted constituency outreach programs"
+    },
+    {
+      text: "Design and execute effective GOTV operations"
+    },
+    {
+      text: "Coordinate field activities with central campaign strategy"
+    },
+    {
+      text: "Utilize technology for field team coordination"
+    },
+
+  ]
+
+   const [scrolled, setScrolled] = useState(false);
+   const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      console.log("scrollTop:", scrollContainer.scrollTop); // debug
+      setScrolled(scrollContainer.scrollTop > 30);
+    };
+
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, []);
 
 
   return (
-    
-    <section className='flex flex-col h-full md:flex-row gap-4 md:gap-8 mb-4 '>
-           <div className='h-full'>
-                   <div className='w-full h-full flex flex-col md:flex-row items-start justify-center gap-8'>
-                             {/* column -1  */}
-                            <div id='first' className='flex flex-col items-center justify-center '>
-                                     
-                                   <div className='w-full'>
-                                      {/* video section  */}
-                                       <div className='flex-col items-center justify-center'>     
-                                            <div id='video' className='mb-4 w-full h-[240px] md:h-[400px] lg:h-[530px] bg-black  rounded-lg flex items-center justify-center'>
-                                                {/* video  */}
-                                                <Image src="/icons/play_circle.png" width={40} height={40} alt="" />
-                                            </div>
-                                            <p className='text-sm md:text-base text-black py-4'>Master the art of field operations for political campaigns. Learn how to build and manage ground teams, volunteer coordination, canvassing strategies, and voter outreach programs.</p>
-                                       </div> 
-                                    </div>
 
 
-                                   <div className='block sm:hidden mb-4 w-full'>
-                                         <CourseResources/>
-                                   </div>
+
+    <div className=" bg-[#E5E7EA]">
+      <Header />
+      <div ref={scrollRef} className={`h-screen overflow-y-scroll mx-4 lg:mx-16 gap-4 xl:gap-8 flex items-stretch ${styles.scrollbarHide}`}>
+
+        <div className="flex-1 min-h-screen">
+
+            <div className="space-y-2 mt-[32px] mb-4">
+              <h1 className="text-[#005451] text-[18px] md:text-[32px] font-extrabold">Political Field Operations Mastery</h1>
+              <p className="text-[#0A0A0A] text-[13px] md:text-[16px] font-bold">Duration 8 hours </p>
+            </div>
+         
+          <div className="">
+            <div
+              id="video-box"
+              className="relative w-full  xl:h-[560px]
+                      aspect-[16/9] lg:aspect-video
+                      rounded-xl overflow-hidden shadow-md"
+            >
+              <video className="w-full h-full object-cover" controls>
+                <source src="/sample.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <p className="text-sm md:text-base text-black py-4 lg:py-8">
+              Master the art of field operations for political campaigns. Learn how
+              to build and manage ground teams, volunteer coordination, canvassing
+              strategies, and voter outreach programs.
+            </p>
+
+            <div className="lg:hidden">
+              <CourseResources />
+            </div>
+
+          </div>
 
 
-                                      {/* list section  */}
-                                       <div className='grid w-full grid-cols-1 space-y-4 mt-4'>
-                                            <div className='space-y-4 md:space-y-8 '>
-                                                <h1 className='text-base md:text-xl font-bold text-[#005451]'>What you will learn</h1>
-                                            </div>
-                                            {/* details points  */}
-                                            <div className=''>
-                                                <ul className='grid grid-cols-1 md:grid-cols-2 gap-8 w-full list-disc list-inside'>
-                                                    {listContent.map((list) => (
-                                                        <li key={list.text} className='text-[#0A0A0A] text-[14px] lg:text-base '>{list.text}</li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                 
+            {/* list section  */}
+          <div className="">
+            <section>
+              <h1 className="text-base md:text-xl pt-4  font-bold text-[#005451]">
+                What you will learn
+              </h1>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 list-disc list-inside mt-3">
+                {listContent.map((list) => (
+                  <li
+                    key={list.text}
+                    className="text-[#0A0A0A] text-sm md:text-base leading-relaxed"
+                  >
+                    {list.text}
+                  </li>
+                ))}
+              </ul>
+            </section>
 
-                                   <div className='grid w-full grid-cols-1 mt-8 space-y-8'>
-                                     {/* module section  */}
-                                      <h1 className='text-base md:text-xl font-bold text-[#005451]'>Course Content</h1>
-                                       <CourseModules/>  
-                                   </div> 
+          </div>
 
 
-                                   <div className='w-full'>
-                                       {/* meet mentor  */}
-                                       <MeetYourCourseMentor/>
-                                   </div>
-                                   <div className='w-full'>
-                                       {/* frequntly asked  */}
-                                       <FrequentlyAskedQuestions/>
-                                   </div>
-                                  
-
-                            </div>
+           {/* course modules section  */}
+          <div className="">
+            <section>
+              <h1 className="text-base md:text-xl mt-8 mb-4 font-bold text-[#005451]">
+                Course Content
+              </h1>
+              <CourseModules />
+            </section>
+          </div>
 
 
-                             {/* second column   */}
-                            <div id='second' className='hidden sm:block h-[400px] lg:h-[530px] sticky top-0 ' > 
-                                <CourseResources/>
-                            </div>
-                   </div>
-           </div>
-    </section>
+           {/* mentor section  */}
+          <div className="">
+            <section>
+              <MeetYourCourseMentor />
+            </section>
+          </div>
 
+
+          <div className="pb-16">
+            <section>
+              <FrequentlyAskedQuestions />
+            </section>
+          </div>
+
+        </div>
+
+
+
+        {/* card sticky  */}
+        <div className={`sticky hidden lg:block top-[130px] ${scrolled ? "-top-[2px]":"top-0"}  transition-all duration-300`}>
+          <div className="shadow-md bg-[#F1F1F1] rounded-xl">
+            <CourseResources />
+          </div>
+        </div>
+
+      </div>
+    </div>
 
   )
 }

@@ -52,6 +52,7 @@ export default function FrequentlyAskedQuestions() {
 		);
 	};
 
+
 	return (
 		<div className="flex w-full flex-col gap-4 md:gap-8 items-start justify-start self-stretch flex-shrink-0 relative my-8">
 			{/* Title */}
