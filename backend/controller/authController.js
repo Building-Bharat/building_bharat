@@ -6,7 +6,7 @@ const catchAsync = require('./../utils/catchAsync');
 const crypto = require('crypto');
 const sendEmail = require('../service/email.service');
 const { OAuth2Client } = require('google-auth-library');
-const Admin = require('../model/admin');
+const Admin = require('../model/admin.model');
 require('dotenv').config();
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
