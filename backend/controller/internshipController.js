@@ -187,11 +187,9 @@ exports.applyInternshipById = async (req, res) => {
 	  try {
 		// 1)  user must have atleast course
 		// 2) user can apply to internship which dont require course
-		if (id) {
+		// if (id) {
 
-		};
-
-		const id = req.params.id;
+		// };	
 		const {
 			fullName,
 			mobile,
@@ -208,7 +206,7 @@ exports.applyInternshipById = async (req, res) => {
 			currentlyStudyingEducation
 		} = req.body;
 
-        resume = extractFileUrlOrKey(req);
+        // resume = extractFileUrlOrKey(req);
 		const internshipId = req.params.id;
         
         /**
@@ -226,18 +224,15 @@ exports.applyInternshipById = async (req, res) => {
 		if (new Date() > internship.applyBy) {
 			throw new Error('The last date to apply for this internship has passed');
 		};
-
-		if (user.appliedInternship.some(app => app.internshipId.toString() === id)) {
+         
+		if (user.appliedInternship.some(app => app.internshipId.toString() === internshipId.toString())) {
 			return res.status(400).json({ status: 'error', message: 'You have already applied for this internship' });
 		}
+         
 		user.appliedInternship.push({
 			internshipId: internship._id,
 			resume
 		});
-
-	    if (!internship.applications.includes(user._id)) {
-			internship.applications.push(user._id);
-		}
 
         const applied = await application.create({
 			fullName,
@@ -256,10 +251,6 @@ exports.applyInternshipById = async (req, res) => {
 			endYear: eduEndYear,
 			currentlyStudyingEducation
 		})
-		user.appliedInternship.push({
-			internship,
-			resume
-		});
        if (!internship.applications.includes(applied._id)) {
 		  internship.applications.push(applied._id);
 	    };
@@ -269,15 +260,16 @@ exports.applyInternshipById = async (req, res) => {
 
 		res.status(200).json({
 			status: 'success',
-			message: 'You have successfully applied for the internship'
+			message: 'You have successfully applied for the internship',
+			applied
 	    });
 
 	 } 
 	   catch (error) {
-		   console.log(err)
+		   console.log(error)
 		 return res.status(500).json({
 			 status: 'error',
-	     	 message: err.message
+	     	 message: error.message
 		   });
 	   }	
 };

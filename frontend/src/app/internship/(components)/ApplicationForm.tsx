@@ -20,8 +20,6 @@ const ApplicationForm = ({data}:{data:any}) => {
   const [token,setToken] = useState<string | null>(localStorage.getItem("token"));
   const router = useRouter()
 
-    console.log(data)
-
   const [formData, setFormData] = useState({
     fullName: "",
     mobile: "",
