@@ -7,12 +7,12 @@ const authController = require("../controller/authController");
 
 // for admin routes // 
 
-//course(tested)
+//course(tested and connected to frontend)
 router.post("/admin/", adminAuth, upload.fields([
 	{ name: "courseThumbnail", maxCount: 1 },
 	{ name: "instructorPicture", maxCount: 1 }
 ]), courseController.postNewCourse);
-router.patch("admin/:id", adminAuth, upload.fields([
+router.patch("/admin/:id", adminAuth, upload.fields([
 	{ name: "courseThumbnail", maxCount: 1 },
 	{ name: "instructorPicture", maxCount: 1 }
 ]), courseController.updateCourseDetails);
@@ -23,6 +23,7 @@ router.post("/admin/:id/module", adminAuth, courseController.createCourseModule)
 router.patch("/admin/module/:id", adminAuth, courseController.updateCourseModule);
 router.delete("/admin/module/:id", adminAuth, courseController.deleteCourseModule);
 
+
 // frequantly ask question(tested)
 router.post("/admin/:id/faq", adminAuth, courseController.createFAQ);
 router.patch("/admin/faq/:id", adminAuth, courseController.updateFAQ);
@@ -31,7 +32,7 @@ router.delete("/admin/faq/:id", adminAuth, courseController.deleteFAQ);
 
 // video 
 // router.get("/admin/module/:id/video/upload-url", adminAuth, courseController.getVideoUploadUrl);
-// router.post("/admin/module/:id/video", adminAuth, upload.single("subtitle"), courseController.createVideo);
+router.post("/admin/module/:id/video", adminAuth, upload.single("subtitle"), courseController.createVideo);
 
 //assignment(tested successfully)
 router.post("/admin/module/:id/assignment", adminAuth,
@@ -40,16 +41,20 @@ router.patch("/admin/assignment/:id", adminAuth, upload.single("assignmentDoc"),
 router.delete("/admin/assignment/:id", adminAuth, courseController.deleteAssignment);
 
 
-// have to work on this,All Submissions
-// router.get(
-// 	"/assignment/:id/submissions", adminAuth, courseController.getAllSubmissionsForAssignment
-// );
+//have to work on this,All Submissions
+router.get(
+	"/assignment/:id/submissions", adminAuth, courseController.getAllSubmissionsForAssignment
+);
 
 //Admin submission(single)
-// router.get(
-// 	"/assignment/:id/submissions/:submissionId", adminAuth,
-// 	courseController.getSingleSubmission
-// );
+router.get(
+	"/assignment/:id/submissions/:submissionId", adminAuth, courseController.getSingleSubmission
+);
+
+//Admin mark and review (Admin can give review and marks to a particular submission)
+router.post(
+    "/submissions/:submissionId/marksandreview",adminAuth, courseController.postAssignementMarkByAdmin
+);
 
 //Give marks to submission
 
@@ -69,7 +74,7 @@ router.get("/assignment/:id", authController.protect, courseController.getAllMcq
 router.post("/assignment/:id/submit", authController.protect, courseController.submitMcqByUser);
 
 
-//assignmentpdf(1st one tested)
+//assignmentpdf( tested successfully)
  router.get("/assignment/:id/pdf", authController.protect, courseController.getPdfAssignment);
 router.post("/:userId/assignment/:assignmentId/pdf/submit", authController.protect, upload.single("submissionDoc"), courseController.submitAssignmentByUser);
 
