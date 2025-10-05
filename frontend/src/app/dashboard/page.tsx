@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Home, Book, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import AssignmentsSection from "@/components/assignmentDash";
+import Profile from "@/components/Profile";
 import { toast } from "react-toastify";
 import CTAButton from "@/components/CTAButton";
 import Image from "next/image";
@@ -123,7 +124,7 @@ export default function UserDashboard() {
         </nav>
 
         {/* Profile */}
-        <div className="px-3 py-2 rounded hover:bg-orange-500 cursor-pointer flex items-center gap-2">
+        <div onClick={() => setActiveSection("profile")} className="px-3 py-2 rounded hover:bg-orange-500 cursor-pointer flex items-center gap-2">
           <img
             src="/images/profile.png"
             alt="Profile"
@@ -205,6 +206,7 @@ export default function UserDashboard() {
         )}
 
         {activeSection === "assignments" && <AssignmentsSection />}
+        {activeSection === "profile" && <Profile />}
 
         {activeSection === "internships" && (
           <div className="overflow-y-scroll mb-[90px] no-scrollbar w-auto h-auto">
