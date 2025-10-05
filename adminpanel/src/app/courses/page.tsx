@@ -16,8 +16,10 @@ type Course = {
   category?: string;
   module?: string[]; // assuming module is an array of strings
   faq?: {
-    questions: ReactNode; question: string; answer: string 
-}[]; // assuming faq is array of Q&A
+    questions: ReactNode;
+    question: string;
+    answer: string;
+  }[]; // assuming faq is array of Q&A
 };
 
 export default function CoursesPage() {
@@ -98,7 +100,9 @@ export default function CoursesPage() {
                       className="w-20 h-14 rounded-full object-cover"
                     />
                     <div>
-                      <p className="font-medium text-black">{course.instructorName}</p>
+                      <p className="font-medium text-black">
+                        {course.instructorName}
+                      </p>
                       {course.instructorDescription && (
                         <p className="text-xs text-gray-600">
                           {course.instructorDescription}
@@ -129,7 +133,6 @@ export default function CoursesPage() {
                       Modules:
                     </h3>
                     <ul className="list-disc list-inside text-xs text-gray-600">
-                        
                       {course.module.length}
                     </ul>
                   </div>
@@ -138,15 +141,15 @@ export default function CoursesPage() {
                 {/* FAQ */}
                 {course.faq && course.faq.length && (
                   <div className="mt-3">
-                    <h3 className="text-sm font-semibold text-black">
-                      FAQ:
-                    </h3>
+                    <h3 className="text-sm font-semibold text-black">FAQ:</h3>
                     <ul className="text-xs text-gray-600">
                       {course.faq.slice(0, 2).map((f, i) => (
                         <li key={i} className="mb-1">
                           <span className="font-medium text-black">Q:</span>{" "}
                           {f.questions} <br />
-                          <span className="font-medium text-black">A:</span>{" "}
+                          <span className="font-medium text-black">
+                            A:
+                          </span>{" "}
                           {f.answer}
                         </li>
                       ))}
@@ -164,11 +167,24 @@ export default function CoursesPage() {
 
                 {/* Edit Button */}
                 <div className="mt-4">
+                  import Link from "next/link";
                   <Link
-                    href={`/edit/${course._id}`}
+                    href={`/courses/edit/${course._id}`}
                     className="block w-full text-center bg-[#F97C04] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#d76a03] transition"
                   >
                     Edit
+                  </Link>
+                  <Link
+                    href={`/edit/${course._id}`}
+                    className="block w-full text-center bg-[#ffffff] text-red-500 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition"
+                  >
+                    Delete this course
+                  </Link>
+                  <Link
+                    href={`/courses/${course._id}/coursemodule/create`}
+                    className="block w-full text-center bg-[#F97C04] text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition"
+                  >
+                   Create Modules
                   </Link>
                 </div>
               </div>
@@ -179,4 +195,3 @@ export default function CoursesPage() {
     </div>
   );
 }
-

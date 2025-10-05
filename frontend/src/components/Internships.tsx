@@ -3,17 +3,8 @@ import React from 'react'
 import IntershipCard from './IntershipCard'
 import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
-
-
-export interface Internship {
-  _id: string;
-  name: string;
-  description: string;
-  skills: string[];
-  duration: string;
-  stipend: string;
-  applyBy: string;
-}
+import { Internship } from '@/types/internship';
+import Loader from './Loader';
 
 
 const Internships = () => {
@@ -49,6 +40,8 @@ const Internships = () => {
     fetchInternships();
   }, []);
 
+
+  
   return (
     <section>
       <div className="flex flex-col items-center justify-center w-full px-4 sm:px-16 pb-8">
@@ -57,7 +50,7 @@ const Internships = () => {
         </h1>
 
         {loading ? (
-          <p className="text-gray-600 mt-8">Loading internships...</p>
+          <Loader/>
         ) : internships.length === 0 ? (
           <p className="text-red-500 mt-8">No internships found.</p>
         ) : (

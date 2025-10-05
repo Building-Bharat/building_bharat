@@ -15,6 +15,10 @@ const submissionSchema = new mongoose.Schema({
 
 	totalScore : {type: Number, default: 0},
 
+	assignmentMark: {type: Number, default: 0},
+
+	assignmentReview: {type: String, default: ""},
+
 
 	pdfAnswerUrl: { type: String },
 	submittedAt: { type: Date, default: Date.now },

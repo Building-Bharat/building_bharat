@@ -1014,6 +1014,113 @@ exports.submitAssignmentByUser = async (req, res) => {
 	}
 };
 
+exports.getAllSubmissionsForAssignment = async (req, res) => {
+	try {
+		const { id } = req.params;
+
+
+		const assignment = Assignment.findById(id);
+
+		if (!assignment) {
+			throw new Error("assignment is not of pdf type");
+		}
+
+		const submissions = await Submission.find({ assignment: id }).populate({
+			path: "user",
+			select: "name email profilePicture"
+		}).select("user submittedAt");
+
+
+
+		if (submissions.length === 0) throw new Error("no submissions found for this assignment");
+
+		return res.status(200).json({
+			status: "success",
+			results: submissions.length,
+			data: {
+				submissions
+			}
+		})
+
+	}
+	catch (err) {
+		return res.status(400).json({
+			status: "fail",
+			message: err.message
+		})
+	}
+};
+
+exports.getSingleSubmission = async (req, res) => {
+	try {
+		const { id, submissionId } = req.params;
+
+		if (!id || !submissionId) {
+			throw new Error("assignment id or submission id is missing");
+		}
+
+		const assignment = await Assignment.findById(id);
+		if (!assignment || assignment.typeOfAssignment !== "pdf") {
+			throw new Error("assignment not found or not a pdf assignment");
+		}
+
+		const submission = await Submission.findById(submissionId).populate({
+			path: "user",
+			select: "name email profilePicture"
+		}).select("user submittedAt pdfAnswerUrl");
+
+		if (!submission) {
+			throw new Error("submission not found");
+		}
+
+		const url = await generateSignedUrl(submission.pdfAnswerUrl, 60 * 5);
+
+		submission.pdfAnswerUrl = url;
+
+		return res.status(200).json({
+			status: "success",
+			data: {
+				submission
+			}
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "fail",
+			message: err.message
+		});
+	}
+
+};
+
+exports.postAssignementMarkByAdmin = async (req, res) => {
+	try {
+
+		const { submissionId } = req.params;
+
+		const { assignmentMark, assignmentReview } = req.body;
+
+		if (!assignmentMark || !assignmentReview) throw new Error("mark and review required");
+
+		if (assignmentMark < 0 || assignmentMark >= 11 || assignmentReview.length < 5) throw new Error("assignment mark must be greater than 0 and less than 10 and review must be greater than 5 character");
+
+		const submission = await Submission.findByIdAndUpdate({ _id: submissionId }, { assignmentMark: assignmentMark, assignmentReview: assignmentReview }, { new: true });
+
+		res.status(201).json({
+			status: "success",
+			data: {
+				submission
+			}
+		})
+	}
+	catch (err) {
+		res.status(400).json({
+			status: "fail",
+			message: err.message
+		});
+	}
+
+};
+
 
 
 
