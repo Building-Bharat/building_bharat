@@ -16,9 +16,36 @@ const ApplicationForm = ({data}:{data:any}) => {
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [success, setSuccess] = useState<string | null>(null);
   const [token,setToken] = useState<string | null>(localStorage.getItem("token"));
   const router = useRouter()
+
+
+   const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+    if (!formData.fullName.trim()) newErrors.fullName = "Full Name is required";
+    if (!formData.mobile.trim()) newErrors.mobile = "Mobile number is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.location.trim()) newErrors.location = "Location is required";
+    if (!formData.college.trim()) newErrors.college = "College name is required";
+    if (!formData.degree.trim()) newErrors.degree = "Degree is required";
+    if (!formData.fieldOfStudy.trim()) newErrors.fieldOfStudy = "Field of Study is required";
+    if (!formData.startMonth) newErrors.startMonth = "Start month is required";
+    if (!formData.startYear) newErrors.startYear = "Start year is required";
+
+    if (!formData.currentlyStudying) {
+      if (!formData.endMonth) newErrors.endMonth = "End month is required";
+      if (!formData.endYear) newErrors.endYear = "End year is required";
+    }
+
+    if (!formData.resume) newErrors.resume = "Resume upload is required";
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // ✅ valid if no errors
+  };
+
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -66,46 +93,50 @@ const ApplicationForm = ({data}:{data:any}) => {
         setError(null);
         setSuccess(null);
 
+
        try {
-        const res = await fetch(`http://localhost:5000/api/v1/internship/apply/${data?._id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: submission,
-        });
+         if(validate()){
+            
+               const res = await fetch(`http://localhost:5000/api/v1/internship/apply/${data?._id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: submission,
+                });
 
-        if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Failed to submit application");
-        }
+                if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.message || "Failed to submit application");
+                }
 
-        const result = await res.json();
-        setSuccess("Applied successfully!");
-        console.log("Server response:", result);
+                const result = await res.json();
+                setSuccess("Applied successfully!");
+                console.log("Server response:", result);
 
-        // Reset form
-        setFormData({
-        fullName: "",
-        mobile: "",
-        email: "",
-        location: "",
-        college: "",
-        degree: "",
-        fieldOfStudy: "",
-        startMonth: "",
-        startYear: "",
-        endMonth: "",
-        endYear: "",
-        currentlyStudying: false,
-        resume: null,
-        });
-        setFileName("");
+                // Reset form
+                setFormData({
+                fullName: "",
+                mobile: "",
+                email: "",
+                location: "",
+                college: "",
+                degree: "",
+                fieldOfStudy: "",
+                startMonth: "",
+                startYear: "",
+                endMonth: "",
+                endYear: "",
+                currentlyStudying: false,
+                resume: null,
+                });
+                setFileName("");
+         }
 
        } catch (err) {
          setError(err?.message  || "Something went wrong");
-      }finally{
+       }finally{
          setLoading(false) 
       }
     
@@ -141,23 +172,23 @@ const ApplicationForm = ({data}:{data:any}) => {
                  <div className='flex flex-col space-y-8 items-start justify-center w-full lg:w-1/2'>
                        
                        <div className='flex flex-col space-y-2 w-full'>
-                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Full Name<span className="text-red-500">*</span> </label>
+                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Full Name<span className="text-red-500">*  </span>{errors.fullName && <span className="text-red-500 text-sm">{errors.fullName}</span>} </label>
                            <input type="text" name='fullName' value={formData.fullName} onChange={handleChange} placeholder='Enter Your Full Name' className='border w-full border-orange-300 p-4 bg-transparent rounded-lg outline-none' />
                        </div>
                        <div className='flex flex-col space-y-2 w-full'>
-                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Mobile Number<span className="text-red-500">*</span> </label>
+                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Mobile Number<span className="text-red-500">* </span> {errors.mobile && <span className="text-red-500 text-sm">{errors.mobile}</span>}</label>
                            <input type="number" name='mobile' value={formData.mobile} onChange={handleChange} placeholder='+91 9876543210' className='border w-full border-orange-300 p-4 bg-transparent rounded-lg outline-none' />
                        </div>
                        <div className='flex flex-col space-y-2 w-full'>
-                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Email Address<span className="text-red-500">*</span> </label>
+                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Email Address<span className="text-red-500">* {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}</span> </label>
                            <input type="text" name='email' value={formData.email} onChange={handleChange} placeholder='abc@gmail.com' className='border w-full border-orange-300 p-4 bg-transparent rounded-lg outline-none' />
                        </div>
                        <div className='flex flex-col space-y-2 w-full'>
-                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Location<span className="text-red-500">*</span> </label>
+                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Location<span className="text-red-500">* {errors.location && <span className="text-red-500 text-sm">{errors.location}</span>}</span> </label>
                            <input type="text" name='location' value={formData.location} onChange={handleChange} placeholder='Enter Your Location' className='border w-full border-orange-300 p-4 bg-transparent rounded-lg outline-none' />
                        </div>
                        <div className='flex flex-col space-y-2 w-full'>
-                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Resume<span className="text-red-500">*</span> </label>
+                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Resume<span className="text-red-500">* {errors.resume && <span className="text-red-500 text-sm">{errors.resume}</span>} </span> </label>
                            <a rel="stylesheet" href="" download />
                            <p className='text-sm mb-2'>Upload updated resume</p>
 
@@ -197,20 +228,20 @@ const ApplicationForm = ({data}:{data:any}) => {
                        </div>
 
                        <div className='flex flex-col space-y-2 w-full'>
-                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>College <span className="text-red-500">*</span> </label>
+                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>College <span className="text-red-500">* {errors.college && <span className="text-red-500 text-sm">{errors.college}</span>} </span> </label>
                            <input type="text" name='college' value={formData.college} onChange={handleChange} placeholder='Enter Your Location' className='border w-full border-orange-300 p-4 bg-transparent rounded-lg outline-none' />
                        </div>
                         <div className='flex flex-col space-y-2 w-full'>
-                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Degree <span className="text-red-500">*</span> </label>
+                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Degree <span className="text-red-500">* {errors.degree && <span className="text-red-500 text-sm">{errors.degree}</span>} </span> </label>
                            <input type="text" name='degree' value={formData.degree} onChange={handleChange} placeholder='Enter Your Location' className='border w-full border-orange-300 p-4 bg-transparent rounded-lg outline-none' />
                        </div>
                         <div className='flex flex-col space-y-2 w-full'>
-                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Major /Field of study<span className="text-red-500">*</span></label>
+                           <label htmlFor="" className='text-[#0A0A0A] text-base font-[450]'>Major /Field of study<span className="text-red-500">* {errors.fieldOfStudy && <span className="text-red-500 text-sm">{errors.fieldOfStudy}</span>} </span></label>
                            <input type="text" name='fieldOfStudy' value={formData.fieldOfStudy} onChange={handleChange} placeholder='Enter Your Location' className='border w-full border-orange-300 p-4 bg-transparent rounded-lg outline-none' />
                        </div>
                           <div className="flex flex-col space-y-4 w-full">
                             <label className="text-[#0A0A0A] text-base font-[450]">
-                                Dates Attended <span className="text-red-500">*</span>
+                                Dates Attended <span className="text-red-500">*  </span>
                             </label>
 
                         {/* Start Date */}
