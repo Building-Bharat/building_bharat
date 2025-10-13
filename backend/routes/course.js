@@ -31,8 +31,8 @@ router.delete("/admin/faq/:id", adminAuth, courseController.deleteFAQ);
 
 
 // video 
-// router.get("/admin/module/:id/video/upload-url", adminAuth, courseController.getVideoUploadUrl);
-router.post("/admin/module/:id/video", adminAuth, upload.single("subtitle"), courseController.createVideo);
+// router.post("/admin/module/:id/video/upload-url", adminAuth, courseController.getVideoUploadUrl);
+router.post("/admin/module/:id/video", adminAuth, courseController.createVideo);
 
 //assignment(tested successfully)
 router.post("/admin/module/:id/assignment", adminAuth,

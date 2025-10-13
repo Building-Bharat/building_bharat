@@ -64,7 +64,8 @@ const upload = multer({
 		else if (
 			file.fieldname === "instructorPicture" ||
 			file.fieldname === "blogPicture" ||
-			file.fieldname === "courseThumbnail"
+			file.fieldname === "courseThumbnail" ||
+			file.fieldname === "profilePhoto"
 		) {
 			if (["image/jpeg", "image/png", "image/jpg", "image/webp"].includes(file.mimetype))
 				cb(null, true);

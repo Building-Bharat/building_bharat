@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { type } = require('os');
+const express = require('express')
 
 const appliedInternshipSchema = new mongoose.Schema({
 	internshipId: { type: mongoose.Schema.Types.ObjectId, ref: 'Internship', required: true },
@@ -24,12 +25,16 @@ const userSchema = new mongoose.Schema({
 		// required: [true, 'Description is required']
 	},
 
-	collageName: {
+	collegeName: {
 		type: String,
 		// required: [true, 'Collage name is required']
 	},
-	profilePhoto: String,
-	collagePassout: {
+	profilePhoto:{
+          type: String,
+		//   required: [true, 'profile photo is required']
+	} ,
+
+	collegePassout: {
 		type: Number,
 		// required: [true, 'Collage passout year is required']
 	},
