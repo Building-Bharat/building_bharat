@@ -183,13 +183,13 @@ export default function UserDashboard() {
       >
         Internships
       </button>
-      <div className="">
+      <div>
         <button
-        onClick={() => setMobileMenuOpen(false)}
-        className="text-black hover:bg-orange-500 hover:text-white mt-[200px] px-4 py-2 rounded transition-all duration-300"
-      >
-        Profile
-      </button>
+          onClick={() => { setActiveSection("profile"); setMobileMenuOpen(false); }}
+          className="text-black hover:bg-orange-500 hover:text-white mt-[200px] px-4 py-2 rounded transition-all duration-300"
+        >
+          Profile
+        </button>
       </div>
     </div>
     

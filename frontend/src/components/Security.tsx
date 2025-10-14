@@ -44,38 +44,68 @@ export default function Security(): JSX.Element {
 				<p className="px-4 text-sm text-black">
 					All of your active sessions are listed below. End any sessions you don't recognize or trust.
 				</p>
-                <div className="w-full">
-					<div className="grid grid-cols-4 gap-8 p-4 text-sm font-bold text-gray-500 shadow-none">
-						<div>Location &amp; IP</div>
-						<div>OS &amp; Browser</div>
-						<div>Last accessed</div>
-						<div className="text-center">Manage</div>
-					</div>
-					<div className="border-t border-gray-300" />
+                {/* Desktop table */}
+                <div className="hidden sm:block w-full">
+                    <div className="grid grid-cols-4 gap-8 p-4 text-sm font-bold text-gray-500 shadow-none">
+                        <div>Location &amp; IP</div>
+                        <div>OS &amp; Browser</div>
+                        <div>Last accessed</div>
+                        <div className="text-center">Manage</div>
+                    </div>
+                    <div className="border-t border-gray-300" />
                     {mockSessions.map((s, idx) => (
                         <div key={idx} className="grid grid-cols-4 gap-8 p-4 text-sm">
-							<div className="flex flex-col">
-								<span className="text-black">{s.location}</span>
-								<span className="text-gray-500">{s.provider}</span>
-							</div>
-							<div className="flex flex-col">
-								<span className="text-black">{s.os}</span>
-								<span className="text-gray-500">{s.browser}</span>
-							</div>
-							<div className="flex flex-col">
-								<span className="text-black">{s.lastAccessed}</span>
-								<span className="text-gray-500">{s.created}</span>
-							</div>
-							<div className="flex items-center justify-center">
-								{ s.isCurrent ? (
-									<span className="text-gray-500 font-medium">Current</span>
-								) : (
-									<button className="text-red-600 font-semibold hover:underline">Sign out</button>
-								)}
-							</div>
-						</div>
-					))}
-				</div>
+                            <div className="flex flex-col">
+                                <span className="text-black">{s.location}</span>
+                                <span className="text-gray-500">{s.provider}</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-black">{s.os}</span>
+                                <span className="text-gray-500">{s.browser}</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-black">{s.lastAccessed}</span>
+                                <span className="text-gray-500">{s.created}</span>
+                            </div>
+                            <div className="flex items-center justify-center">
+                                { s.isCurrent ? (
+                                    <span className="text-gray-500 font-medium">Current</span>
+                                ) : (
+                                    <button className="text-red-600 font-semibold hover:underline">Sign out</button>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Mobile list */}
+                <div className="sm:hidden w-full">
+                    <div className="px-4 py-2 grid grid-cols-3 gap-4 text-xs font-bold text-gray-500">
+                        <div>Location &amp; IP</div>
+                        <div>Last accessed</div>
+                        <div className="text-center">Manage</div>
+                    </div>
+                    <div className="border-t border-gray-300" />
+                    {mockSessions.map((s, idx) => (
+                        <div key={idx} className="px-4 py-3 grid grid-cols-3 gap-4 text-sm">
+                            <div className="flex flex-col">
+                                <span className="text-black">{s.location}</span>
+                                <span className="text-gray-500">{s.provider}</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-black">{s.lastAccessed}</span>
+                                <span className="text-gray-500">{s.created}</span>
+                            </div>
+                            <div className="flex items-center justify-center">
+                                { s.isCurrent ? (
+                                    <span className="text-gray-500 font-medium">Current</span>
+                                ) : (
+                                    <button className="text-red-600 font-semibold hover:underline">Sign out</button>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
 				<div className="h-4" />
 			</div>
 		</div>
