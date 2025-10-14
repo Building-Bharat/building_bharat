@@ -21,6 +21,8 @@ app.use(cors({
   origin: ["http://localhost:3000", "http://localhost:3001"],  // adminpanel and frontend at same time cors issue fix
   credentials: true
 }));
+
+app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 
 
@@ -29,6 +31,8 @@ const PORT = process.env.PORT || 5000;
 
 //mongodb connection
 connectDB();
+
+app.use(express.json());
 
 //api middleware
 app.use('/api/v1/user', userRoutes);

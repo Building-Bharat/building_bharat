@@ -22,11 +22,11 @@ const videoShcema = new mongoose.Schema({
 	duration: {
 		type: Number
 	},
-	thumbnail: { type: String },
+	// thumbnail: { type: String },
 
 	subtitle: {
 		type: String,
-		required: true
+		// required: true
 	},
 	moduleId: {
 		type: mongoose.Schema.Types.ObjectId,

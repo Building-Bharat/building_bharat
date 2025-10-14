@@ -28,7 +28,7 @@ const s3Client = new S3Client({
 
 const generateUploadUrl = async (key, contentType, expiresIn = 300) => {
 	const command = new PutObjectCommand({
-		Bucket: process.env.AWS_BUCKET_NAME,
+		Bucket: process.env.AWS_VIDEO_BUCKET_NAME,
 		Key: key,
 		ContentType: contentType,
 	});

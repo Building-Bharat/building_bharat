@@ -6,6 +6,7 @@ import CourseResources from './CourseResources';
 import CourseModules from './CourseModules';
 import MeetYourCourseMentor from './MeetYourCourseMentor';
 import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
+import CourseRes from '@/app/courses/(component)/CourseRes';
 
 const CourseView = () => {
 
@@ -79,7 +80,8 @@ const CourseView = () => {
             </p>
 
             <div className="lg:hidden">
-              <CourseResources />
+              {/* <CourseResources /> */}
+               <CourseRes/>
             </div>
 
           </div>
@@ -138,7 +140,8 @@ const CourseView = () => {
         {/* card sticky  */}
         <div className={`sticky hidden lg:block top-[130px] ${scrolled ? "-top-[2px]":"top-0"}  transition-all duration-300`}>
           <div className="shadow-md bg-[#F1F1F1] rounded-xl">
-            <CourseResources />
+            {/* <CourseResources /> */}
+            <CourseRes/>
           </div>
         </div>
 

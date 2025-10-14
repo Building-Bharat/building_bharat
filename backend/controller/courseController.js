@@ -1124,61 +1124,74 @@ exports.postAssignementMarkByAdmin = async (req, res) => {
 
 
 
-exports.getVideoUploadUrl = async (req, res) => {
-	try {
-		const { fileName, fileType } = req.body;
+// exports.getVideoUploadUrl = async (req, res) => {
+// 	try {
+// 		const { fileName, fileType } = req.body;
 
-		if (!fileName || !fileType) {
-			throw new Error("fileName and fileType are required");
-		}
+// 		if (!fileName || !fileType) {
+// 			throw new Error("fileName and fileType are required");
+// 		}
 
-		const key = `videos/raw/${Date.now()}-${fileName}`;
+// 		const key = `videos/raw/${Date.now()}-${fileName}`;
 
-		const uploadUrl = await generateUploadUrl(key, fileType);
+// 		const uploadUrl = await generateUploadUrl(key, fileType);
 
-		return res.status(200).json({
-			status: "success",
-			uploadUrl,
-			fileKey: key,
-		});
-	} catch (err) {
-		res.status(400).json({
-			status: "fail",
-			message: err.message
-		});
-	}
-};
+// 		return res.status(200).json({
+// 			status: "success",
+// 			uploadUrl,
+// 			fileKey: key,
+// 		});
+// 	} catch (err) {
+// 		res.status(400).json({
+// 			status: "fail",
+// 			message: err.message
+// 		});
+// 	}
+// };
 
 exports.createVideo = async (req, res) => {
-	try {
-		const { name, fileKey, duration, moduleId, subtitle } = req.body;
 
-		if (!name || !fileKey || !moduleId || subtitle) {
-			throw new Error("name, fileKey, and moduleId are required");
-		}
+	console.log(req.body);
+  try {
+    const { name, fileName, fileType, duration, moduleId } = req.body;
 
-		const subtitleUrl = extractFileUrlOrKey(req);
+	
 
-		if (!subtitleUrl) {
-			throw new Error("subtitle file is required");
-		}
-		const newVideo = await Video.create({
-			name,
-			videoURL: fileKey, // store S3 key, not signed URL
-			duration,
-			moduleId,
-			status: "processing",
-			subtitle: subtitleUrl
-		});
+    if (!name || !fileName || !fileType || !moduleId) {
+      throw new Error("name, fileName, fileType, and moduleId are required");
+    }
 
-		return res.status(201).json({
-			status: "success",
-			data: newVideo
-		});
-	} catch (err) {
-		res.status(400).json({
-			status: "fail",
-			message: err.message
-		});
-	}
+    // Step 1: create MongoDB record (videoId is generated here)
+    const newVideo = await Video.create({
+      name,
+      duration,
+      moduleId,
+      status: "processing", // not processed yet
+    });
+
+    // Step 2: create S3 key containing videoId (important!)
+    const key = `raw/${newVideo._id}-${fileName}`;
+
+    // Step 3: generate presigned upload URL
+    const uploadUrl = await generateUploadUrl(key, fileType);
+
+    // Step 4: update video record with key
+    newVideo.videoURL = key;
+    await newVideo.save();
+
+    // Step 5: respond with URL + videoId
+    return res.status(201).json({
+      status: "success",
+      data: {
+        uploadUrl,
+        fileKey: key,
+        videoId: newVideo._id,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
 };
