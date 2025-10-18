@@ -20,6 +20,23 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		require: [true, 'Name is required']
 	},
+	username: {
+		type: String,
+		// unique: true, // Uncomment if you want usernames to be unique
+		// required: [true, 'Username is required']
+	},
+	whatsappNumber: {
+		type: String,
+		// required: [true, 'WhatsApp number is required']
+	},
+	state: {
+		type: String,
+		// required: [true, 'State is required']
+	},
+	department: {
+		type: String,
+		// required: [true, 'Department is required']
+	},
 	description: {
 		type: String,
 		// required: [true, 'Description is required']
@@ -54,13 +71,17 @@ const userSchema = new mongoose.Schema({
 
 	passwordConfirm: {
 		type: String,
-		required: [true, 'Password confirmation is required'],
 		required: function () {
-			return this.isNew; // Required only when creating a new document
+			// Only required for new documents AND when password is being set
+			return this.isNew && this.isModified('password');
 		},
 		validate: {
 			validator: function (value) {
-				return value === this.password
+				// Skip validation if not a new document or password not modified
+				if (!this.isNew && !this.isModified('password')) return true;
+				// Only validate if passwordConfirm is provided
+				if (!value && !this.isNew) return true;
+				return value === this.password;
 			},
 			message: 'Password do not match'
 		}

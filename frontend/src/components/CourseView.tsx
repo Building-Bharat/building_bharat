@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
+import { courseAPI } from '@/lib/api'
 import styles from "../app/courses/(component)/scrollbar-hide.module.css";
 import Header from './Header';
 import CourseResources from './CourseResources';
@@ -8,7 +9,11 @@ import MeetYourCourseMentor from './MeetYourCourseMentor';
 import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 import CourseRes from '@/app/courses/(component)/CourseRes';
 
-const CourseView = () => {
+interface CourseViewProps { slug?: string }
+
+const CourseView = ({ slug }: CourseViewProps) => {
+  const [course, setCourse] = useState<any>(null);
+  const [courseId, setCourseId] = useState<string | null>(null);
 
 
   const listContent = [
@@ -46,6 +51,35 @@ const CourseView = () => {
     return () => scrollContainer.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const loadCourse = async () => {
+      if (!slug) return;
+      try {
+        const data = await courseAPI.getCourseBySlug(slug);
+        // support both envelope and plain object shapes
+        const c = data?.data || data;
+        setCourse(c);
+        setCourseId(c?._id || c?.id || null);
+      } catch (e) {
+        // try to fetch again using list as backup has already been used inside API; provide minimal fallback only
+        setCourse({ title: slug.replace(/-/g,' ') });
+        setCourseId(null);
+      }
+    };
+    loadCourse();
+  }, [slug]);
+
+
+  // derive content from backend where available
+  const description: string = course?.description || "Master the art of field operations for political campaigns. Learn how to build and manage ground teams, volunteer coordination, canvassing strategies, and voter outreach programs.";
+  const learningPoints: string[] = Array.isArray(course?.courseContain)
+    ? course.courseContain
+    : (typeof course?.courseContain === 'string'
+        ? String(course.courseContain)
+            .split(/\r?\n|•|\-|\u2022/g)
+            .map((s: string) => s.trim())
+            .filter(Boolean)
+        : []);
 
   return (
 
@@ -58,7 +92,7 @@ const CourseView = () => {
         <div className="flex-1 min-h-screen">
 
             <div className="space-y-2 mt-[32px] mb-4">
-              <h1 className="text-[#005451] text-[18px] md:text-[32px] font-extrabold">Political Field Operations Mastery</h1>
+              <h1 className="text-[#005451] text-[18px] md:text-[32px] font-extrabold">{(course?.title || course?.name) ? String(course.title || course.name).replace(/\b\w/g,(m)=>m.toUpperCase()) : slug ? slug.replace(/-/g,' ').replace(/\b\w/g,(m)=>m.toUpperCase()) : 'Course Title'}</h1>
               <p className="text-[#0A0A0A] text-[13px] md:text-[16px] font-bold">Duration 8 hours </p>
             </div>
          
@@ -74,14 +108,12 @@ const CourseView = () => {
               </video>
             </div>
             <p className="text-sm md:text-base text-black py-4 lg:py-8">
-              Master the art of field operations for political campaigns. Learn how
-              to build and manage ground teams, volunteer coordination, canvassing
-              strategies, and voter outreach programs.
+              {description}
             </p>
 
             <div className="lg:hidden">
               {/* <CourseResources /> */}
-               <CourseRes/>
+               <CourseRes course={course} courseId={courseId || undefined} />
             </div>
 
           </div>
@@ -94,12 +126,9 @@ const CourseView = () => {
                 What you will learn
               </h1>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 list-disc list-inside mt-3">
-                {listContent.map((list) => (
-                  <li
-                    key={list.text}
-                    className="text-[#0A0A0A] text-sm md:text-base leading-relaxed"
-                  >
-                    {list.text}
+                {(learningPoints.length > 0 ? learningPoints : listContent.map(l => l.text)).map((text: string) => (
+                  <li key={text} className="text-[#0A0A0A] text-sm md:text-base leading-relaxed">
+                    {text}
                   </li>
                 ))}
               </ul>
@@ -141,7 +170,7 @@ const CourseView = () => {
         <div className={`sticky hidden lg:block top-[130px] ${scrolled ? "-top-[2px]":"top-0"}  transition-all duration-300`}>
           <div className="shadow-md bg-[#F1F1F1] rounded-xl">
             {/* <CourseResources /> */}
-            <CourseRes/>
+            <CourseRes course={course} courseId={courseId || undefined} />
           </div>
         </div>
 

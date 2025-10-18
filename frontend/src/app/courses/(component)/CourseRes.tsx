@@ -1,7 +1,45 @@
 import CTAButton from '@/components/CTAButton'
 import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-const CourseRes = () => {
+interface Props {
+  course?: any;
+  courseId?: string;
+}
+
+const CourseRes = ({ course, courseId }: Props) => {
+  const router = useRouter();
+  const params = useSearchParams();
+  const courseIdFromQuery = params.get('courseId') || undefined;
+  const resolvedCourseId = courseId || courseIdFromQuery || undefined;
+  const price = course?.price ?? 6999;
+
+  // Check if user is logged in
+  const isUserLoggedIn = () => {
+    if (typeof window !== 'undefined') {
+      const userId = localStorage.getItem('userId');
+      const token = localStorage.getItem('token'); // Assuming JWT token is stored as 'token'
+      return !!(userId && token);
+    }
+    return false;
+  };
+
+  const handleEnrollClick = () => {
+    const isLoggedIn = isUserLoggedIn();
+    
+    if (!isLoggedIn) {
+      // User not logged in - redirect to login with return URL
+      const returnUrl = encodeURIComponent(`/account-setup?courseId=${resolvedCourseId || ''}`);
+      router.push(`/login?returnUrl=${returnUrl}`);
+    } else {
+      // User is logged in - go directly to account setup
+      const userId = localStorage.getItem('userId');
+      const qs = new URLSearchParams();
+      if (resolvedCourseId) qs.set('courseId', resolvedCourseId);
+      if (userId) qs.set('userId', userId);
+      router.push(`/account-setup?${qs.toString()}`);
+    }
+  };
   return (
 
      <section className='w-full'>
@@ -14,13 +52,14 @@ const CourseRes = () => {
                      <li className='text-[12px] w-full lg:min-w-[300px] sm:text-base whitespace-nowrap marker:text-teal-700'>Discussion forums</li>
                      <li className='text-[12px] w-full lg:min-w-[300px] sm:text-base whitespace-nowrap marker:text-teal-700'>Post course internship</li>
                  </ul>
-                 <h1 className='text-base md:text-xl font-bold text-[#0A0A0A] font-Montserrat my-4 md:my-6 '>$6999</h1>
+                <h1 className='text-base md:text-xl font-bold text-[#0A0A0A] font-Montserrat my-4 md:my-6 '>₹{price}</h1>
                   <CTAButton label='Enroll Now'
                         textColor='#0A0A0A'
                         width={'100%'}
                         arrowColor='#0A0A0A'
                         disableBorderRadiusChange={true}
                         keepFixedSizeOnHover={true}
+                        onClick={handleEnrollClick}
                  />
            </div>
      </section>

@@ -1,6 +1,6 @@
 
 
-export function extractFileUrlOrKey(file) {
+function extractFileUrlOrKey(file) {
 	console.log(file);
 
 	if (!file) throw new Error("File upload failed");
@@ -19,4 +19,6 @@ export function extractFileUrlOrKey(file) {
 
 	throw new Error("Invalid file type");
 }
+
+module.exports = { extractFileUrlOrKey };
 

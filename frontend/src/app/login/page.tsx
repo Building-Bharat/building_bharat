@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import { userAPI } from "@/lib/api";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get('returnUrl');
 
   const handleLogin = async () => {
     setError("");
@@ -24,8 +27,77 @@ export default function LoginPage() {
         email,
         password,
       });
+      
+      // Store authentication data
       localStorage.setItem("token", res.data.token);
-      router.push("/courses");
+      
+      // Get userId from correct response structure
+      let userId = null;
+      if (res.data.data && res.data.data.user && res.data.data.user._id) {
+        userId = res.data.data.user._id;
+        localStorage.setItem("userId", userId);
+      } else if (res.data.user && res.data.user._id) {
+        userId = res.data.user._id;
+        localStorage.setItem("userId", userId);
+      } else if (res.data.userId) {
+        userId = res.data.userId;
+        localStorage.setItem("userId", userId);
+      } else if (res.data._id) {
+        userId = res.data._id;
+        localStorage.setItem("userId", userId);
+      }
+      
+      console.log('Login response:', res.data); // Debug log
+      console.log('Login response structure:', {
+        hasUser: !!res.data.user,
+        hasUserId: !!res.data.userId,
+        hasId: !!res.data._id,
+        hasToken: !!res.data.token,
+        userStructure: res.data.user ? Object.keys(res.data.user) : 'No user object'
+      });
+      console.log('Extracted userId:', userId); // Debug log
+      
+      // Smart redirect logic
+      if (returnUrl) {
+        // Login came from enroll now button - check if it's account-setup related
+        const decodedReturnUrl = decodeURIComponent(returnUrl);
+        
+        if (decodedReturnUrl.includes('/account-setup')) {
+          // Check if user profile is already completed
+          if (userId) {
+            try {
+              const profileCheck = await userAPI.checkProfileCompletion(userId);
+              
+              if (profileCheck.isCompleted) {
+                // Profile already completed - redirect to enrollment complete page
+                const urlParams = new URLSearchParams(decodedReturnUrl.split('?')[1] || '');
+                const courseId = urlParams.get('courseId');
+                const redirectUrl = courseId 
+                  ? `/enrollment-complete?courseId=${courseId}`
+                  : '/enrollment-complete';
+                router.push(redirectUrl);
+              } else {
+                // Profile not completed - go to account setup
+                router.push(decodedReturnUrl);
+              }
+            } catch (profileError) {
+              console.error('Error checking profile:', profileError);
+              // Fallback to account setup if check fails
+              router.push(decodedReturnUrl);
+            }
+          } else {
+            // No userId found - fallback to account setup (user can set up profile)
+            console.warn('No userId found in login response, redirecting to account setup');
+            router.push(decodedReturnUrl);
+          }
+        } else {
+          // Not account-setup related - redirect to original URL
+          router.push(decodedReturnUrl);
+        }
+      } else {
+        // Normal login (not from enroll now) - redirect to courses
+        router.push("/courses");
+      }
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.msg || "Login failed");
