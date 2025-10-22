@@ -3,13 +3,14 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { type } = require('os');
+const express = require('express')
 
 const appliedInternshipSchema = new mongoose.Schema({
 	internshipId: { type: mongoose.Schema.Types.ObjectId, ref: 'Internship', required: true },
 	resume: { type: String, required: true },
 	status: {
 		type: String,
-		enum: ['applied', 'interview', 'rejected'],
+		enum: ['applied', 'interview', 'rejected','pending'],
 		default: 'pending'
 	}
 });
@@ -19,17 +20,38 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		require: [true, 'Name is required']
 	},
+	username: {
+		type: String,
+		// unique: true, // Uncomment if you want usernames to be unique
+		// required: [true, 'Username is required']
+	},
+	whatsappNumber: {
+		type: String,
+		// required: [true, 'WhatsApp number is required']
+	},
+	state: {
+		type: String,
+		// required: [true, 'State is required']
+	},
+	department: {
+		type: String,
+		// required: [true, 'Department is required']
+	},
 	description: {
 		type: String,
 		// required: [true, 'Description is required']
 	},
 
-	collageName: {
+	collegeName: {
 		type: String,
 		// required: [true, 'Collage name is required']
 	},
-	profilePhoto: String,
-	collagePassout: {
+	profilePhoto:{
+          type: String,
+		//   required: [true, 'profile photo is required']
+	} ,
+
+	collegePassout: {
 		type: Number,
 		// required: [true, 'Collage passout year is required']
 	},
@@ -49,10 +71,17 @@ const userSchema = new mongoose.Schema({
 
 	passwordConfirm: {
 		type: String,
-		required: [true, 'Password confirmation is required'],
+		required: function () {
+			// Only required for new documents AND when password is being set
+			return this.isNew && this.isModified('password');
+		},
 		validate: {
 			validator: function (value) {
-				return value === this.password
+				// Skip validation if not a new document or password not modified
+				if (!this.isNew && !this.isModified('password')) return true;
+				// Only validate if passwordConfirm is provided
+				if (!value && !this.isNew) return true;
+				return value === this.password;
 			},
 			message: 'Password do not match'
 		}
@@ -61,7 +90,6 @@ const userSchema = new mongoose.Schema({
 	passwordResetToken: String,
 	passwordResetExpires: Date,
 	active: { type: Boolean, default: false },
-	role: { type: String, enum: ['user', 'admin'], default: 'user' },
 	createdAt: { type: Date, default: Date.now },
 	otp: {
 		type: String,
@@ -73,8 +101,12 @@ const userSchema = new mongoose.Schema({
 		default: false
 	},
 
-	appliedInternship: [appliedInternshipSchema]
-})
+	appliedInternship: [appliedInternshipSchema],
+	coursePurchased: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Course'
+	}]
+});
 
 
 

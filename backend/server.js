@@ -10,12 +10,19 @@ const userRoutes = require('./routes/user');
 const courseRoutes = require('./routes/course');
 const internshipRoutes = require('./routes/internship');
 const contactRoutes = require('./routes/contact')
-const adminAuthRoutes = require('./routes/adminAuth.router')
-const blogRoutes = require('./routes/blogRouter')
+const adminAuthRoutes = require('./routes/adminAuth')
+const blogRoutes = require('./routes/blog')
+const orderRoutes = require('./routes/orders')
+const transactionRoutes = require('./routes/transactions')
 const app = express();
 
 //middleware
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:3001"],  // adminpanel and frontend at same time cors issue fix
+  credentials: true
+}));
+
+app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 
 
@@ -25,16 +32,19 @@ const PORT = process.env.PORT || 5000;
 //mongodb connection
 connectDB();
 
+app.use(express.json());
+
 //api middleware
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/auth', authRoutes);
-// app.use('/api/v1/internship', internshipRoutes);
-// app.use('api/v1/course', courseRoutes);
-// app.use('api/v1/internship', internshipRoutes);
+app.use('/api/v1/internship', internshipRoutes);
+app.use('/api/v1/course', courseRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/v1/admin', adminAuthRoutes);
 app.use("/api/blogs", blogRoutes);
-app.use("/uploads", express.static("uploads"));
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/transactions', transactionRoutes);
+
 
 
 app.listen(PORT, () => {

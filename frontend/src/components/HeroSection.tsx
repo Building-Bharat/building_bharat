@@ -145,7 +145,7 @@ export default function HeroSection() {
             {/* Start Learning For Free Button */}
             <Link href="/signup" prefetch={false}>
             <button 
-              className="w-full sm:w-auto transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
+              className="w-full sm:w-full transition-all duration-300 ease-in-out origin-top-left hover:scale-105"
               style={{
                 width: '239px',
                 height: '48px',
@@ -179,7 +179,7 @@ export default function HeroSection() {
             >
               {/* Right arrow icon that appears on hover */}
               <svg 
-                className="w-5 h-5 text-white transition-all duration-300 ease-in-out"
+                className="w-5 h-5 text-white transition-all duration-300 ease-in-out "
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -286,6 +286,21 @@ export default function HeroSection() {
             overflow: hidden !important;
             position: relative !important;
             margin: 0 auto !important;
+          }
+
+          /* Make both buttons same width in mobile view only */
+          .button-container button,
+          .button-container a button {
+            width: 291px !important;
+            min-width: 291px !important;
+            max-width: 291px !important;
+          }
+
+          /* Override inline styles for mobile view */
+          .button-container a button[style*="width"] {
+            width: 291px !important;
+            min-width: 291px !important;
+            max-width: 291px !important;
           }
 
           /* Mobile button hover effects - prevent overflow */

@@ -97,7 +97,7 @@ export default function Dashboard() {
             onClick={() => router.push("/courses")}
             className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition cursor-pointer"
           >
-            Courses
+            Uploaded Courses
           </button>
           <button
             onClick={() => router.push("/internship")}
@@ -110,6 +110,12 @@ export default function Dashboard() {
             className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg shadow hover:bg-purple-700 transition cursor-pointer"
           >
             Blogs
+          </button>
+          <button
+            onClick={() => router.push("/courses/create")}
+            className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg shadow hover:bg-purple-700 transition cursor-pointer"
+          >
+            Upload New Course
           </button>
         </div>
       </main>

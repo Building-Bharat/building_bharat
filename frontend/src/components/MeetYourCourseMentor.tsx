@@ -17,10 +17,10 @@ export default function MeetYourCourseMentor({
 	return (
 		<>
 			{/* Mobile View - Only shows on mobile devices */}
-			<div className="md:hidden">
-				<div className="flex flex-col gap-4 items-start justify-center self-stretch flex-shrink-0 relative overflow-hidden m-4">
+			<div className="md:hidden mt-8">
+				<div className="flex flex-col gap-4 items-start justify-center self-stretch flex-shrink-0 relative overflow-hidden ">
 					{/* Meet Your Mentor Title - Mobile */}
-					<div className="text-[#005451] text-left font-['Montserrat-ExtraBold',sans-serif] text-[18px] leading-[24px] font-extrabold relative self-stretch">
+					<div className="text-[#005451] text-left font-bold font-Montserrat text-[16px] leading-[24px] relative self-stretch">
 						Meet Your Mentor
 					</div>
 					
@@ -78,22 +78,22 @@ export default function MeetYourCourseMentor({
 			</div>
 
 			{/* Desktop View - Only shows on desktop devices */}
-			<div className="hidden md:block">
-				<div className="flex flex-col gap-8 items-start justify-center self-stretch flex-shrink-0 relative overflow-hidden mx-16">
+			<div className="hidden md:block mt-8">
+				<div className="flex flex-col gap-8 items-start justify-center self-stretch flex-shrink-0 relative overflow-hidden">
 					{/* Meet Your Mentor Title */}
-					<div className="text-[#005451] text-left font-['Montserrat-ExtraBold',sans-serif] text-[32px] leading-[38px] font-extrabold relative self-stretch">
+					<div className="text-[#005451] text-left font-bold font-Montserrat text-[20px] leading-[38px] relative self-stretch">
 						Meet Your Mentor
 					</div>
 					
 					{/* Main Container */}
-					<div className="bg-[#f1f1f1] w-[713px] p-4 rounded-lg border flex flex-row gap-8 items-center justify-start self-stretch flex-shrink-0 h-[440px] relative shadow-[0px_4px_4px_0px_rgba(150,150,150,0.3)]">
+					<div className="bg-[#f1f1f1] w-full p-4 rounded-lg border flex flex-row gap-8 items-center justify-start self-stretch flex-shrink-0 h-[400px] relative shadow-[0px_4px_4px_0px_rgba(150,150,150,0.3)]">
 						{/* Left Side - Image Placeholder */}
-						<div className="bg-[#394050] py-[51px] px-[92px] self-stretch flex-shrink-0 w-[300px] relative">
+						<div className="bg-[#394050] py-[51px] px-[92px] self-stretch flex-shrink-0 w-1/2 lg:w-[300px] relative">
 							{/* Image placeholder - you can add an actual image here */}
 						</div>
 						
 						{/* Right Side - Content */}
-						<div className="p-4 flex flex-col gap-8 items-start justify-center flex-1 relative">
+						<div className="p-4 flex flex-col gap-8 items-start justify-center w-1/2  relative">
 							{/* Title and Body Text */}
 							<div className="px-4 py-0 flex flex-col gap-8 items-center justify-center self-stretch flex-shrink-0 relative">
 								<div className="text-[#0a0a0a] text-left font-['Montserrat-Bold',sans-serif] text-[20px] leading-[28px] font-bold relative self-stretch">

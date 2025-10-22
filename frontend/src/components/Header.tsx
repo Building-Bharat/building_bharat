@@ -42,11 +42,19 @@ export default function Header() {
   }, []);
 
   const navLinks = [
+<<<<<<< HEAD
     { label: "Home", href: "/", active: pathname === "/" },
     { label: "Courses", href: "/courses", active: pathname === "/courses" },
     { label: "Internships", href: "#", active: false },
     { label: "Colleges", href: "/college", active: false },
     { label: "Blogs", href: "#", active: false },
+=======
+    { label: 'Home', href: '/', active: pathname === '/' },
+    { label: 'Courses', href: '/courses', active: pathname === '/courses' },
+    { label: 'Internships', href: '/internship', active: false },
+    { label: 'Colleges', href: '#', active: false },
+    { label: 'Blogs', href: '/blogs', active: pathname === '/blogs' },
+>>>>>>> d8c56caa544f091faeb80f8cec6009cd07f07dfe
   ];
 
   return (
@@ -422,7 +430,13 @@ export default function Header() {
                   key={link.label}
                   href={link.href}
                   className={`block px-6 py-3 text-base font-medium transition-all duration-300 mobile-nav-link relative group ${
+<<<<<<< HEAD
                     link.active ? "bg-orange-500 text-white" : "text-white"
+=======
+                    link.active 
+                      ? 'bg-orange-500 text-white' 
+                      : 'text-black hover:bg-orange-500 hover:text-white'
+>>>>>>> d8c56caa544f091faeb80f8cec6009cd07f07dfe
                   }`}
                   style={{
                     fontSize: isInHero ? "16px" : "18px",

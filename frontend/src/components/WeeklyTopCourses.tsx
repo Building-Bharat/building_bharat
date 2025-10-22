@@ -2,8 +2,22 @@ import React from 'react'
 import CTAButton from './CTAButton';
 import Link from 'next/link';
 
+interface CourseItem {
+  _id?: string;
+  id?: string;
+  slug?: string;
+  title?: string; // frontend fallback
+  name?: string;  // backend field
+  description?: string;
+}
 
-const WeeklyTopCourses = () => {
+interface Props {
+  courses?: CourseItem[];
+  loading?: boolean;
+}
+
+
+const WeeklyTopCourses = ({ courses = [], loading = false }: Props) => {
 
 
   return (
@@ -14,8 +28,9 @@ const WeeklyTopCourses = () => {
         </h1>
         <p className='text-base pb-4 sm:pb-0 text-center font-normal text-[#0A0A0A]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa ai. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.</p>
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 justify-items-center">
-            <WeeklyTopCoursesItem />
-            <WeeklyTopCoursesItem />
+            {(loading ? Array.from({ length: 2 }) : courses.slice(0, 2)).map((c: any, idx: number) => (
+              <WeeklyTopCoursesItem key={c?._id || c?.id || idx} course={c} />
+            ))}
         </div>
       </div>
     </div>
@@ -24,7 +39,9 @@ const WeeklyTopCourses = () => {
 
 
 
-const WeeklyTopCoursesItem = () => {
+const WeeklyTopCoursesItem = ({ course }: { course?: CourseItem }) => {
+  const title = course?.title || course?.name || 'Course';
+  const slug = course?.slug || String(title).toLowerCase().replace(/\s+/g,'-');
   return (
     <div className="w-full min-h-[356px] lg:min-h-[408px] p-4 border border-slate-400 rounded-lg flex flex-col">
 
@@ -34,15 +51,13 @@ const WeeklyTopCoursesItem = () => {
       {/* Content */}
       <div className="flex flex-col items-start justify-between w-full my-4 md:my-8 space-y-4 md:space-y-8">
         <h2 className="w-full font-bold text-base md:text-xl text-[#0A0A0A]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit
+          {title}
         </h2>
-        <p className="w-full text-[14px] md:text-base text-[#0A0A0A]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.
+        <p className="w-full text-[14px] md:text-base text-[#0A0A0A] line-clamp-3">
+          {course?.description || 'Learn with Building Bharat.'}
         </p>
       </div>
-         <Link href="/courses/political-field-operations-mastery">
+         <Link href={`/courses/${slug}`}>
          <CTAButton label=' View Course Details'
                                      height={48}
                                      width={"100%"}

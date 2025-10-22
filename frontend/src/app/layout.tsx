@@ -4,6 +4,8 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import LoaderWrapper from "./Loadwrapper";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +45,18 @@ export default function RootLayout({
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}
         >
           <LoaderWrapper>{children}</LoaderWrapper>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </GoogleOAuthProvider>
       </body>
     </html>

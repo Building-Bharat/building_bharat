@@ -85,7 +85,7 @@ export default function SignupPage() {
     try {
       const credential = res.credential;
       await axios.post("http://localhost:5000/api/v1/auth/google", { credential });
-      router.push("/#hero");
+      router.push("/courses");
     } catch (err) {
       const error = err as AxiosError<{ msg?: string }>;
       setError(

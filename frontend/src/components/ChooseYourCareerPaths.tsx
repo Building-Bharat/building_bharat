@@ -3,7 +3,16 @@ import React from 'react'
 import CTAButton from './CTAButton'
 import Link from 'next/link'
 
-const ChooseYourCareerPaths = () => {
+interface CourseItem {
+  _id?: string;
+  id?: string;
+  slug?: string;
+  title?: string; // frontend fallback
+  name?: string;  // backend field
+  description?: string;
+}
+
+const ChooseYourCareerPaths = ({ courses = [], loading = false }: { courses?: CourseItem[]; loading?: boolean }) => {
 
   return (
 
@@ -16,10 +25,9 @@ const ChooseYourCareerPaths = () => {
 
                         {/* Grid container */}
                         <div className="min-h-[440px] w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center ">
-                              <CareerPathCard />
-                              <CareerPathCard />
-                              <CareerPathCard />
-                              <CareerPathCard />
+                              {(loading ? Array.from({ length: 6 }) : courses.slice(0, 6)).map((c: any, idx: number) => (
+                                <CareerPathCard key={c?._id || c?.id || idx} course={c} />
+                              ))}
                         </div>
                   </div>
         </section>
@@ -29,7 +37,9 @@ const ChooseYourCareerPaths = () => {
 
 
 
-const CareerPathCard = () =>{
+const CareerPathCard = ({ course }: { course?: CourseItem }) =>{
+  const title = course?.title || course?.name || 'Course';
+  const slug = course?.slug || String(title).toLowerCase().replace(/\s+/g,'-');
   
     return (
 
@@ -41,15 +51,13 @@ const CareerPathCard = () =>{
                         {/* Content */}
                         <div className="flex flex-col items-start justify-between w-full my-4 md:my-8 space-y-4 md:space-y-8">
                               <h2 className="w-full text-[#0A0A0A] font-bold text-base md:text-xl">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                              {title}
                               </h2>
-                              <p className="w-full text-[14px] md:text-base text-[#0A0A0A]">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-                              Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-                              mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.
+                              <p className="w-full text-[14px] md:text-base text-[#0A0A0A] line-clamp-3">
+                              {course?.description || 'Learn with Building Bharat.'}
                               </p>
                         </div>
-                 <Link href="/courses/political-field-operations-mastery">
+                <Link href={`/courses/${slug}`}>
                  <CTAButton label=' View Course Details'
                              height={48}
                              width={"100%"}

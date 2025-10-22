@@ -2,15 +2,14 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const Admin = require("../model/admin"); // ✅ ensure path is correct
-const TokenBlacklist = require('../model/tokenBlacklist')
+const Admin = require("../model/admin.model");
 
-// temporary OTP store (in prod use Redis/DB)
+// temporary OTP store
 const otpStore = new Map();
 
 class AdminAuthController {
 
-  // ✅ Register Admin
+  // Register Admin
   static async signUp(req, res) {
     try {
       const { name, email, password, passwordConfirm, adminKey } = req.body;
@@ -46,14 +45,14 @@ class AdminAuthController {
     }
   }
 
-  // ✅ Login
+  // Login
   static async login(req, res) {
     try {
       const { email, password } = req.body;
-
+     console.log(email)
       const admin = await Admin.findOne({ email }).select("+password");
       if (!admin) return res.status(400).json({ message: "Invalid credentials" });
-
+     
       const isMatch = await bcrypt.compare(password, admin.password);
       if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
@@ -72,35 +71,34 @@ class AdminAuthController {
     }
   }
 
-  // ✅ Forgot Password (Requires ADMIN_KEY)
-static async forgetPassword(req, res) {
-  try {
-    const { email, adminKey } = req.body;
+  // Forgot Password (Requires ADMIN_KEY)
+  static async forgetPassword(req, res) {
+    try {
+      const { email, adminKey } = req.body;
 
-    // 1️⃣ Check ADMIN_KEY
-    if (adminKey !== process.env.ADMIN_KEY) {
-      return res.status(401).json({ message: "Invalid ADMIN_KEY" });
+      // Check ADMIN_KEY
+      if (adminKey !== process.env.ADMIN_KEY) {
+        return res.status(401).json({ message: "Invalid ADMIN_KEY" });
+      }
+
+      // Find admin by email
+      const admin = await Admin.findOne({ email });
+      if (!admin) return res.status(400).json({ message: "Admin not found" });
+
+      //  Generate OTP
+      const otp = crypto.randomInt(100000, 999999).toString();
+      otpStore.set(email, { otp, expires: Date.now() + 5 * 60 * 1000 });
+
+      // Send OTP via email
+      await sendEmail(email, "Password Reset OTP", `Your OTP is: ${otp}`);
+
+      res.status(200).json({ message: "OTP sent to email" });
+    } catch (err) {
+      res.status(500).json({ message: "Failed to send OTP", error: err.message });
     }
-
-    // 2️⃣ Find admin by email
-    const admin = await Admin.findOne({ email });
-    if (!admin) return res.status(400).json({ message: "Admin not found" });
-
-    // 3️⃣ Generate OTP
-    const otp = crypto.randomInt(100000, 999999).toString();
-    otpStore.set(email, { otp, expires: Date.now() + 5 * 60 * 1000 });
-
-    // 4️⃣ Send OTP via email
-    await sendEmail(email, "Password Reset OTP", `Your OTP is: ${otp}`);
-
-    res.status(200).json({ message: "OTP sent to email" });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to send OTP", error: err.message });
   }
-}
 
-
-  // ✅ Change Password
+  // Change Password
   static async changePassword(req, res) {
     try {
       const { email, otp, newPassword, confirmPassword } = req.body;
@@ -115,7 +113,6 @@ static async forgetPassword(req, res) {
         return res.status(400).json({ message: "Invalid or expired OTP" });
       }
 
-
       // hash new password
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
@@ -129,7 +126,7 @@ static async forgetPassword(req, res) {
     }
   }
 
-  // ✅ Logout (for JWT)
+  // Logout
   static async logout(req, res) {
     try {
       const token = req.headers.authorization?.split(" ")[1];
@@ -140,16 +137,9 @@ static async forgetPassword(req, res) {
         });
       }
 
-      // Decode token to get expiry
-      const decoded = jwt.decode(token);
-      const expiresAt = new Date(decoded.exp * 1000); // convert seconds → ms
-
-      // Save token in blacklist
-      await TokenBlacklist.create({ token, expiresAt });
-
       return res.status(200).json({
         success: true,
-        message: "Logged out successfully. Token blacklisted.",
+        message: "Logged out successfully.",
       });
     } catch (error) {
       return res.status(500).json({
@@ -161,10 +151,6 @@ static async forgetPassword(req, res) {
   }
 
 }
-
-
-
-
 
 // ✅ Utility: Email Sender
 async function sendEmail(to, subject, otp) {
@@ -233,4 +219,5 @@ async function sendEmail(to, subject, otp) {
 }
 
 module.exports = AdminAuthController;
+
 
