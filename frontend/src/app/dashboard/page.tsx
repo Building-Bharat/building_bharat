@@ -8,6 +8,7 @@ import Profile from "@/components/Profile";
 import { toast } from "react-toastify";
 import CTAButton from "@/components/CTAButton";
 import Image from "next/image";
+import { orderAPI } from "@/lib/api";
 
 export interface Internship {
   applied: boolean;
@@ -20,6 +21,18 @@ export interface Internship {
   applyBy: string;
 }
 
+export interface Course {
+  _id: string;
+  name: string;
+  description: string;
+  instructorName: string;
+  instructorPicture?: string;
+  courseThumbnail?: string;
+  price?: number;
+  averageRating?: number;
+  totalRatings?: number;
+}
+
 export default function UserDashboard() {
   const [activeSection, setActiveSection] = useState("");
   const [courseTab, setCourseTab] = useState<"my" | "all">("my");
@@ -27,6 +40,8 @@ export default function UserDashboard() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"all" | "applied">("all");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [purchasedCourses, setPurchasedCourses] = useState<Course[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(false);
 
   const fetchInternships = async () => {
     try {
@@ -54,8 +69,33 @@ export default function UserDashboard() {
     }
   };
 
+  const fetchPurchasedCourses = async () => {
+    try {
+      setCoursesLoading(true);
+      const userId = localStorage.getItem('userId');
+      
+      if (!userId) {
+        console.error('No user ID found');
+        return;
+      }
+
+      const response = await orderAPI.getPurchasedCourses(userId);
+      
+      if (response.success) {
+        setPurchasedCourses(response.courses || []);
+        console.log('✅ Fetched', response.count, 'purchased courses');
+      }
+    } catch (err: any) {
+      console.error('Error fetching purchased courses:', err);
+      toast.error('Failed to load your courses');
+    } finally {
+      setCoursesLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchInternships();
+    fetchPurchasedCourses();
   }, []);
 
   return (
@@ -318,27 +358,64 @@ export default function UserDashboard() {
 
             {/* My Courses Section */}
             {courseTab === "my" && (
-              <div className="flex flex-col md:flex-row ml-0 sm:ml-[70px] gap-8 w-full">
-                {[1, 2].map((i) => (
-                  <div
-                    key={i}
-                    className="w-full md:w-[500px] h-auto bg-gray-200 rounded-2xl p-4 flex flex-col"
-                  >
-                    <img
-                      src="/images/course.png"
-                      alt="Course"
-                      className="rounded-md h-[200px] md:h-[250px] w-full object-cover mb-4"
-                    />
-                    <p className="font-bold text-black text-[18px] md:text-[20px] text-center">
-                      Course Title
-                    </p>
-                    <Link href={`/dashboard/courseoverview/${i}`}>
-                      <button className="mt-[8px] px-[8px] py-[8px] bg-[#F97C04] font-bold font-DMsans text-black rounded-[8px] w-full">
-                        Go to Course
-                      </button>
-                    </Link>
+              <div className="flex flex-col ml-0 sm:ml-[70px] gap-8 w-full">
+                {coursesLoading ? (
+                  <div className="text-white text-center py-8 font-semibold text-lg">Loading your courses...</div>
+                ) : purchasedCourses.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center gap-4 py-20 px-4">
+                    <div className="text-center space-y-3">
+                      <p className="text-gray-800 text-2xl md:text-3xl font-bold">
+                        You haven't purchased any courses yet
+                      </p>
+                      <p className="text-gray-700 text-lg md:text-xl font-medium">
+                        Browse all courses and start learning today!
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setCourseTab("all")}
+                      className="mt-6 px-8 py-4 bg-[#F97C04] text-black font-bold text-lg rounded-lg hover:bg-[#d66a03] transition-colors shadow-lg hover:shadow-xl"
+                    >
+                      Explore All Courses
+                    </button>
                   </div>
-                ))}
+                ) : (
+                  <div className="flex flex-wrap gap-8">
+                    {purchasedCourses.map((course) => (
+                      <div
+                        key={course._id}
+                        className="w-full md:w-[500px] h-auto bg-gray-200 rounded-2xl p-4 flex flex-col"
+                      >
+                        <img
+                          src={course.courseThumbnail || "/images/course.png"}
+                          alt={course.name}
+                          className="rounded-md h-[200px] md:h-[250px] w-full object-cover mb-4"
+                        />
+                        <p className="font-bold text-black text-[18px] md:text-[20px] text-center mb-2">
+                          {course.name}
+                        </p>
+                        <p className="text-gray-600 text-sm text-center mb-2">
+                          by {course.instructorName}
+                        </p>
+                        {course.averageRating && course.averageRating > 0 && (
+                          <div className="flex items-center justify-center gap-1 mb-4">
+                            <span className="text-yellow-500">⭐</span>
+                            <span className="text-gray-700 font-semibold">
+                              {course.averageRating.toFixed(1)}
+                            </span>
+                            <span className="text-gray-500 text-sm">
+                              ({course.totalRatings} ratings)
+                            </span>
+                          </div>
+                        )}
+                        <Link href={`/dashboard/courseoverview/${course._id}`}>
+                          <button className="mt-auto px-[8px] py-[8px] bg-[#F97C04] font-bold font-DMsans text-black rounded-[8px] w-full hover:bg-[#d66a03] transition-colors">
+                            Go to Course
+                          </button>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 

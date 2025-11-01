@@ -57,6 +57,12 @@ const courseSchema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
+	price: {
+		type: Number,
+		required: true,
+		min: [0, "Price cannot be negative"],
+		default: 6999
+	},
 	createdBy: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Admin",

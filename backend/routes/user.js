@@ -7,6 +7,9 @@ const router = express.Router();
 
 router.get('/:id', userController.getUserById);
 
-router.put('/:id/createprofile', authController.protect, userController.createUserProfile)
+router.put('/:id/createprofile', authController.protect, userController.createUserProfile);
+
+// Get user's purchased courses
+router.get('/:userId/purchased-courses', authController.protect, userController.getPurchasedCourses);
 
 module.exports = router;

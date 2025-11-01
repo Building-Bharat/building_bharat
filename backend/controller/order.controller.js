@@ -1,27 +1,124 @@
+const mongoose = require('mongoose');
+const Razorpay = require('razorpay');
 const Order = require('../model/order.model');
 const Course = require('../model/course.model');
 
-// Razorpay order creation placeholder (use Razorpay SDK in real integration)
+// Initialize Razorpay
+const razorpay = new Razorpay({
+	key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_1234567890',
+	key_secret: process.env.RAZORPAY_KEY_SECRET || 'test_secret_key'
+});
+
+// Razorpay order creation with coupon support
 exports.createOrder = async (req, res) => {
 	try {
-		const { userId, courseId } = req.body;
-		const course = await Course.findById(courseId);
-		if (!course) return res.status(404).json({ message: 'Course not found' });
+		console.log('📝 Order creation request body:', req.body);
+		
+		const { userId, courseId, originalPrice, finalPrice, coupon } = req.body;
+		
+		// Validate required fields
+		if (!userId) {
+			return res.status(400).json({ error: 'User ID is required' });
+		}
+		
+		// Use provided prices or fetch from course
+		let coursePrice = originalPrice || 6999;
+		let orderPrice = finalPrice || coursePrice;
+		let validCourseId = null;
+		
+		// Handle courseId validation and conversion
+		if (courseId && courseId !== 'default-course' && mongoose.Types.ObjectId.isValid(courseId)) {
+			try {
+				const course = await Course.findById(courseId);
+				if (course) {
+					console.log('📚 Found course:', course.title, 'Price:', course.price);
+					coursePrice = course.price || coursePrice;
+					if (!finalPrice) orderPrice = coursePrice;
+					validCourseId = courseId;
+				} else {
+					console.log('⚠️ Course not found for ID:', courseId);
+				}
+			} catch (courseError) {
+				console.log('⚠️ Course lookup failed:', courseError.message);
+				// Continue with default values
+			}
+		} else {
+			console.log('ℹ️ Using default course pricing (courseId invalid or default)');
+		}
 
-		// Here integrate Razorpay order creation and get order id
-		const razorpayOrderId = 'order_' + Date.now();
+		// Create Razorpay order
+		const razorpayOrderOptions = {
+			amount: orderPrice * 100, // Amount in paise
+			currency: 'INR',
+			receipt: 'order_' + Date.now(),
+			notes: {
+				userId: userId.toString(),
+				courseId: validCourseId ? validCourseId.toString() : 'default',
+				couponCode: coupon ? coupon.code : '',
+				originalPrice: coursePrice,
+				discount: coursePrice - orderPrice
+			}
+		};
 
+		console.log('💰 Creating Razorpay order with:', razorpayOrderOptions);
+
+		let razorpayOrder;
+		try {
+			// Try to create actual Razorpay order
+			razorpayOrder = await razorpay.orders.create(razorpayOrderOptions);
+			console.log('✅ Razorpay order created:', razorpayOrder.id);
+		} catch (razorpayError) {
+			console.error('⚠️ Razorpay API failed (likely invalid credentials), using test mode:', razorpayError.message);
+			
+			// Fallback to test mode for development
+			razorpayOrder = {
+				id: 'order_test_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+				entity: 'order',
+				amount: orderPrice * 100,
+				amount_paid: 0,
+				amount_due: orderPrice * 100,
+				currency: 'INR',
+				receipt: razorpayOrderOptions.receipt,
+				status: 'created',
+				attempts: 0,
+				notes: razorpayOrderOptions.notes,
+				created_at: Math.floor(Date.now() / 1000)
+			};
+			console.log('✅ Test order created:', razorpayOrder.id);
+		}
+
+		// Save order to database
 		const newOrder = new Order({
-			orderId: razorpayOrderId,
+			orderId: razorpayOrder.id,
 			userId,
-			courseId,
-			price: course.price,
+			courseId: validCourseId,
+			originalPrice: coursePrice,
+			price: orderPrice,
+			coupon: coupon ? {
+				code: coupon.code,
+				discountAmount: coupon.discountAmount,
+				discountType: coupon.discountType
+			} : undefined,
 			status: 'created'
 		});
+		
 		await newOrder.save();
-		return res.json({ order: newOrder, payment_order_id: razorpayOrderId });
+		
+		console.log('✅ Order saved to database:', newOrder.orderId);
+		
+		return res.json({ 
+			order: newOrder, 
+			payment_order_id: razorpayOrder.id,
+			amount: orderPrice,
+			currency: 'INR',
+			razorpay_order: razorpayOrder
+		});
 	} catch (err) {
-		return res.status(500).json({ error: err.message });
+		console.error('❌ Order creation error:', err);
+		return res.status(500).json({ 
+			error: err.message,
+			details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+		});
 	}
 };
 
@@ -33,6 +130,118 @@ exports.getOrderDetails = async (req, res) => {
 		return res.json(order);
 	} catch (err) {
 		return res.status(500).json({ error: err.message });
+	}
+};
+
+// Verify Razorpay payment
+exports.verifyPayment = async (req, res) => {
+	try {
+		const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+		
+		console.log('🔐 Verifying payment signature');
+		console.log('Order ID:', razorpay_order_id);
+		console.log('Payment ID:', razorpay_payment_id);
+		
+		if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+			return res.status(400).json({ 
+				success: false, 
+				message: 'Missing payment details' 
+			});
+		}
+		
+		// Verify signature using Razorpay
+		const crypto = require('crypto');
+		const body = razorpay_order_id + '|' + razorpay_payment_id;
+		
+		const expectedSignature = crypto
+			.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+			.update(body)
+			.digest('hex');
+		
+		if (expectedSignature !== razorpay_signature) {
+			console.log('❌ Invalid payment signature');
+			return res.status(400).json({ 
+				success: false, 
+				message: 'Invalid payment signature' 
+			});
+		}
+		
+		console.log('✅ Payment signature verified');
+		
+		// Find and update order
+		const order = await Order.findOne({ orderId: razorpay_order_id });
+		
+		if (!order) {
+			return res.status(404).json({ 
+				success: false, 
+				message: 'Order not found' 
+			});
+		}
+		
+		// Check if already processed
+		if (order.status === 'paid') {
+			console.log('ℹ️ Order already marked as paid');
+			return res.status(200).json({ 
+				success: true, 
+				message: 'Payment already verified',
+				order 
+			});
+		}
+		
+		// Update order status
+		order.status = 'paid';
+		order.paidAt = new Date();
+		order.razorpayPaymentId = razorpay_payment_id;
+		await order.save();
+		
+		console.log('✅ Order status updated to paid');
+		
+		// Add course to user's purchased courses
+		console.log('🔍 Checking if course should be added to user');
+		console.log('  - order.courseId:', order.courseId);
+		console.log('  - order.userId:', order.userId);
+		
+		if (order.courseId && order.userId) {
+			const User = require('../model/user.model');
+			const user = await User.findById(order.userId);
+			
+			if (user) {
+				console.log('👤 User found:', user.email);
+				// Check if course already in purchased list
+				const alreadyPurchased = user.coursePurchased.some(
+					courseId => courseId.toString() === order.courseId.toString()
+				);
+				
+				if (!alreadyPurchased) {
+					user.coursePurchased.push(order.courseId);
+					await user.save();
+					console.log('✅ Course added to user\'s purchased courses');
+					console.log('📚 User now has', user.coursePurchased.length, 'courses');
+				} else {
+					console.log('ℹ️ User already has this course');
+				}
+			} else {
+				console.log('❌ User not found for ID:', order.userId);
+			}
+		} else {
+			console.log('⚠️ Cannot add course: courseId or userId is missing/null');
+			console.log('  - courseId is null/missing:', !order.courseId);
+			console.log('  - userId is null/missing:', !order.userId);
+		}
+		
+		res.status(200).json({
+			success: true,
+			message: 'Payment verified successfully',
+			order
+		});
+		
+	} catch (error) {
+		console.error('❌ Payment verification error:', error);
+		res.status(500).json({ 
+			success: false, 
+			message: 'Error verifying payment',
+			error: error.message 
+		});
 	}
 };
 

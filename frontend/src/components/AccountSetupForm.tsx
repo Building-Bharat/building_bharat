@@ -21,6 +21,9 @@ const AccountSetupForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   
+  // Get courseId from URL
+  const courseId = searchParams.get('courseId');
+  
   // Try multiple sources for userId (prioritize real logged-in user)
   const getUserId = () => {
     // 1. From localStorage (real logged-in user takes priority)
@@ -110,9 +113,12 @@ const AccountSetupForm = () => {
       await userAPI.updateProfile(userId, profileData);
       setSuccess(isUpdating ? "Profile updated successfully!" : "Profile created successfully!");
       
-      // Redirect to dashboard or next page after success
+      // Redirect to coupon-code page after success (preserve courseId)
       setTimeout(() => {
-        router.push('/dashboard');
+        const redirectUrl = courseId 
+          ? `/coupon-code?courseId=${courseId}` 
+          : '/coupon-code';
+        router.push(redirectUrl);
       }, 2000);
 
     } catch (err: any) {

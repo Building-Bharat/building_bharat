@@ -30,12 +30,25 @@ api.interceptors.request.use((config) => {
 // Order API functions
 export const orderAPI = {
   // Create order for course purchase
-  createOrder: async (courseId: string, userId: string) => {
+  createOrder: async (courseId: string, userId: string, couponData?: any) => {
     try {
-      const response = await api.post('/orders', {
+      const requestBody: any = {
         courseId,
         userId,
-      });
+      };
+
+      // Add coupon data if provided
+      if (couponData) {
+        requestBody.originalPrice = couponData.originalPrice;
+        requestBody.finalPrice = couponData.finalPrice;
+        requestBody.coupon = {
+          code: couponData.code,
+          discountAmount: couponData.discountAmount,
+          discountType: couponData.discountType
+        };
+      }
+
+      const response = await api.post('/orders', requestBody);
       return response.data;
     } catch (error) {
       console.error('Error creating order:', error);
@@ -55,15 +68,23 @@ export const orderAPI = {
   },
 
   // Verify payment
-  verifyPayment: async (orderId: string, paymentData: any) => {
+  verifyPayment: async (paymentData: any) => {
     try {
-      const response = await api.post(`/transactions/verify`, {
-        orderId,
-        paymentData,
-      });
+      const response = await api.post(`/orders/verify-payment`, paymentData);
       return response.data;
     } catch (error) {
       console.error('Error verifying payment:', error);
+      throw error;
+    }
+  },
+  
+  // Get user's purchased courses
+  getPurchasedCourses: async (userId: string) => {
+    try {
+      const response = await api.get(`/user/${userId}/purchased-courses`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching purchased courses:', error);
       throw error;
     }
   },

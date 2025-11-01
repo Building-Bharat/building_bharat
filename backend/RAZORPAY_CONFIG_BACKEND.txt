@@ -1,0 +1,17 @@
+IMPORTANT: Update your backend/.env file with the correct Razorpay credentials:
+
+RAZORPAY_KEY_ID=rzp_test_RPFzymWuLRNfzL
+RAZORPAY_KEY_SECRET=YOUR_SECRET_KEY_HERE
+
+Replace YOUR_SECRET_KEY_HERE with your actual Razorpay key secret from the dashboard.
+
+To get your key secret:
+1. Go to https://dashboard.razorpay.com/
+2. Make sure you're in Test Mode
+3. Go to Settings → API Keys
+4. Copy the Key Secret
+
+After updating:
+1. Stop the backend server (Ctrl+C in the terminal where it's running)
+2. Restart it with: npm start
+

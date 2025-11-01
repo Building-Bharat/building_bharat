@@ -180,3 +180,50 @@ exports.createUserProfile = async (req, res) => {
     });
   }
 };
+
+// Get user's purchased courses
+exports.getPurchasedCourses = async (req, res) => {
+  try {
+    const userId = req.user?.id || req.params.userId;
+    
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'User ID is required' 
+      });
+    }
+
+    console.log('📚 Fetching purchased courses for user:', userId);
+
+    // Find user and populate purchased courses
+    const user = await User.findById(userId)
+      .select('coursePurchased name email')
+      .populate({
+        path: 'coursePurchased',
+        select: 'name description instructorName instructorPicture courseThumbnail price averageRating totalRatings'
+      });
+
+    if (!user) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'User not found' 
+      });
+    }
+
+    console.log('✅ Found', user.coursePurchased.length, 'purchased courses');
+
+    res.status(200).json({
+      success: true,
+      count: user.coursePurchased.length,
+      courses: user.coursePurchased
+    });
+
+  } catch (error) {
+    console.error('❌ Error fetching purchased courses:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error fetching purchased courses',
+      error: error.message 
+    });
+  }
+};
