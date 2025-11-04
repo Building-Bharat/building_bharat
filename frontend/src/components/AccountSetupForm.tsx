@@ -36,7 +36,7 @@ const AccountSetupForm = () => {
     if (urlUserId) return urlUserId;
     
     // 3. Final fallback for testing
-    return 'test-user-456';
+    return 'userId';
   };
   
   const userId = getUserId();

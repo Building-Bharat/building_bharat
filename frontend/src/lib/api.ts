@@ -131,7 +131,7 @@ export const userAPI = {
     // Get token from localStorage
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     
-    const response = await api.put(`/user/${userId}/createprofile`, profileData, {
+    const response = await api.put(`/user/:${userId}/createprofile`, profileData, {
       headers: {
         'Authorization': token ? `Bearer ${token}` : '',
         'Content-Type': 'application/json'
@@ -143,6 +143,7 @@ export const userAPI = {
   getProfile: async (userId: string) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     
+
     const response = await api.get(`/user/${userId}`, {
       headers: {
         'Authorization': token ? `Bearer ${token}` : ''
