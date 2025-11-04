@@ -55,13 +55,12 @@ export default function FrequentlyAskedQuestions() {
     setExpandedItem((prev) => (prev === id ? null : id));
   };
 
-
-	return (
-		<div className="flex w-full flex-col gap-4 md:gap-8 items-start justify-start self-stretch flex-shrink-0 relative my-8">
-			{/* Title */}
-			<div className="text-[#005451] text-left font-Montserrat font-bold text-[16px] md:text-[20px] lg:text-[20px] leading-[24px] md:leading-[28px] lg:leading-[32px]  relative self-stretch">
-				Frequently Asked Questions
-			</div>
+  return (
+    <div className="flex w-full flex-col gap-4 md:gap-8 items-start justify-start self-stretch flex-shrink-0 relative my-8 mx-4 md:mx-16">
+      {/* Title */}
+      <div className="text-[#005451] text-left font-Montserrat font-bold text-[16px] md:text-[20px] lg:text-[24px] leading-[24px] md:leading-[28px] lg:leading-[32px] relative self-stretch">
+        Frequently Asked Questions
+      </div>
 
       {/* FAQ Items */}
       <div className="w-full flex flex-col gap-4 md:gap-4 items-start justify-start self-stretch flex-shrink-0 relative">

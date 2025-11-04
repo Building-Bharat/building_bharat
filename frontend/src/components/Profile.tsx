@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Security from "./Security";
+import axios from "axios";
 
 type NavItem = {
 	id: "courses" | "assignments" | "internships";
@@ -11,11 +12,24 @@ type NavItem = {
 
 type TabId = "Account" | "Notifications" | "Security";
 
+interface UserData {
+	name: string;
+	email: string;
+	username?: string;
+	whatsappNumber?: string;
+	collegeName?: string;
+	department?: string;
+	state?: string;
+	collegePassout?: number;
+}
+
 export default function Profile(): JSX.Element {
     const [activeTab, setActiveTab] = useState<TabId>("Account");
     const [browserNotifications, setBrowserNotifications] = useState<boolean>(false);
     const [emailNotifications, setEmailNotifications] = useState<boolean>(false);
     const [productTips, setProductTips] = useState<boolean>(false);
+    const [userData, setUserData] = useState<UserData | null>(null);
+    const [loading, setLoading] = useState(true);
 
 	const navigationItems: NavItem[] = [
 		{ id: "courses", label: "Courses", isActive: true },
@@ -29,11 +43,80 @@ export default function Profile(): JSX.Element {
 		{ id: "Security", label: "Security" }
 	];
 
+	// Fetch user data
+	useEffect(() => {
+		const fetchUserData = async () => {
+			try {
+				const userId = localStorage.getItem('userId');
+				if (!userId) {
+					console.error('No user ID found');
+					setLoading(false);
+					return;
+				}
+
+				const response = await axios.get(`http://localhost:5000/api/v1/user/${userId}`);
+				if (response.data?.data) {
+					setUserData(response.data.data);
+				}
+			} catch (error) {
+				console.error('Error fetching user data:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchUserData();
+	}, []);
+
 	const personalInfo = [
-		{ label: "Name", value: "User_001", actionText: "Change name", hasAction: true },
-		{ label: "Email", value: "tempuser001@mail.com", subText: "Managed by Google", hasAction: false },
-		{ label: "Mobile", value: "9999990000", actionText: "Update mobile", hasAction: true },
-		{ label: "College", value: "xyzcollege", actionText: "Update college", hasAction: true }
+		{ 
+			label: "Name", 
+			value: loading ? "Loading..." : (userData?.name || "Not set"), 
+			actionText: "Change name", 
+			hasAction: true 
+		},
+		{ 
+			label: "Email", 
+			value: loading ? "Loading..." : (userData?.email || "Not set"), 
+			subText: "", 
+			hasAction: false 
+		},
+		{ 
+			label: "Username", 
+			value: loading ? "Loading..." : (userData?.username || "Not set"), 
+			actionText: "Update username", 
+			hasAction: true 
+		},
+		{ 
+			label: "Mobile", 
+			value: loading ? "Loading..." : (userData?.whatsappNumber || "Not set"), 
+			actionText: "Update mobile", 
+			hasAction: true 
+		},
+		{ 
+			label: "College", 
+			value: loading ? "Loading..." : (userData?.collegeName || "Not set"), 
+			actionText: "Update college", 
+			hasAction: true 
+		},
+		{ 
+			label: "Department", 
+			value: loading ? "Loading..." : (userData?.department || "Not set"), 
+			actionText: "Update department", 
+			hasAction: true 
+		},
+		{ 
+			label: "State", 
+			value: loading ? "Loading..." : (userData?.state || "Not set"), 
+			actionText: "Update state", 
+			hasAction: true 
+		},
+		{ 
+			label: "Passout Year", 
+			value: loading ? "Loading..." : (userData?.collegePassout?.toString() || "Not set"), 
+			actionText: "Update year", 
+			hasAction: true 
+		}
 	];
 
     	return (

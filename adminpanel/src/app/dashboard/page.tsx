@@ -117,6 +117,12 @@ export default function Dashboard() {
           >
             Upload New Course
           </button>
+          <button
+            onClick={() => router.push("/coupons")}
+            className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg shadow hover:bg-orange-700 transition cursor-pointer"
+          >
+            Coupon Management
+          </button>
         </div>
       </main>
     </div>

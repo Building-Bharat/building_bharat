@@ -2,15 +2,13 @@ import React from 'react'
 import CheckOutHeader from './(component)/CheckOutHeader'
 import Coupon from './(component)/Coupon'
 
-const CouponCode = () => {
-
-
+const CouponCodePage = () => {
   return (
-    <div className='min-h-screen bg-gray-100'>
-        <CheckOutHeader/>
-        <Coupon/>
-    </div>
+    <section className='bg-gray-100 pb-8 min-h-screen'>
+      <CheckOutHeader/>
+      <Coupon/>
+    </section>
   )
 }
 
-export default CouponCode
+export default CouponCodePage
