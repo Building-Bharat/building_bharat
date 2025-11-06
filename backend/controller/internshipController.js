@@ -3,7 +3,7 @@ const Internship = require('../model/internship.model');
 const User = require('../model/user.model');
 const { extractFileUrlOrKey } = require('../utils/fileHelper');
 const { body, validationResult } = require('express-validator');
-const { default: application } = require('../model/application');
+// const { default: application } = require('../model/application');
 
 
 exports.createInternship = async (req, res) => {

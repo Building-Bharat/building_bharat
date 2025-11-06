@@ -71,20 +71,21 @@ const userSchema = new mongoose.Schema({
 
 	passwordConfirm: {
 		type: String,
-		required: function () {
-			// Only required for new documents AND when password is being set
-			return this.isNew && this.isModified('password');
-		},
-		validate: {
-			validator: function (value) {
-				// Skip validation if not a new document or password not modified
-				if (!this.isNew && !this.isModified('password')) return true;
-				// Only validate if passwordConfirm is provided
-				if (!value && !this.isNew) return true;
-				return value === this.password;
-			},
-			message: 'Password do not match'
-		}
+		required : [false, "Password should be confirmed"]
+		// required: function () {
+		// 	// Only required for new documents AND when password is being set
+		// 	return this.isNew && this.isModified('password');
+		// },
+		// validate: {
+		// 	validator: function (value) {
+		// 		// Skip validation if not a new document or password not modified
+		// 		if (!this.isNew && !this.isModified('password')) return true;
+		// 		// Only validate if passwordConfirm is provided
+		// 		if (!value && !this.isNew) return true;
+		// 		return value === this.password;
+		// 	},
+		// 	message: 'Password do not match'
+		// }
 	},
 	passwordChangeAt: Date,
 	passwordResetToken: String,

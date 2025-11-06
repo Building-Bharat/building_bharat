@@ -210,6 +210,7 @@ export const userAPI = {
   getProfile: async (userId: string) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     
+
     const response = await api.get(`/user/${userId}`, {
       headers: {
         'Authorization': token ? `Bearer ${token}` : ''
