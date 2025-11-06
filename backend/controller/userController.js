@@ -133,9 +133,9 @@ exports.createUserProfile = async (req, res) => {
     
     if (result.matchedCount === 0) {
       console.log('User not found with ID:', authenticatedUserId);
-      return res.status(404).json({
+      return res.status(401).json({
         status: "fail",
-        message: "User not found.",
+        message: "User not found. Your session may be invalid. Please log in again.",
       });
     }
     

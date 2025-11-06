@@ -8,7 +8,7 @@ import Profile from "@/components/Profile";
 import { toast } from "react-toastify";
 import CTAButton from "@/components/CTAButton";
 import Image from "next/image";
-import { orderAPI } from "@/lib/api";
+import { orderAPI, getUserId } from "@/lib/api";
 
 export interface Internship {
   applied: boolean;
@@ -72,13 +72,16 @@ export default function UserDashboard() {
   const fetchPurchasedCourses = async () => {
     try {
       setCoursesLoading(true);
-      const userId = localStorage.getItem('userId');
+      // Get userId from JWT token (most reliable source)
+      const userId = getUserId();
       
       if (!userId) {
-        console.error('No user ID found');
+        console.error('No user ID found - please log in');
+        toast.error('Please log in to view your courses');
         return;
       }
 
+      console.log('📚 Fetching courses for authenticated user:', userId);
       const response = await orderAPI.getPurchasedCourses(userId);
       
       if (response.success) {

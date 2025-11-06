@@ -85,19 +85,9 @@ const Coupon = () => {
         }),
       });
 
-      console.log('📡 Response status:', response.status);
-      console.log('📡 Response ok:', response.ok);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ API Error:', errorText);
-        throw new Error(`Server error: ${response.status}`);
-      }
-
       const data = await response.json();
-      console.log('✅ API Response:', data);
 
-      if (data.valid) {
+      if (response.ok && data.valid) {
         setDiscount(data.discountValue);
         setDiscountType(data.coupon.discountType);
         
@@ -124,15 +114,47 @@ const Coupon = () => {
           finalPrice: data.finalAmount
         }));
       } else {
-        setError(data.message || "Invalid or expired coupon code");
+        // Show specific error message from backend
+        const errorMessage = data.message || "Invalid or expired coupon code";
+        console.log('ℹ️ Coupon validation failed:', errorMessage);
+        
+        // Customize error messages for better user experience
+        let displayError = errorMessage;
+        
+        if (errorMessage.toLowerCase().includes('expired')) {
+          displayError = '⏰ This coupon has expired';
+        } else if (errorMessage.toLowerCase().includes('usage limit') || errorMessage.toLowerCase().includes('limit exceeded')) {
+          displayError = '🎫 This coupon has reached its usage limit';
+        } else if (errorMessage.toLowerCase().includes('not yet valid')) {
+          displayError = '📅 This coupon is not yet active';
+        } else if (errorMessage.toLowerCase().includes('not active')) {
+          displayError = '🚫 This coupon is currently inactive';
+        } else if (errorMessage.toLowerCase().includes('already used')) {
+          displayError = '✋ You have already used this coupon';
+        } else if (errorMessage.toLowerCase().includes('invalid coupon')) {
+          displayError = '❌ Invalid coupon code';
+        } else if (errorMessage.includes('Minimum order amount')) {
+          displayError = '💰 ' + errorMessage; // Keep the original message with the amount
+        } else if (errorMessage.toLowerCase().includes('not applicable')) {
+          displayError = '🎯 This coupon is not applicable for this course';
+        }
+        
+        setError(displayError);
         setDiscount(0);
         setDiscountType(null);
         setCouponApplied(false);
         localStorage.removeItem('appliedCoupon');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Coupon validation error:', err);
-      setError("Failed to connect to server. Please check if backend is running.");
+      
+      // Check if it's a network error
+      if (err.message?.includes('fetch') || err.message?.includes('network') || err.message?.includes('Failed to fetch')) {
+        setError("❌ Unable to connect to server. Please check your internet connection.");
+      } else {
+        setError("❌ Something went wrong. Please try again later.");
+      }
+      
       setDiscount(0);
       setCouponApplied(false);
       localStorage.removeItem('appliedCoupon');

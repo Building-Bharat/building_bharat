@@ -10,6 +10,39 @@ const detectApiBase = () => {
 
 const API_BASE_URL = detectApiBase();
 
+// Helper to get userId from JWT token (most reliable source)
+export const getUserIdFromToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.userId || payload.id || null;
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return null;
+  }
+};
+
+// Helper to get userId (prioritize token over localStorage)
+export const getUserId = (): string | null => {
+  const tokenUserId = getUserIdFromToken();
+  if (tokenUserId) {
+    // Update localStorage if it doesn't match
+    const storageUserId = localStorage.getItem('userId');
+    if (storageUserId !== tokenUserId) {
+      console.warn('localStorage userId mismatch! Updating from token:', tokenUserId);
+      localStorage.setItem('userId', tokenUserId);
+    }
+    return tokenUserId;
+  }
+  
+  // Fallback to localStorage (if token not available)
+  return localStorage.getItem('userId');
+};
+
 // Create axios instance with base configuration
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -152,9 +185,22 @@ export const userAPI = {
     // Get token from localStorage
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     
+    // Debug logging
+    console.log('🔍 Update Profile Debug:', {
+      userId,
+      hasToken: !!token,
+      tokenPreview: token ? `${token.substring(0, 20)}...` : 'NO TOKEN',
+      apiBaseURL: API_BASE_URL,
+      fullURL: `${API_BASE_URL}/user/${userId}/createprofile`
+    });
+    
+    if (!token) {
+      throw new Error('Authentication required. Please log in first.');
+    }
+    
     const response = await api.put(`/user/${userId}/createprofile`, profileData, {
       headers: {
-        'Authorization': token ? `Bearer ${token}` : '',
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     });

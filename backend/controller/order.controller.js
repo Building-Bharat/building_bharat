@@ -200,6 +200,7 @@ exports.verifyPayment = async (req, res) => {
 		console.log('🔍 Checking if course should be added to user');
 		console.log('  - order.courseId:', order.courseId);
 		console.log('  - order.userId:', order.userId);
+		console.log('  - order.coupon:', order.coupon);
 		
 		if (order.courseId && order.userId) {
 			const User = require('../model/user.model');
@@ -227,6 +228,45 @@ exports.verifyPayment = async (req, res) => {
 			console.log('⚠️ Cannot add course: courseId or userId is missing/null');
 			console.log('  - courseId is null/missing:', !order.courseId);
 			console.log('  - userId is null/missing:', !order.userId);
+		}
+		
+		// Increment coupon usage count if coupon was used
+		if (order.coupon && order.coupon.code) {
+			console.log('🎟️ Processing coupon usage for:', order.coupon.code);
+			
+			try {
+				const Coupon = require('../model/coupon.model');
+				const coupon = await Coupon.findOne({ code: order.coupon.code.toUpperCase() });
+				
+				if (coupon) {
+					// Check if this order has already been counted (to prevent double-counting)
+					const alreadyCounted = coupon.usedBy.some(
+						usage => usage.orderId === order.orderId
+					);
+					
+					if (!alreadyCounted) {
+						// Increment usage count
+						await coupon.applyCoupon(
+							order.userId, 
+							order.orderId, 
+							order.coupon.discountAmount || 0
+						);
+						console.log('✅ Coupon usage count incremented');
+						console.log('   - Coupon:', coupon.code);
+						console.log('   - New usage count:', coupon.usedCount + 1);
+						console.log('   - Usage limit:', coupon.usageLimit || 'Unlimited');
+					} else {
+						console.log('ℹ️ Coupon usage already counted for this order');
+					}
+				} else {
+					console.log('⚠️ Coupon not found:', order.coupon.code);
+				}
+			} catch (couponError) {
+				console.error('❌ Error updating coupon usage:', couponError);
+				// Don't fail the payment verification if coupon update fails
+			}
+		} else {
+			console.log('ℹ️ No coupon used in this order');
 		}
 		
 		res.status(200).json({

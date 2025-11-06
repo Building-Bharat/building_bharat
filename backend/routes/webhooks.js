@@ -77,6 +77,7 @@ router.post('/razorpay', async (req, res) => {
 			console.log('🔍 [WEBHOOK] Checking if course should be added to user');
 			console.log('  - order.courseId:', order.courseId);
 			console.log('  - order.userId:', order.userId);
+			console.log('  - order.coupon:', order.coupon);
 			
 			if (order.courseId && order.userId) {
 				const user = await User.findById(order.userId);
@@ -105,6 +106,45 @@ router.post('/razorpay', async (req, res) => {
 				console.log('⚠️ [WEBHOOK] Cannot add course: courseId or userId is missing/null');
 				console.log('  - courseId is null/missing:', !order.courseId);
 				console.log('  - userId is null/missing:', !order.userId);
+			}
+			
+			// Increment coupon usage count if coupon was used
+			if (order.coupon && order.coupon.code) {
+				console.log('🎟️ [WEBHOOK] Processing coupon usage for:', order.coupon.code);
+				
+				try {
+					const Coupon = require('../model/coupon.model');
+					const coupon = await Coupon.findOne({ code: order.coupon.code.toUpperCase() });
+					
+					if (coupon) {
+						// Check if this order has already been counted
+						const alreadyCounted = coupon.usedBy.some(
+							usage => usage.orderId === order.orderId
+						);
+						
+						if (!alreadyCounted) {
+							// Increment usage count
+							await coupon.applyCoupon(
+								order.userId, 
+								order.orderId, 
+								order.coupon.discountAmount || 0
+							);
+							console.log('✅ [WEBHOOK] Coupon usage count incremented');
+							console.log('   - Coupon:', coupon.code);
+							console.log('   - New usage count:', coupon.usedCount + 1);
+							console.log('   - Usage limit:', coupon.usageLimit || 'Unlimited');
+						} else {
+							console.log('ℹ️ [WEBHOOK] Coupon usage already counted for this order');
+						}
+					} else {
+						console.log('⚠️ [WEBHOOK] Coupon not found:', order.coupon.code);
+					}
+				} catch (couponError) {
+					console.error('❌ [WEBHOOK] Error updating coupon usage:', couponError);
+					// Don't fail the webhook if coupon update fails
+				}
+			} else {
+				console.log('ℹ️ [WEBHOOK] No coupon used in this order');
 			}
 			
 			console.log('✅ Webhook processed successfully');

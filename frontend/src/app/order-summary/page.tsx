@@ -6,7 +6,7 @@ import { ShieldCheck} from "lucide-react";
 import { useSearchParams } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { orderAPI } from '@/lib/api';
+import { orderAPI, getUserId } from '@/lib/api';
 
 const OrderSummary = () => {
   const searchParams = useSearchParams();
@@ -87,7 +87,16 @@ const OrderSummary = () => {
     setLoading(true);
 
     try {
-      const userId = localStorage.getItem('userId') || 'temp-user-id';
+      // Get userId from JWT token (most reliable source)
+      const userId = getUserId();
+      
+      if (!userId) {
+        toast.error('Please log in to continue with payment');
+        setLoading(false);
+        return;
+      }
+      
+      console.log('🔐 Using authenticated userId for order:', userId);
       
       // Prepare coupon data if applied
       const couponData = couponCode ? {

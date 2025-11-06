@@ -129,6 +129,15 @@ const AccountSetupForm = () => {
       // Show specific validation errors if available
       if (err.response?.data?.errors && Array.isArray(err.response.data.errors)) {
         setError(`Validation failed: ${err.response.data.errors.join(', ')}`);
+      } else if (err.response?.status === 401 || err.message?.includes('Authentication required')) {
+        setError("Session expired or invalid. Please log in again.");
+        // Clear invalid tokens
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
       } else {
         setError(err.response?.data?.message || "Failed to update profile. Please try again.");
       }
