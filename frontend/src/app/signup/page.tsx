@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import Link from "next/link";
 
 export default function SignupPage() {
@@ -81,7 +81,7 @@ export default function SignupPage() {
     }
   };
 
-  const handleGoogleSignup = async (res: any) => {
+  const handleGoogleSignup = async (res: CredentialResponse) => {
     try {
       const credential = res.credential;
       await axios.post("http://localhost:5000/api/v1/auth/google", { credential });
