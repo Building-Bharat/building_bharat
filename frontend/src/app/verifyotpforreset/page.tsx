@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 type AlertType = "success" | "warning";
 
@@ -52,10 +53,10 @@ export default function VerifyOTPForReset() {
         otp: fullOtp,
       });
       router.push(`/resetpassword?email=${email}`);
-    } catch (err: any) {
+    } catch (err) {
       showAlertBox(
         "warning",
-        err.response?.data?.msg || "OTP verification failed"
+        getApiErrorMessage(err, "OTP verification failed")
       );
     } finally {
       setLoading(false);
