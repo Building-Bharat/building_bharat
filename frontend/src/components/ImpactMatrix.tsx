@@ -4,7 +4,7 @@ import { Montserrat } from "next/font/google";
 import { DM_Sans } from "next/font/google";
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -57,7 +57,7 @@ const useCountUp = (end: number, duration: number = 2000) => {
 };
 
 // Animation Variants
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   show: (delay = 0) => ({
     opacity: 1,
