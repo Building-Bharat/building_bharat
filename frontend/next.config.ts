@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/apply",
+        destination:
+          "https://unstop.com/p/political-consulting-and-public-policy-cohort-building-bharat-academy-1771064",
+        permanent: false,
+      },
+    ];
+  },
   images: {
     // This allows Next.js to serve images from the public folder
     // and still optimize them with next/image
