@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -53,8 +54,8 @@ export default function ResetPasswordPage() {
         setShowSuccessAlert(false);
         router.push("/login");
       }, 2500);
-    } catch (err: any) {
-      alert(err.response?.data?.msg || "Password reset failed");
+    } catch (err) {
+      alert(getApiErrorMessage(err, "Password reset failed"));
     } finally {
       setLoading(false);
     }

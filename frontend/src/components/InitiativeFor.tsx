@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { DM_Sans } from "next/font/google";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -37,7 +37,7 @@ const initiatives = [
 ];
 
 // Animation variants
-const container = {
+const container: Variants = {
   hidden: {},
   show: {
     transition: {
@@ -46,7 +46,7 @@ const container = {
   },
 };
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };

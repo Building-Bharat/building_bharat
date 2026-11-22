@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { getApiErrorMessage } from "@/lib/api-error";
 import Link from "next/link";
 
 export default function LoginWithOTP() {
@@ -30,8 +31,8 @@ export default function LoginWithOTP() {
       });
 
       router.push(`/verifyloginotp?emailOrPhone=${encodeURIComponent(emailOrPhone)}`);
-    } catch (err: any) {
-      setError(err.response?.data?.msg || "Failed to send OTP");
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Failed to send OTP"));
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 export default function VerifyOTP() {
   const router = useRouter();
@@ -89,8 +90,8 @@ export default function VerifyOTP() {
       });
       localStorage.removeItem("pendingEmail");
       router.push("/#home");
-    } catch (err: any) {
-      setError(err.response?.data?.msg || err.message || "Verification failed");
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Verification failed"));
     } finally {
       setLoading(false);
     }
@@ -110,10 +111,8 @@ export default function VerifyOTP() {
       setAlertMessage("OTP resent to your email.");
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000);
-    } catch (err: any) {
-      setError(
-        err.response?.data?.msg || err.message || "Failed to resend OTP"
-      );
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Failed to resend OTP"));
     } finally {
       setResendLoading(false);
     }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { getApiErrorMessage } from "@/lib/api-error";
 import { useRouter } from "next/navigation";
 
 export default function ForgotPasswordPage() {
@@ -26,8 +27,8 @@ export default function ForgotPasswordPage() {
         setShowAlert(false);
         router.push(`/verifyotpforreset?email=${encodeURIComponent(email)}`);
       }, 3000);
-    } catch (err: any) {
-      setError(err.response?.data?.msg || "Failed to send OTP");
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Failed to send OTP"));
       setTimeout(() => setError(""), 2000);
     } finally {
       setLoading(false);

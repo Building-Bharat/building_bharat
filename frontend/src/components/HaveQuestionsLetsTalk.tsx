@@ -359,7 +359,7 @@ export default function HaveQuestionsLetsTalk() {
                     Thank you for your message!
                   </div>
                   <p className="text-gray-600">
-                    We've received your inquiry and will get back to you soon.
+                    We&apos;ve received your inquiry and will get back to you soon.
                   </p>
                 </div>
                 )}

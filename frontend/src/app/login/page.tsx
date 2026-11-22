@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -26,9 +27,9 @@ export default function LoginPage() {
       });
       localStorage.setItem("token", res.data.token);
       router.push("/#home");
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setError(err.response?.data?.msg || "Login failed");
+      setError(getApiErrorMessage(err, "Login failed"));
     }
   };
 
